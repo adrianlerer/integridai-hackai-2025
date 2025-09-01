@@ -1,0 +1,154 @@
+# 🔒 IntegridAI HackAI 2025 - Git Ignore
+
+# ===========================================
+# SECRETS & ENVIRONMENT (CRITICAL)
+# ===========================================
+.env
+.env.local
+.env.production
+.env.secrets
+.env.real
+
+# Production configurations (Keep in private repo only)
+config.production.*
+wrangler.toml
+cloudflare-secrets.*
+
+# Real API keys and tokens
+/api-keys/
+/oauth-tokens/
+/certificates/
+/secrets/
+
+# ===========================================
+# DATABASES (Protect production data)
+# ===========================================
+*.db
+*.sqlite
+*.sqlite3
+/database/production/
+/backups/
+/data/production/
+
+# Development databases are OK for hackathon
+!data/demo.db
+!data/hackathon.db
+
+# ===========================================
+# NODE.JS
+# ===========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+
+# ===========================================
+# PYTHON
+# ===========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# ===========================================
+# LOGS & MONITORING
+# ===========================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# PM2 logs
+.pm2/
+
+# ===========================================
+# BUILD & DEPLOYMENT
+# ===========================================
+.next/
+out/
+build/
+dist/
+.nuxt/
+.cache/
+.parcel-cache/
+
+# Vercel
+.vercel
+
+# Netlify
+.netlify/
+
+# ===========================================
+# IDE & EDITORS
+# ===========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ===========================================
+# OPERATING SYSTEM
+# ===========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ===========================================
+# TEMPORARY FILES
+# ===========================================
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# ===========================================
+# HACKATHON SPECIFIC
+# ===========================================
+# Team private notes (use shared docs instead)
+/team-notes-private/
+/strategy-private/
+
+# Local development overrides
+docker-compose.override.yml
+.env.team
+
+# ===========================================
+# ALLOWED DEMO FILES (Safe to commit)
+# ===========================================
+# Demo data and mock APIs are safe
+!data/demo/
+!api/mock/
+!docs/
+!examples/

@@ -1,446 +1,635 @@
 # 🚀 Setup Guide - IntegridAI HackAI 2025
 
-## ⚡ Quick Start (5 minutos)
+## 📋 **Prerequisites**
 
-### **1. Prerequisites**
-```bash
-# Verificar versiones
-node --version  # >= 18.0.0
-npm --version   # >= 8.0.0
-git --version   # >= 2.0.0
-```
+### **System Requirements**
+- **Node.js**: 18.0+ (Recommended: 20.x LTS)
+- **Python**: 3.9+ (Recommended: 3.11+)
+- **Git**: Latest version
+- **Package Managers**: npm/yarn + pip
 
-### **2. Clone & Setup**
+### **Development Tools (Optional)**
+- **VS Code** with recommended extensions
+- **Docker Desktop** (for containerized development)
+- **Postman/Insomnia** (for API testing)
+
+---
+
+## ⚡ **Quick Start**
+
+### **1. Repository Setup**
+
 ```bash
-# Clonar repo
+# Clone the repository
 git clone https://github.com/adrianlerer/integridai-hackai-2025.git
 cd integridai-hackai-2025
 
-# Instalar dependencias
-npm install
+# Create your development branch
+git checkout -b hackathon/your-team-name
+```
 
-# Setup environment
+### **2. Environment Configuration**
+
+```bash
+# Copy environment template
 cp .env.example .env.local
 
-# Iniciar desarrollo
-npm run dev
+# Edit environment variables (optional for development)
+nano .env.local
 ```
 
-### **3. Verificar Instalación**
+### **3. Dependencies Installation**
+
+#### **Frontend Dependencies (Node.js)**
 ```bash
-# Abrir en browser
-open http://localhost:3000      # Frontend
-open http://localhost:3001      # Mock API
-
-# Health checks
-curl http://localhost:3001/health
-curl http://localhost:3001/compliance_dashboard
-```
-
----
-
-## 📂 **Estructura del Proyecto**
-
-```
-integridai-hackai-2025/
-├── 📁 src/
-│   ├── 🎨 frontend/          # Challenge: UX/UI
-│   ├── 🔌 backend/           # Challenge: APIs
-│   └── 📊 analytics/         # Challenge: Data
-├── 📱 mobile/                # Challenge: Mobile
-├── 🔧 api/mock/              # Mock APIs seguras
-├── 📚 docs/                  # Documentación
-├── 🏆 hackathon/            # Challenges específicos
-└── 🚀 deployment/           # Deploy configs
-```
-
----
-
-## 🔧 **Configuración por Challenge**
-
-### **🎨 Frontend Challenge**
-```bash
-# Setup específico frontend
-cd src/frontend
+# Install Node.js dependencies
 npm install
 
-# Dependencias adicionales
-npm install react@18 typescript tailwindcss
-npm install @headlessui/react heroicons
-npm install framer-motion react-hook-form
-npm install zustand react-router-dom
+# Or using yarn
+yarn install
 
-# Iniciar desarrollo
-npm run dev    # Puerto 3000
+# Verify installation
+npm run check-deps
 ```
 
-### **🔌 Backend APIs Challenge**
+#### **Backend Dependencies (Python)**
 ```bash
-# Setup APIs
-cd src/backend
-npm install
+# Create virtual environment (recommended)
+python -m venv venv
 
-# Dependencias backend
-npm install fastapi express
-npm install cors helmet morgan
-npm install sqlite3 prisma
+# Activate virtual environment
+# On Windows:
+venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate
 
-# Iniciar servidor
-npm run dev    # Puerto 3002
-```
-
-### **📊 Data Analytics Challenge**
-```bash
-# Setup analytics
-cd src/analytics
+# Install Python dependencies
 pip install -r requirements.txt
 
-# Dependencias Python
-pip install pandas numpy matplotlib
-pip install plotly dash streamlit
-pip install scikit-learn
-
-# Iniciar analytics server
-python app.py  # Puerto 3003
+# Verify installation
+python -c "import fastapi, sqlite3; print('Dependencies OK')"
 ```
 
-### **📱 Mobile Challenge**
+### **4. Initialize Development Database**
+
 ```bash
-# Setup mobile
+# Run database setup
+npm run db:setup
+
+# Seed with demo data
+npm run seed:demo
+
+# Verify database
+npm run db:check
+```
+
+### **5. Start Development Servers**
+
+```bash
+# Option A: Start all services with one command
+npm run dev
+
+# Option B: Start services individually
+npm run dev:frontend    # Frontend dev server (port 3000)
+npm run dev:backend     # Backend API server (port 8000)
+npm run dev:mock-apis   # Mock API services (port 3001)
+```
+
+### **6. Verify Setup**
+
+Open your browser and navigate to:
+
+- **Frontend Dashboard**: http://localhost:3000
+- **API Documentation**: http://localhost:8000/docs
+- **Mock APIs**: http://localhost:3001/api/mock/health
+
+---
+
+## 🛠️ **Detailed Setup Instructions**
+
+### **Environment Variables Explained**
+
+```bash
+# .env.local configuration
+NODE_ENV=development
+PORT=3000
+
+# Database
+DATABASE_URL=sqlite:./integridai_hackathon.db
+
+# Mock API Configuration
+MOCK_API_PORT=3001
+ENABLE_MOCK_APIS=true
+
+# Development Features
+ENABLE_DEBUG_MODE=true
+ENABLE_HOT_RELOAD=true
+LOG_LEVEL=debug
+
+# External APIs (Mock only for hackathon)
+AFIP_API_URL=http://localhost:3001/api/mock/afip
+BCRA_API_URL=http://localhost:3001/api/mock/bcra
+CNV_API_URL=http://localhost:3001/api/mock/cnv
+UIF_API_URL=http://localhost:3001/api/mock/uif
+```
+
+### **Project Structure**
+```
+integridai-hackai-2025/
+├── src/
+│   ├── frontend/          # React frontend code
+│   │   ├── components/    # Reusable UI components
+│   │   ├── pages/         # Page components
+│   │   ├── hooks/         # Custom React hooks
+│   │   ├── utils/         # Utility functions
+│   │   └── styles/        # CSS and styling
+│   ├── backend/           # FastAPI backend code
+│   │   ├── api/           # API routes
+│   │   ├── models/        # Database models
+│   │   ├── services/      # Business logic
+│   │   └── utils/         # Backend utilities
+│   └── analytics/         # Data analytics code
+├── api/
+│   └── mock/              # Mock API implementations
+├── mobile/                # Mobile app code
+├── docs/                  # Documentation
+├── hackathon/             # Challenge-specific resources
+├── deployment/            # Deployment configurations
+└── tests/                 # Test files
+```
+
+---
+
+## 🧪 **Development Workflows**
+
+### **Frontend Development**
+
+#### **React Development Server**
+```bash
+# Start with hot reload
+npm run dev:frontend
+
+# Build for production
+npm run build:frontend
+
+# Preview production build
+npm run preview:frontend
+
+# Lint and format
+npm run lint:frontend
+npm run format:frontend
+```
+
+#### **Component Development with Storybook**
+```bash
+# Start Storybook
+npm run storybook
+
+# Build Storybook
+npm run build-storybook
+```
+
+### **Backend Development**
+
+#### **FastAPI Development Server**
+```bash
+# Start with auto-reload
+npm run dev:backend
+
+# Or directly with Python
+cd src/backend
+uvicorn main:app --reload --port 8000
+
+# Run migrations
+npm run migrate
+
+# Create new migration
+npm run migration:create "migration_name"
+```
+
+#### **API Testing**
+```bash
+# Run API tests
+npm run test:api
+
+# Test specific endpoints
+npm run test:endpoint -- providers
+
+# Load test with sample data
+npm run load-test:basic
+```
+
+### **Mobile Development**
+
+#### **React Native Setup**
+```bash
+# Install mobile dependencies
 cd mobile
 npm install
 
-# React Native setup
-npx react-native init IntegridAIMobile
-npm install @react-navigation/native
-npm install react-native-vector-icons
+# iOS Development (macOS only)
+cd ios && pod install && cd ..
+npx react-native run-ios
 
-# Expo setup (alternativo)
-npx create-expo-app IntegridAIMobile
-npm install expo-camera expo-document-picker
+# Android Development
+npx react-native run-android
+```
 
-# Iniciar desarrollo
-npm run ios    # iOS Simulator
-npm run android # Android Emulator
+#### **PWA Development**
+```bash
+# Build PWA
+npm run build:pwa
+
+# Test PWA locally
+npm run serve:pwa
+
+# Validate PWA
+npm run audit:pwa
 ```
 
 ---
 
-## 🔌 **APIs Mock Disponibles**
+## 📊 **Database Setup**
 
-### **Base URL:**
+### **SQLite Development Database**
+
 ```bash
-API_BASE=http://localhost:3001
+# Initialize database
+npm run db:init
+
+# Run migrations
+npm run db:migrate
+
+# Seed development data
+npm run db:seed
+
+# Reset database (careful!)
+npm run db:reset
+
+# Database backup
+npm run db:backup
 ```
 
-### **Endpoints Principales:**
+### **Database Schema Overview**
+```sql
+-- Core tables for hackathon
+CREATE TABLE providers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cuit TEXT UNIQUE NOT NULL,
+    name TEXT NOT NULL,
+    sector TEXT,
+    risk_score REAL DEFAULT 0,
+    compliance_status TEXT DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-#### **Health Check**
-```bash
-GET /health
-# Response: { status, service, version, capabilities }
-```
+CREATE TABLE analyses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    provider_id INTEGER REFERENCES providers(id),
+    analysis_type TEXT NOT NULL,
+    analysis_data JSON,
+    risk_score REAL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-#### **Análisis de Proveedor**
-```bash
-POST /analyze_provider
-Content-Type: application/json
-
-{
-  "name": "Mi Empresa SA",
-  "cuit": "30-12345678-9", 
-  "sector": "tecnologia",
-  "documents": ["balance.pdf", "codigo_etica.pdf"],
-  "contact_email": "contacto@empresa.com"
-}
-
-# Response: Análisis completo con score, verificaciones, recomendaciones
-```
-
-#### **Dashboard Metrics**
-```bash
-GET /compliance_dashboard
-# Response: Métricas consolidadas, análisis recientes, distribución sectorial
-```
-
-#### **Regulatory Updates**
-```bash
-GET /regulatory_updates  
-# Response: Últimas actualizaciones regulatorias
-```
-
-### **Ejemplo de Uso (JavaScript):**
-```javascript
-// Cliente API simple
-const API_BASE = 'http://localhost:3001';
-
-async function analyzeProvider(providerData) {
-  try {
-    const response = await fetch(`${API_BASE}/analyze_provider`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(providerData)
-    });
-    
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    
-    const result = await response.json();
-    console.log('Analysis Result:', result);
-    return result;
-    
-  } catch (error) {
-    console.error('API Error:', error);
-    throw error;
-  }
-}
-
-// Uso
-const provider = {
-  name: "TechStart SRL",
-  cuit: "30-87654321-0",
-  sector: "tecnologia",
-  documents: ["balance_2024.pdf", "estatuto.pdf"]
-};
-
-analyzeProvider(provider)
-  .then(result => {
-    console.log(`Score: ${result.compliance_analysis.overall_score}%`);
-    console.log(`Risk: ${result.compliance_analysis.risk_level}`);
-  })
-  .catch(error => {
-    console.error('Analysis failed:', error);
-  });
+CREATE TABLE training_sessions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id TEXT NOT NULL,
+    scenario_id TEXT NOT NULL,
+    score REAL,
+    completion_time INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ```
 
 ---
 
-## 🗄️ **Base de Datos Demo**
+## 🧪 **Testing Setup**
 
-### **SQLite Setup (Para desarrollo):**
+### **Frontend Testing**
+
+#### **Unit Tests (Jest + RTL)**
 ```bash
-# Crear base demo
-npm run seed:demo
+# Run all tests
+npm run test:frontend
 
-# Estructura de datos
-data/
-├── hackathon.db        # Base principal desarrollo
-├── demo.db            # Datos de ejemplo
-└── samples/           # Datasets para analytics
-    ├── providers.json
-    ├── analyses.json
-    └── metrics.json
+# Run tests in watch mode
+npm run test:frontend:watch
+
+# Generate coverage report
+npm run test:frontend:coverage
+
+# Update snapshots
+npm run test:frontend:update-snapshots
 ```
 
-### **Modelos de Datos:**
-```typescript
-// Provider Model
-interface Provider {
-  id: string;
-  name: string;
-  cuit: string;
-  sector: string;
-  compliance_score: number;
-  risk_level: 'bajo' | 'medio' | 'alto';
-  created_at: string;
-  updated_at: string;
-}
+#### **E2E Tests (Playwright)**
+```bash
+# Install Playwright
+npx playwright install
 
-// Analysis Model  
-interface Analysis {
-  id: string;
-  provider_id: string;
-  score: number;
-  risk_factors: RiskFactor[];
-  verifications: Verification[];
-  recommendations: string[];
-  created_at: string;
-}
+# Run E2E tests
+npm run test:e2e
+
+# Run specific test file
+npm run test:e2e -- providers.spec.ts
+
+# Generate test report
+npm run test:e2e:report
+```
+
+### **Backend Testing**
+
+#### **Python Tests (pytest)**
+```bash
+# Run all backend tests
+npm run test:backend
+
+# Run specific test file
+npm run test:backend -- test_providers.py
+
+# Generate coverage report
+npm run test:backend:coverage
+
+# Run integration tests
+npm run test:integration
+```
+
+### **API Testing**
+
+#### **Automated API Tests**
+```bash
+# Test all endpoints
+npm run test:api:all
+
+# Test specific challenge endpoints
+npm run test:api:providers
+npm run test:api:training
+npm run test:api:analytics
+
+# Performance tests
+npm run test:api:performance
 ```
 
 ---
 
 ## 🚀 **Deployment Options**
 
-### **Vercel (Recomendado para Frontend):**
+### **Local Production Build**
+
 ```bash
-# Install Vercel CLI
-npm install -g vercel
+# Build all components
+npm run build
 
-# Setup proyecto
-vercel
+# Start production server
+npm run start:prod
 
-# Deploy
-vercel --prod
-
-# Custom domain (opcional)
-vercel domains add your-team-name.vercel.app
+# Health check
+curl http://localhost:3000/health
 ```
 
-### **Netlify (Alternativo):**
+### **Docker Development**
+
 ```bash
-# Install Netlify CLI
-npm install -g netlify-cli
+# Build development container
+docker-compose up --build
 
-# Setup
-netlify init
+# Run specific services
+docker-compose up frontend backend
 
-# Deploy
-netlify deploy --prod
+# View logs
+docker-compose logs -f frontend
+
+# Clean up
+docker-compose down -v
 ```
 
-### **Docker (Para desarrollo local):**
+### **Netlify/Vercel Deployment**
+
 ```bash
-# Build image
-docker build -t integridai-hackathon .
+# Deploy to Netlify
+npm run deploy:netlify
 
-# Run container
-docker run -p 3000:3000 -p 3001:3001 integridai-hackathon
+# Deploy to Vercel  
+npm run deploy:vercel
 
-# Docker Compose (desarrollo completo)
-docker-compose up -d
-```
-
-### **Configuración Vercel:**
-```json
-// vercel.json
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "src/frontend/package.json",
-      "use": "@vercel/static-build"
-    },
-    {
-      "src": "api/mock/*.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/mock/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/src/frontend/$1"
-    }
-  ]
-}
+# Preview deployment
+npm run deploy:preview
 ```
 
 ---
 
-## 🐛 **Troubleshooting**
+## 🔧 **Troubleshooting**
 
-### **Problemas Comunes:**
+### **Common Issues & Solutions**
 
-#### **Port Already in Use:**
+#### **Port Conflicts**
 ```bash
-# Matar proceso en puerto
-lsof -ti:3000 | xargs kill -9
-lsof -ti:3001 | xargs kill -9
+# Check what's using port 3000
+lsof -ti:3000
 
-# Cambiar puerto en .env.local
-PORT=3005
-MOCK_API_PORT=3006
+# Kill process on port
+kill -9 $(lsof -ti:3000)
+
+# Use alternative ports
+PORT=3001 npm run dev:frontend
 ```
 
-#### **Node Version Issues:**
+#### **Node Version Issues**
 ```bash
-# Usar nvm para cambiar versión
-nvm install 18
-nvm use 18
-nvm alias default 18
+# Check current version
+node --version
+
+# Using nvm (recommended)
+nvm install 20
+nvm use 20
+
+# Verify npm version
+npm --version
 ```
 
-#### **CORS Errors:**
+#### **Python Virtual Environment Issues**
 ```bash
-# Verificar CORS origin en .env.local
-CORS_ORIGIN=http://localhost:3000,http://localhost:3005
-
-# O deshabilitar temporalmente para desarrollo
-CORS_DISABLED=true
+# Recreate virtual environment
+rm -rf venv
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate on Windows
+pip install -r requirements.txt
 ```
 
-#### **Mock API No Response:**
+#### **Database Connection Issues**
 ```bash
-# Verificar que el servidor esté corriendo
-curl http://localhost:3001/health
+# Check database file exists
+ls -la *.db
 
-# Reiniciar mock API
-npm run api:mock
-
-# Check logs
-npm run api:mock -- --verbose
+# Recreate database
+rm integridai_hackathon.db
+npm run db:init
+npm run db:seed
 ```
 
-### **Performance Issues:**
+#### **Mock API Issues**
 ```bash
-# Limpiar node_modules
+# Restart mock API server
+npm run restart:mock-apis
+
+# Check mock API health
+curl http://localhost:3001/api/mock/health
+
+# View mock API logs
+npm run logs:mock-apis
+```
+
+### **Performance Issues**
+
+#### **Slow Startup**
+```bash
+# Clear npm cache
+npm cache clean --force
+
+# Clear node_modules
 rm -rf node_modules package-lock.json
 npm install
 
-# Limpiar cache
-npm cache clean --force
+# Use npm ci for faster install
+npm ci
+```
 
-# Verificar memoria disponible
-node --max-old-space-size=4096 api/mock/regtech.js
+#### **Memory Issues**
+```bash
+# Increase Node.js memory limit
+export NODE_OPTIONS="--max_old_space_size=4096"
+
+# Or add to package.json scripts:
+"dev": "NODE_OPTIONS='--max_old_space_size=4096' vite dev"
 ```
 
 ---
 
-## 📞 **Support & Help**
+## 📱 **Platform-Specific Setup**
 
-### **Durante HackAI 2025:**
-- 💬 **Slack:** #integridai-support
-- 🐛 **Issues:** [GitHub Issues](https://github.com/adrianlerer/integridai-hackai-2025/issues)
-- 👨‍💻 **Mentor:** Adrian Lerer - adrian@lerer.com.ar
+### **Windows Setup**
 
-### **Resources:**
-- 📚 **Docs:** `/docs/` folder
-- 💡 **Examples:** `/examples/` folder  
-- 🎥 **Video Guides:** [Coming Soon]
+```powershell
+# Install Windows-specific dependencies
+npm install --global windows-build-tools
 
-### **Emergency Contacts:**
+# Use PowerShell as administrator
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Alternative to bash commands
+# Use Git Bash or WSL2 for best experience
 ```
-Adrian Lerer (Founder)
-📧 adrian@lerer.com.ar
-📱 +54 9 11 5120 1247
-🔗 linkedin.com/in/adrianlerer
+
+### **macOS Setup**
+
+```bash
+# Install Xcode Command Line Tools
+xcode-select --install
+
+# Install Homebrew (if not installed)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install dependencies via Homebrew
+brew install node python
+```
+
+### **Linux Setup**
+
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install nodejs npm python3 python3-pip python3-venv
+
+# CentOS/RHEL
+sudo yum install nodejs npm python3 python3-pip
+
+# Arch Linux
+sudo pacman -S nodejs npm python python-pip
 ```
 
 ---
 
-## 🏆 **Success Checklist**
+## 🎯 **Development Best Practices**
 
-### **✅ Setup Completo:**
-- [ ] Node.js 18+ instalado
-- [ ] Repo clonado y dependencias instaladas
-- [ ] `.env.local` configurado correctamente
-- [ ] Mock API corriendo en puerto 3001
-- [ ] Frontend accesible en puerto 3000
-- [ ] Health check API funcionando
+### **Code Style & Formatting**
 
-### **✅ Ready to Code:**
-- [ ] Challenge elegido (Frontend/Backend/Analytics/Mobile)
-- [ ] Editor/IDE configurado con extensiones
-- [ ] Git configurado con usuario y email
-- [ ] Branch de desarrollo creado
-- [ ] Primer commit realizado
+```bash
+# Format all code
+npm run format
 
-### **✅ Ready to Demo:**
-- [ ] Funcionalidad core implementada
-- [ ] APIs integradas correctamente
-- [ ] UI/UX pulida y responsive
-- [ ] Testing básico completado
-- [ ] Deploy funcionando
+# Lint all code
+npm run lint
+
+# Type checking
+npm run type-check
+
+# Pre-commit hooks (automatic)
+npm run prepare
+```
+
+### **Git Workflow**
+```bash
+# Create feature branch
+git checkout -b feature/your-feature-name
+
+# Commit with conventional commits
+git commit -m "feat: add provider analysis component"
+
+# Push and create PR
+git push -u origin feature/your-feature-name
+```
+
+### **Environment Management**
+```bash
+# Never commit .env files with secrets
+# Use .env.example for templates
+# Use different .env files per environment:
+.env.local           # Local development
+.env.development     # Development deployment
+.env.production      # Production (never commit)
+```
 
 ---
 
-## 🎉 **¡Estás Listo!**
+## 📞 **Getting Help**
 
-**Con este setup tienes todo lo necesario para crear algo increíble en HackAI 2025.**
+### **Documentation Resources**
+- **[API Documentation](./API_DOCUMENTATION.md)** - Complete API reference
+- **[Architecture Overview](./ARQUITECTURA.md)** - System design
+- **[Contribution Guidelines](./CONTRIBUTING.md)** - How to contribute
 
-**¡Ahora a codear! 🚀**
+### **Support Channels**
+- **GitHub Issues**: Technical bugs and feature requests
+- **Discord #hackathon-support**: Real-time help during event
+- **Mentor Office Hours**: Friday 2-4 PM at Universidad Austral
+
+### **Quick Commands Reference**
+```bash
+# Essential commands for hackathon day
+npm run dev          # Start everything
+npm run test         # Run all tests
+npm run build        # Production build
+npm run help         # Show all available commands
+```
+
+---
+
+## 🎉 **Ready to Hack!**
+
+After completing this setup, you should have:
+
+✅ **Local development environment** running  
+✅ **All dependencies** installed and verified  
+✅ **Database** initialized with sample data  
+✅ **Mock APIs** responding correctly  
+✅ **Tests** passing  
+✅ **Development servers** running on correct ports  
+
+### **Next Steps:**
+1. **Choose your challenge** from `/hackathon/challenges/`
+2. **Read the specific challenge documentation**
+3. **Start coding** and changing the world!
+
+**¡Éxito en el HackAI 2025! 🚀**

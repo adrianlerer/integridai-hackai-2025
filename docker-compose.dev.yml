@@ -1,0 +1,146 @@
+# IntegridAI HackAI 2025 - Development Docker Compose
+# Lightweight setup for local development
+
+version: '3.8'
+
+services:
+  # Complete Development Environment
+  integridai-dev:
+    build:
+      context: .
+      target: development
+    container_name: integridai-hackathon-dev
+    ports:
+      - "3000:3000"    # Frontend
+      - "3001:3001"    # Mock APIs
+      - "8000:8000"    # RegTech Engine (if running Python backend)
+    volumes:
+      # Source code hot reload
+      - ./src:/app/src
+      - ./api:/app/api
+      - ./scripts:/app/scripts
+      - ./docs:/app/docs
+      - ./public:/app/public
+      
+      # Persistent data
+      - ./data:/app/data
+      
+      # Node modules (performance optimization)
+      - /app/node_modules
+    
+    environment:
+      # Development settings
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - FORCE_COLOR=1
+      
+      # API Configuration
+      - REACT_APP_API_URL=http://localhost:3001/api/mock
+      - MOCK_API_PORT=3001
+      - ENABLE_MOCK_APIS=true
+      
+      # Database
+      - DATABASE_PATH=/app/data/integridai_hackathon.db
+      
+      # Feature flags for hackathon
+      - HACKATHON_MODE=true
+      - ENABLE_DEBUG_MODE=true
+      - LOG_LEVEL=debug
+      
+      # External API mocking
+      - MOCK_AFIP_API=true
+      - MOCK_BCRA_API=true
+      - MOCK_CNV_API=true
+      - MOCK_UIF_API=true
+    
+    working_dir: /app
+    
+    # Start all services
+    command: >
+      sh -c "
+        echo '🚀 Starting IntegridAI HackAI 2025 Development Environment...' &&
+        echo '============================================================' &&
+        echo '' &&
+        echo '📦 Installing dependencies...' &&
+        npm install &&
+        echo '' &&
+        echo '🗄️ Setting up database...' &&
+        npm run db:setup &&
+        echo '' &&
+        echo '📊 Seeding demo data...' &&
+        npm run seed:demo &&
+        echo '' &&
+        echo '🎲 Generating sample analyses...' &&
+        npm run generate:samples &&
+        echo '' &&
+        echo '✨ Starting development servers...' &&
+        echo '   🎨 Frontend: http://localhost:3000' &&
+        echo '   🔌 Mock APIs: http://localhost:3001' &&
+        echo '   📚 API Docs: http://localhost:3001/docs' &&
+        echo '' &&
+        npm run dev
+      "
+    
+    networks:
+      - hackathon-network
+    
+    restart: unless-stopped
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health", "&&", "curl", "-f", "http://localhost:3001/api/mock/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Standalone Mock APIs (for separate backend development)
+  mock-apis-only:
+    build:
+      context: .
+      target: development
+    container_name: integridai-mock-apis-standalone
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./api:/app/api
+      - ./data:/app/data
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - DATABASE_PATH=/app/data/integridai_hackathon.db
+    command: npm run api:mock
+    networks:
+      - hackathon-network
+    profiles:
+      - mock-only
+    restart: unless-stopped
+
+  # Database Browser (for debugging)
+  sqlite-browser:
+    image: coleifer/sqlite-web
+    container_name: integridai-db-browser
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data
+    command: sqlite_web -H 0.0.0.0 -x /data/integridai_hackathon.db
+    networks:
+      - hackathon-network
+    profiles:
+      - debug
+    restart: unless-stopped
+
+# Networks
+networks:
+  hackathon-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# Volumes for persistence
+volumes:
+  node_modules:
+  hackathon_data:

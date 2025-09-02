@@ -104,36 +104,78 @@ Este no es un ejercicio académico - es un **proyecto real** con:
 git clone https://github.com/adrianlerer/integridai-hackai-2025.git
 cd integridai-hackai-2025
 
-# Instalar dependencias
-npm install
+# Instalar dependencias Python
 pip install -r requirements.txt
+
+# Instalar dependencias Node (si usas frontend)
+npm install
 
 # Setup variables de entorno
 cp .env.example .env.local
-
-# Iniciar desarrollo
-npm run dev
 ```
 
-### **2. APIs Mock Disponibles**
-```javascript
-// Base URL para desarrollo
-const API_BASE = 'http://localhost:3000/api/mock';
-
-// Endpoints disponibles
-GET /health           // Estado del sistema
-POST /analyze         // Análisis de proveedor (mock)
-GET /dashboard        // Métricas consolidadas
-GET /metrics          // Analytics para visualización
-```
-
-### **3. Datos Demo**
+### **2. Iniciar Servicios Mock**
 ```bash
-# Cargar datos de prueba
-npm run seed:demo
+# Opción 1: Iniciar todos los servicios automáticamente
+python scripts/start_mock_services.py
 
-# Generar análisis de ejemplo
-npm run generate:samples
+# Opción 2: Iniciar servicios individuales
+python api/mock/conversational_mock.py    # Puerto 5001
+python api/mock/regtech_mock.py           # Puerto 5002
+```
+
+### **3. APIs Mock Disponibles**
+
+#### **🤖 Conversational API (Puerto 5001)**
+```bash
+# Health check
+GET http://localhost:5001/health
+
+# Iniciar conversación
+POST http://localhost:5001/api/conversation/start
+{
+  "user_profile": "estudiante_hackathon",
+  "difficulty": "medium"
+}
+
+# Enviar mensaje
+POST http://localhost:5001/api/conversation/{session_id}/message
+{
+  "message": "¿Cómo manejo un conflicto de intereses?"
+}
+
+# Ver escenarios
+GET http://localhost:5001/api/scenarios
+```
+
+#### **🏛️ RegTech API (Puerto 5002)** 
+```bash
+# Health check
+GET http://localhost:5002/health
+
+# Analizar empresa
+POST http://localhost:5002/api/analyze/company
+{
+  "cuit": "20123456781",
+  "company_name": "Empresa Demo SA"
+}
+
+# Dashboard ejecutivo
+GET http://localhost:5002/api/reports/dashboard
+
+# Empresas de prueba
+GET http://localhost:5002/api/mock/companies
+```
+
+### **4. Datos Demo Seguros**
+```bash
+# Empresas de prueba disponibles:
+CUIT: 20123456781 - Constructora Demo SA
+CUIT: 30234567892 - Servicios IT Ejemplo SRL  
+CUIT: 27345678903 - Consultoría Legal Mock
+
+# Todos los datos son SIMULADOS y seguros para desarrollo
+# No hay conexión a APIs gubernamentales reales
 ```
 
 ---

@@ -5,13 +5,17 @@
 Flask==2.3.3
 Flask-CORS==4.0.0
 
+# AI Integration
+openai==1.12.0
+python-dotenv==1.0.0
+
 # Data Processing  
 pandas==2.0.3
 numpy==1.24.3
 
 # Development Tools
 requests==2.31.0
-python-dotenv==1.0.0
+asyncio  # Built-in with Python
 
 # Database (SQLite for development)
 sqlite3  # Built-in with Python

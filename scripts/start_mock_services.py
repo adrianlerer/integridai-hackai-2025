@@ -73,6 +73,11 @@ def main():
             "script": api_dir / "regtech_mock.py", 
             "port": 5002,
             "name": "RegTech API Mock"
+        },
+        {
+            "script": base_dir / "api" / "unified_agents_api.py",
+            "port": 5003,
+            "name": "Unified Agents API (Catalina + Alexis)"
         }
     ]
     

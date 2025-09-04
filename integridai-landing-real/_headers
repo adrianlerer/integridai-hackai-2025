@@ -1,0 +1,34 @@
+# Headers de seguridad enterprise para IntegridAI SaaS
+/*
+  # Seguridad básica
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  
+  # CSP para aplicación SaaS
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none';
+  
+  # Performance y caching
+  Cache-Control: public, max-age=31536000, immutable
+  
+  # Permisiones
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
+# Archivos estáticos con cache optimizado
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+  
+# HTML sin cache para updates frecuentes
+/*.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  
+# Service Worker
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+  
+# API endpoints (si los hay)
+/api/*
+  Access-Control-Allow-Origin: https://app.integridai.com.ar
+  Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+  Access-Control-Allow-Headers: Content-Type, Authorization

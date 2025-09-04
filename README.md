@@ -1,293 +1,228 @@
-# 🚀 IntegridAI - HackAI 2025 Universidad Austral
+# IntegridAI Suite - HackAI 2025 Public Platform
 
-**¡Bienvenidos al Hackathon más innovador de RegTech en Argentina!**
+## 🎯 Overview
 
-## 🎯 **Sobre el Proyecto**
+**IntegridAI Suite** is Argentina's leading RegTech platform for corporate integrity and compliance management, built around **Ley 27.401** (Argentine Corporate Criminal Liability Law). This public repository provides a collaborative environment for HackAI 2025 participants to explore, extend, and innovate on real-world compliance technology.
 
-**IntegridAI** es el primer ecosistema completo de compliance e integridad corporativa de Latinoamérica. Combinamos **IA conversacional**, **RegTech automático** y **gamificación** para revolucionar cómo las empresas manejan el riesgo y la integridad.
+## 🏗️ Architecture
 
-### **🏆 Proyecto Real, No Ejercicio**
-Este no es un hackathon académico - es **desarrollo productivo** sobre:
-- ✅ **Infraestructura operativa** procesando datos reales
-- ✅ **Arquitectura escalable** lista para adopción empresarial
-- ✅ **Motor de compliance** funcionando automáticamente  
-- ✅ **Base de conocimiento** con casos y análisis históricos
+### Core Components
 
-👉 **[Ver Demo Live](https://3000-ifknyuzyit0jaqy80ghd2-6532622b.e2b.dev)** (Sistema real funcionando)
+#### **🌐 IntegridAI Landing** (`integridai-landing-real/`)
+Professional landing page showcasing the complete IntegridAI ecosystem. Built with React and optimized for production deployment.
 
----
+**Key Features:**
+- Corporate branding and messaging
+- Feature demonstrations
+- Integration points overview
+- Production-ready build
 
-## 🏗️ **Arquitectura del Ecosistema**
+#### **🎮 FlaiSimulator** (`flaisimulator-fixed/`)
+Interactive compliance training platform with conversational AI capabilities for Ley 27.401 education.
 
-### **Módulos Principales:**
+**Key Features:**
+- AI-powered conversation engine (P4 framework)
+- Three specialized characters: Dr. Mentor, Ana Auditora, Carlos CEO
+- Real-world compliance scenarios
+- Progress tracking and certification paths
 
-#### **🎮 FLAISimulator**
-- **Capacitación ética gamificada** con IA conversacional
-- **Escenarios reales** de dilemas éticos empresariales
-- **Algoritmos de aprendizaje** adaptativo por perfil
+#### **🔧 Backend APIs** (`api/`, `src/`)
+Mock API endpoints and backend infrastructure for development and experimentation.
 
-#### **🤖 RegTech Engine**
-- **Análisis automático** de proveedores según Ley 27.401
-- **Verificaciones oficiales** AFIP, BCRA, CNV, UIF
-- **Scoring predictivo** de riesgo de compliance
+**Available Endpoints:**
+- Compliance assessment APIs
+- Risk management simulators  
+- Integration testing frameworks
+- Data processing pipelines
 
-#### **📊 Dashboard Unificado**
-- **Métricas consolidadas** de capacitación + compliance
-- **Reportes ejecutivos** en tiempo real
-- **APIs de orquestación** entre módulos
+## 🚀 Quick Start
 
----
+### Prerequisites
+- Git
+- Python 3.8+ or Node.js 16+
+- Web browser
 
-## 🏆 **Challenges HackAI 2025**
+### Local Development
 
-### **Challenge 1: 🎨 Frontend UX/UI Excellence**
-**Objetivo:** Crear interfaces espectaculares para el Dashboard Unificado
-
-**Tu misión:**
-- Mejorar UX del dashboard ejecutivo
-- Crear componentes React responsivos
-- Optimizar flujo de navegación entre módulos
-
-**Tech Stack:** React, TailwindCSS, Chart.js
-**APIs Disponibles:** Mock endpoints con datos demo
-**Carpeta:** `/src/frontend/`
-
----
-
-### **Challenge 2: 🔌 APIs Integration Master**
-**Objetivo:** Conectar perfectamente FLAISimulator + RegTech + Dashboard
-
-**Tu misión:**
-- Crear APIs de orquestación entre módulos
-- Implementar sistema de métricas consolidadas
-- Desarrollar endpoints de sincronización
-
-**Tech Stack:** FastAPI, Node.js, RESTful APIs
-**APIs Disponibles:** Simuladores AFIP/BCRA/CNV/UIF
-**Carpeta:** `/src/backend/`
-
----
-
-### **Challenge 3: 📊 Data Analytics Genius**
-**Objetivo:** Dashboard ejecutivo con analytics predictivos
-
-**Tu misión:**
-- Visualizaciones interactivas de compliance
-- Métricas predictivas de riesgo
-- Reportes ejecutivos automatizados
-
-**Tech Stack:** D3.js, Python, Pandas, Chart.js
-**Data Available:** Datasets demo de análisis
-**Carpeta:** `/src/analytics/`
-
----
-
-### **Challenge 4: 📱 Mobile Experience Pro**
-**Objetivo:** App móvil para análisis rápido de proveedores
-
-**Tu misión:**
-- PWA o React Native para análisis móvil
-- Camera integration para scan de documentos
-- Offline-first para análisis sin conexión
-
-**Tech Stack:** React Native, PWA, Camera APIs
-**APIs Disponibles:** REST endpoints optimizados
-**Carpeta:** `/mobile/`
-
----
-
-## 🚀 **Quick Start**
-
-### **1. Setup Desarrollo**
 ```bash
-# Clonar repo
+# Clone the repository
 git clone https://github.com/adrianlerer/integridai-hackai-2025.git
 cd integridai-hackai-2025
 
-# Instalar dependencias Python
-pip install -r requirements.txt
+# Option 1: IntegridAI Landing
+cd integridai-landing-real
+python -m http.server 3000
+# Access: http://localhost:3000
 
-# Instalar dependencias Node (si usas frontend)
-npm install
+# Option 2: FlaiSimulator  
+cd flaisimulator-fixed
+python -m http.server 3001
+# Access: http://localhost:3001
 
-# Setup variables de entorno
-cp .env.example .env.local
+# Option 3: Backend Development
+cd api
+python -m http.server 3002
+# Access: http://localhost:3002
 ```
 
-### **2. Iniciar Servicios Mock**
-```bash
-# Opción 1: Iniciar todos los servicios automáticamente
-python scripts/start_mock_services.py
+## 🎯 HackAI 2025 Collaboration Opportunities
 
-# Opción 2: Iniciar servicios individuales
-python api/mock/conversational_mock.py    # Puerto 5001
-python api/mock/regtech_mock.py           # Puerto 5002
+### **🎨 Frontend Enhancement**
+Modernize and enhance user interfaces across all platform components:
+
+- **Landing Page Optimization**: Improve UX/UI of `integridai-landing-real/`
+- **Component Library**: Create reusable UI components
+- **Responsive Design**: Enhanced mobile experience
+- **Accessibility**: WCAG compliance implementation
+
+### **🔌 API Integration**
+Connect platform modules through robust API architecture:
+
+- **Microservices Architecture**: Design scalable service connections
+- **Real-time Communication**: WebSocket implementations  
+- **Data Synchronization**: Cross-platform state management
+- **Authentication Systems**: Secure access control
+
+### **🧠 FlaiSimulator Extensions**
+Enhance the conversational AI training platform:
+
+- **New Training Modules**: Additional compliance scenarios
+- **Advanced AI Conversations**: Enhanced natural language processing
+- **Gamification Features**: Progress systems and achievements  
+- **Multi-language Support**: Spanish/English localization
+
+### **🔗 Module Integration**
+Create seamless connections between platform components:
+
+- **Unified Dashboard**: Single-point access to all features
+- **Data Analytics**: Cross-platform insights and reporting
+- **Workflow Automation**: Compliance process orchestration
+- **Third-party Integrations**: External service connections
+
+## 📁 Repository Structure
+
+```
+integridai-hackai-2025/
+├── integridai-landing-real/     # Production landing page
+│   ├── assets/                  # Images, fonts, compiled JS/CSS
+│   ├── images/                  # Content images
+│   ├── index.html              # Main landing page
+│   ├── _headers                # Netlify headers configuration
+│   └── _redirects              # Netlify routing rules
+│
+├── flaisimulator-fixed/         # Interactive training platform
+│   ├── index.html              # Main application
+│   ├── app.js                  # Core functionality and AI engine
+│   ├── netlify.toml            # Deployment configuration
+│   └── _redirects              # SPA routing
+│
+├── api/                         # Mock API endpoints
+│   ├── mock/                   # Simulated data services
+│   ├── endpoints/              # API route definitions
+│   └── middleware/             # Request/response processing
+│
+├── src/                         # Source code and utilities
+│   ├── components/             # Reusable UI components  
+│   ├── services/              # Business logic
+│   └── utils/                 # Helper functions
+│
+├── hackathon/                   # HackAI 2025 specific resources
+│   ├── challenges/             # Development challenges
+│   ├── guidelines/             # Contribution guidelines
+│   └── resources/              # Documentation and assets
+│
+└── docs/                        # Technical documentation
+    ├── API.md                  # API documentation
+    ├── DEPLOYMENT.md           # Deployment guides
+    └── ARCHITECTURE.md         # System architecture
 ```
 
-### **3. APIs Mock Disponibles**
+## 🛠️ Development Guidelines
 
-#### **🤖 Conversational API (Puerto 5001)**
-```bash
-# Health check
-GET http://localhost:5001/health
+### **Code Standards**
+- **ES6+ JavaScript** for frontend development
+- **Python 3.8+** for backend services
+- **Semantic versioning** for releases
+- **Conventional commits** for git history
 
-# Iniciar conversación
-POST http://localhost:5001/api/conversation/start
-{
-  "user_profile": "estudiante_hackathon",
-  "difficulty": "medium"
-}
+### **Testing Requirements**
+- **Unit tests** for core functionality
+- **Integration tests** for API endpoints  
+- **E2E tests** for user workflows
+- **Performance benchmarks** for optimization
 
-# Enviar mensaje
-POST http://localhost:5001/api/conversation/{session_id}/message
-{
-  "message": "¿Cómo manejo un conflicto de intereses?"
-}
+### **Documentation**
+- **Code comments** for complex logic
+- **API documentation** using OpenAPI/Swagger
+- **README files** for each major component
+- **Change logs** for version updates
 
-# Ver escenarios
-GET http://localhost:5001/api/scenarios
-```
+## 🔐 Security Considerations
 
-#### **🏛️ RegTech API (Puerto 5002)** 
-```bash
-# Health check
-GET http://localhost:5002/health
+This public repository contains **demonstration and development code only**:
 
-# Analizar empresa
-POST http://localhost:5002/api/analyze/company
-{
-  "cuit": "20123456781",
-  "company_name": "Empresa Demo SA"
-}
+- ❌ **No production credentials** or sensitive data
+- ❌ **No real user information** or corporate data
+- ❌ **No production API keys** or authentication tokens
+- ✅ **Mock data and simulated responses** for safe development
+- ✅ **Sanitized examples** and test cases
+- ✅ **Public documentation** and open-source components
 
-# Dashboard ejecutivo
-GET http://localhost:5002/api/reports/dashboard
+## 🎯 Production vs Development
 
-# Empresas de prueba
-GET http://localhost:5002/api/mock/companies
-```
+| Component | Development (This Repo) | Production (Private) |
+|-----------|------------------------|---------------------|
+| **Authentication** | Mock/Disabled | Full OAuth/SAML |
+| **Data Sources** | Simulated | Real AFIP/BCRA/CNV APIs |
+| **Database** | SQLite/JSON files | PostgreSQL cluster |
+| **Analytics** | Local logging | Enterprise monitoring |
+| **Compliance** | Demo scenarios | Real corporate data |
 
-### **4. Datos Demo Seguros**
-```bash
-# Empresas de prueba disponibles:
-CUIT: 20123456781 - Constructora Demo SA
-CUIT: 30234567892 - Servicios IT Ejemplo SRL  
-CUIT: 27345678903 - Consultoría Legal Mock
+## 🌟 Contributing
 
-# Todos los datos son SIMULADOS y seguros para desarrollo
-# No hay conexión a APIs gubernamentales reales
-```
+### **Getting Started**
+1. **Fork** this repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
 
----
+### **Contribution Areas**
+- **🐛 Bug fixes** and stability improvements  
+- **✨ New features** and functionality enhancements
+- **📚 Documentation** updates and improvements
+- **🎨 UI/UX** design and user experience enhancements
+- **⚡ Performance** optimizations and refactoring
+- **🧪 Testing** coverage and quality assurance
 
-## 📚 **Documentación Técnica**
+## 📞 Support & Resources
 
-### **📖 Guías Disponibles:**
-- **[Setup Guide](./docs/SETUP_GUIDE.md)** - Configuración paso a paso
-- **[API Documentation](./docs/API_DOCUMENTATION.md)** - Endpoints y schemas
-- **[Architecture Overview](./docs/ARQUITECTURA.md)** - Diseño del sistema
-- **[Contribution Guidelines](./docs/CONTRIBUTING.md)** - Cómo contribuir
+### **HackAI 2025 Resources**
+- **Project Repository**: [github.com/adrianlerer/integridai-hackai-2025](https://github.com/adrianlerer/integridai-hackai-2025)
+- **Live Demos**: Available during hackathon sessions
+- **Technical Support**: Via GitHub Issues and discussions
+- **Documentation**: Comprehensive guides in `/docs` directory
 
-### **🛠️ Tech Stack:**
-- **Frontend:** React, TypeScript, TailwindCSS
-- **Backend:** FastAPI (Python), Node.js
-- **Database:** SQLite (desarrollo), PostgreSQL (producción)  
-- **APIs:** RESTful + WebSockets
-- **Deploy:** Vercel, Netlify, Docker
-
----
-
-## 🎯 **Criterios de Evaluación**
-
-### **Impacto Técnico (40%)**
-- Calidad del código y arquitectura
-- Innovación en la implementación
-- Performance y escalabilidad
-
-### **UX/UI Excellence (30%)**
-- Diseño intuitivo y atractivo
-- Responsive design
-- Accesibilidad y usabilidad
-
-### **Integración (20%)**
-- Conectividad entre módulos
-- Uso efectivo de APIs
-- Flujo de datos coherente
-
-### **Presentación (10%)**
-- Demo clara y convincente
-- Explicación técnica sólida
-- Vision de producto
+### **Technology Stack**
+- **Frontend**: React, TypeScript, Tailwind CSS
+- **Backend**: Python, FastAPI, Node.js
+- **Database**: SQLite (dev), PostgreSQL (production)
+- **Deployment**: Netlify, Vercel, Docker
+- **APIs**: REST, WebSocket, GraphQL
 
 ---
 
-## 👥 **Mentorship & Support**
+## 📋 License
 
-### **🧑‍💼 Adrián Lerer - Founder & CTO**
-- **Experiencia:** 10+ años en LegalTech/RegTech
-- **Especialidad:** IA conversacional, compliance automation
-- **Disponibilidad:** Todo el viernes durante hackathon
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
-### **📞 Contacto Directo:**
-- **Email:** adrian@lerer.com.ar
-- **LinkedIn:** [adrianlerer](https://linkedin.com/in/adrianlerer)
-- **Slack HackAI:** @adrianlerer
+## 🎯 Acknowledgments
 
-### **🆘 Support Channels:**
-- **Issues GitHub:** Para bugs y questions técnicas
-- **Discord HackAI:** Chat en tiempo real
-- **Mentorship 1:1:** Disponible bajo pedido
+- **Universidad Austral** - HackAI 2025 Organization
+- **MiniMax AI** - Original landing page development
+- **IntegridAI Team** - Platform architecture and design
+- **Open Source Community** - Libraries and frameworks
 
 ---
 
-## 🏅 **Premios y Reconocimientos**
-
-### **🥇 Mejor Proyecto Overall**
-- **Reconocimiento:** Coautoria en publicación técnica
-- **Mentoría:** 3 meses de mentoring 1:1
-- **Networking:** Acceso a red de inversores RegTech
-
-### **🥈 Mejores por Challenge**
-- **Portfolio:** Carta de recomendación profesional
-- **Código:** Créditos como contributor en repo principal
-- **Oportunidad:** Pasantía/freelance en IntegridAI
-
-### **🥉 Participación Destacada**
-- **Certificado:** Universidad Austral + IntegridAI
-- **Network:** Acceso a comunidad de desarrolladores RegTech
-- **Learning:** Recursos exclusivos de capacitación
-
----
-
-## 🚀 **¿Por Qué Es Especial?**
-
-### **🔥 Resolviendo Problema Real de País**
-- Argentina no tiene APIs gubernamentales para compliance
-- Las empresas pierden semanas en verificaciones manuales
-- Construimos la infraestructura que el Estado no creó
-
-### **🧠 Tecnología Cutting-Edge**
-- IA conversacional especializada en ética corporativa
-- Scraping inteligente de fuentes oficiales dispersas
-- Automatización de procesos burocráticos complejos
-
-### **🌟 Impacto Transformacional**
-- Democratizar compliance automático para todas las empresas
-- Reducir costos de burocracia que frenan el crecimiento
-- Posicionar Argentina competitivamente en RegTech global
-
----
-
-## 🎉 **¡Construyamos la Infraestructura del Futuro!**
-
-**Este viernes no van a hacer un ejercicio académico - van a crear la tecnología que Argentina necesita.**
-
-> *"Las APIs gubernamentales que deberían existir pero no existen, las vamos a inventar nosotros."*
-
-### **Ready to Change Argentina?**
-1. **🚀 Fork este repo** - Apropiarte del código
-2. **📝 Elige tu challenge** - Frontend, Backend, Analytics o Mobile  
-3. **💻 Construí el futuro** - APIs que no existen, UX que inspire
-4. **🏆 Demo que impacte** - Mostrá cómo debería ser el compliance
-
-**¡El compliance argentino nunca será igual después del viernes! 🇦🇷**
+**Built for HackAI 2025 | Universidad Austral | RegTech Innovation Challenge**

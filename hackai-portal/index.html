@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackAI 2025 - IntegridAI Suite Portal</title>
+    <meta name="description" content="Portal de acceso al ecosistema IntegridAI para HackAI 2025 - Universidad Austral">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-primary-50: #eff6ff;
+            --color-primary-500: #3b82f6;
+            --color-primary-600: #1e40af;
+            --color-primary-700: #1d4ed8;
+            --color-primary-800: #1e3a8a;
+            --color-primary-900: #1e3a8a;
+            --color-secondary-400: #059669;
+            --color-secondary-500: #059669;
+            --color-secondary-600: #059669;
+            --color-accent-400: #fbbf24;
+            --color-accent-500: #fbbf24;
+            --color-accent-600: #f59e0b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--color-primary-900) 0%, var(--color-primary-800) 50%, var(--color-primary-900) 100%);
+            min-height: 100vh;
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--color-accent-400), var(--color-accent-600));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .logo-subtitle {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+        }
+        
+        .hackathon-badge {
+            background: var(--color-accent-500);
+            color: black;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            background: rgba(251, 191, 36, 0.2);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 30px;
+            color: var(--color-accent-400);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .pulse {
+            width: 12px;
+            height: 12px;
+            background: var(--color-accent-400);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Platform Grid */
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .platform-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .platform-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .platform-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-accent-400), var(--color-secondary-500), var(--color-primary-500));
+        }
+        
+        .platform-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .platform-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        
+        .platform-icon.full { background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-700)); }
+        .platform-icon.simulator { background: linear-gradient(135deg, var(--color-secondary-500), var(--color-secondary-600)); }
+        .platform-icon.repo { background: linear-gradient(135deg, var(--color-accent-400), var(--color-accent-600)); color: black; }
+        
+        .platform-info h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .platform-status {
+            font-size: 0.875rem;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .status-live { background: rgba(5, 150, 105, 0.2); color: #10b981; }
+        .status-demo { background: rgba(251, 191, 36, 0.2); color: var(--color-accent-400); }
+        .status-dev { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        
+        .platform-description {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .platform-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .platform-features li {
+            padding: 0.5rem 0;
+            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .platform-features li::before {
+            content: '✓';
+            color: var(--color-secondary-500);
+            font-weight: bold;
+        }
+        
+        .platform-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+        
+        .btn-primary {
+            background: var(--color-accent-500);
+            color: black;
+        }
+        
+        .btn-primary:hover {
+            background: var(--color-accent-600);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Resources Section */
+        .resources {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4rem 0;
+            margin-top: 4rem;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .resource-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .resource-card h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--color-accent-400);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .platform-actions {
+                justify-content: center;
+            }
+            
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <div class="logo-icon">⚖️</div>
+                    <div class="logo-text">
+                        <h1>IntegridAI Suite</h1>
+                        <p class="logo-subtitle">Portal de Desarrollo HackAI 2025</p>
+                    </div>
+                </div>
+                <div class="hackathon-badge">
+                    🏆 Universidad Austral
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">
+                <span class="pulse"></span>
+                PLATAFORMA COLABORATIVA HACKAI 2025
+            </div>
+            
+            <h1 class="hero-title">
+                Ecosistema IntegridAI
+            </h1>
+            
+            <p class="hero-subtitle">
+                Explora, experimenta y desarrolla sobre la plataforma RegTech líder de Argentina. 
+                Accede a todos los componentes del ecosistema IntegridAI para crear soluciones innovadoras de compliance empresarial.
+            </p>
+        </div>
+    </section>
+
+    <!-- Platforms Grid -->
+    <section class="platforms">
+        <div class="container">
+            <div class="platforms-grid">
+                <!-- IntegridAI Suite Lite -->
+                <div class="platform-card">
+                    <div class="platform-header">
+                        <div class="platform-icon full">🏢</div>
+                        <div class="platform-info">
+                            <h3>IntegridAI Suite Lite</h3>
+                            <span class="platform-status status-live">🟢 EN VIVO</span>
+                        </div>
+                    </div>
+                    
+                    <p class="platform-description">
+                        Plataforma completa de gestión de integridad empresarial. Versión de demostración con todas las funcionalidades principales para desarrollo y experimentación.
+                    </p>
+                    
+                    <ul class="platform-features">
+                        <li>Landing page corporativa completa</li>
+                        <li>Sistema de gestión de riesgos</li>
+                        <li>Dashboard ejecutivo integrado</li>
+                        <li>APIs mock para desarrollo</li>
+                        <li>Documentación técnica completa</li>
+                    </ul>
+                    
+                    <div class="platform-actions">
+                        <a href="../integridai-landing-real/index.html" class="btn btn-primary" target="_blank">
+                            🚀 Acceder a la Plataforma
+                        </a>
+                        <a href="https://github.com/adrianlerer/integridai-hackai-2025/tree/main/integridai-landing-real" class="btn btn-secondary" target="_blank">
+                            📁 Ver Código Fuente
+                        </a>
+                    </div>
+                </div>
+
+                <!-- FlaiSimulator -->
+                <div class="platform-card">
+                    <div class="platform-header">
+                        <div class="platform-icon simulator">🎮</div>
+                        <div class="platform-info">
+                            <h3>FlaiSimulator</h3>
+                            <span class="platform-status status-live">🟢 FUNCIONAL</span>
+                        </div>
+                    </div>
+                    
+                    <p class="platform-description">
+                        Plataforma interactiva de capacitación en integridad con IA conversacional. Sistema gamificado para entrenar en cumplimiento de la Ley 27.401.
+                    </p>
+                    
+                    <ul class="platform-features">
+                        <li>IA conversacional con framework P4</li>
+                        <li>3 personajes especializados en compliance</li>
+                        <li>Escenarios reales de entrenamiento</li>
+                        <li>Sistema de progreso y certificación</li>
+                        <li>Interface responsive y moderna</li>
+                    </ul>
+                    
+                    <div class="platform-actions">
+                        <a href="../flaisimulator-fixed/index.html" class="btn btn-primary" target="_blank">
+                            🎯 Probar FlaiSimulator
+                        </a>
+                        <a href="https://github.com/adrianlerer/integridai-hackai-2025/tree/main/flaisimulator-fixed" class="btn btn-secondary" target="_blank">
+                            🔧 Explorar Código
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Repositorio Público -->
+                <div class="platform-card">
+                    <div class="platform-header">
+                        <div class="platform-icon repo">📚</div>
+                        <div class="platform-info">
+                            <h3>Repositorio HackAI 2025</h3>
+                            <span class="platform-status status-dev">🔵 DESARROLLO</span>
+                        </div>
+                    </div>
+                    
+                    <p class="platform-description">
+                        Repositorio público colaborativo con toda la documentación, APIs mock, y recursos para el desarrollo durante HackAI 2025.
+                    </p>
+                    
+                    <ul class="platform-features">
+                        <li>Documentación técnica completa</li>
+                        <li>APIs mock para integración</li>
+                        <li>Challenges de desarrollo estructurados</li>
+                        <li>Guidelines de contribución</li>
+                        <li>Resources y datasets de prueba</li>
+                    </ul>
+                    
+                    <div class="platform-actions">
+                        <a href="https://github.com/adrianlerer/integridai-hackai-2025" class="btn btn-primary" target="_blank">
+                            📦 GitHub Repository
+                        </a>
+                        <a href="https://github.com/adrianlerer/integridai-hackai-2025/blob/main/README.md" class="btn btn-secondary" target="_blank">
+                            📖 Documentación
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; font-weight: 700; margin-bottom: 3rem;">
+                Recursos para Desarrollo
+            </h2>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">🎨</div>
+                    <h4>Frontend Enhancement</h4>
+                    <p>Modifica y mejora las interfaces de usuario. Experimenta con nuevos componentes y experiencias.</p>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">🔌</div>
+                    <h4>API Integration</h4>
+                    <p>Conecta los módulos a través de APIs robustas. Crea integraciones y servicios escalables.</p>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">🧠</div>
+                    <h4>FlaiSimulator Extensions</h4>
+                    <p>Extiende las capacidades del simulador. Agrega nuevos escenarios y funcionalidades de IA.</p>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">🔗</div>
+                    <h4>Module Integration</h4>
+                    <p>Crea conexiones fluidas entre componentes. Desarrolla workflows y automatización.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="https://github.com/adrianlerer/integridai-hackai-2025">GitHub Repository</a>
+                    <a href="https://github.com/adrianlerer/integridai-hackai-2025/blob/main/README.md">Documentación</a>
+                    <a href="https://github.com/adrianlerer/integridai-hackai-2025/issues">Issues & Support</a>
+                    <a href="https://github.com/adrianlerer/integridai-hackai-2025/blob/main/hackathon/guidelines/">Guidelines</a>
+                </div>
+                
+                <p>
+                    <strong>IntegridAI Suite</strong> - HackAI 2025 | Universidad Austral
+                </p>
+                <p style="font-size: 0.875rem; margin-top: 0.5rem;">
+                    Plataforma RegTech colaborativa para la innovación en compliance empresarial argentino
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple smooth scrolling for internal links
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 IntegridAI Suite Portal loaded');
+            
+            // Add click tracking for analytics
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const action = this.textContent.trim();
+                    console.log(`User clicked: ${action}`);
+                });
+            });
+            
+            // Add hover effects for cards
+            const cards = document.querySelectorAll('.platform-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.borderColor = 'rgba(251, 191, 36, 0.5)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.15)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

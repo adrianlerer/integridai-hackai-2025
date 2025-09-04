@@ -625,7 +625,7 @@ class FlaiSimulator {
         this.addAIMessage(character.welcomeMessage);
     }
 
-    sendMessage() {
+    async sendMessage() {
         const input = document.getElementById('messageInput');
         const message = input.value.trim();
         
@@ -640,10 +640,13 @@ class FlaiSimulator {
         this.saveUserProgress();
         
         // Generate AI response
-        setTimeout(() => {
-            const response = this.generateAIResponse(message);
+        try {
+            const response = await this.generateAIResponse(message);
             this.addAIMessage(response);
-        }, 1000);
+        } catch (error) {
+            console.error('Error generating AI response:', error);
+            this.addAIMessage("Disculpa, tuve un problema técnico. ¿Podrías repetir tu pregunta?");
+        }
     }
 
     addUserMessage(message) {
@@ -686,22 +689,103 @@ class FlaiSimulator {
         area.innerHTML = '';
     }
 
-    generateAIResponse(message) {
+    async generateAIResponse(message) {
+        try {
+            // Show typing indicator
+            this.showTypingIndicator();
+            
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: message,
+                    character: this.currentCharacter
+                })
+            });
+            
+            const data = await response.json();
+            
+            // Hide typing indicator
+            this.hideTypingIndicator();
+            
+            if (data.success) {
+                return data.response;
+            } else {
+                console.error('AI API Error:', data.error);
+                return this.getFallbackResponse(message);
+            }
+            
+        } catch (error) {
+            console.error('Network Error:', error);
+            this.hideTypingIndicator();
+            return this.getFallbackResponse(message);
+        }
+    }
+
+    getFallbackResponse(message) {
         const character = this.characters[this.currentCharacter];
-        const responses = character.responses;
         const lowerMessage = message.toLowerCase();
         
-        // Simple keyword matching
-        if (lowerMessage.includes('compliance') || lowerMessage.includes('cumplimiento')) {
-            return responses.compliance[Math.floor(Math.random() * responses.compliance.length)];
-        } else if (lowerMessage.includes('riesgo') || lowerMessage.includes('risk')) {
-            return responses.risk[Math.floor(Math.random() * responses.risk.length)];
-        } else if (lowerMessage.includes('ética') || lowerMessage.includes('ethics')) {
-            return responses.ethics[Math.floor(Math.random() * responses.ethics.length)];
-        } else if (lowerMessage.includes('27401') || lowerMessage.includes('ley')) {
-            return responses.law[Math.floor(Math.random() * responses.law.length)];
+        // Intelligent fallback responses per character
+        const fallbackResponses = {
+            mentor: {
+                default: "Como experto en compliance, te puedo decir que es una excelente pregunta. La Ley 27.401 establece marcos claros para estos casos. ¿Podrías ser más específico sobre tu situación?",
+                regalos: "Según la normativa, las políticas de regalos deben establecer límites claros. Recomiendo máximo $500 ARS y registro obligatorio para cualquier obsequio.",
+                compliance: "El compliance efectivo requiere tres elementos: prevención, detección y respuesta. ¿En cuál de estos aspectos necesitas más orientación?"
+            },
+            auditora: {
+                default: "En mi experiencia auditando programas de integridad, veo que necesitas una solución práctica. ¿Qué controles tienes implementados actualmente?",
+                regalos: "Para control de regalos implementamos: registro digital, aprobaciones automáticas hasta $300 y manual para superiores. ¿Tienes algún sistema similar?",
+                compliance: "Como auditora, siempre evalúo efectividad vs esfuerzo. ¿Tu programa actual está generando los resultados esperados?"
+            },
+            ceo: {
+                default: "Desde la perspectiva ejecutiva, el compliance debe crear valor para el negocio. ¿Cómo está impactando este tema en tus objetivos estratégicos?",
+                regalos: "Las políticas deben equilibrar relaciones comerciales y cumplimiento. ¿Has evaluado el impacto en tus clientes y proveedores?",
+                compliance: "El compliance es inversión estratégica que protege reputación y reduce riesgos. ¿Necesitas ayuda con el business case?"
+            }
+        };
+        
+        const charResponses = fallbackResponses[this.currentCharacter] || fallbackResponses.mentor;
+        
+        if (lowerMessage.includes('regalo') || lowerMessage.includes('obsequio')) {
+            return charResponses.regalos || charResponses.default;
+        } else if (lowerMessage.includes('compliance') || lowerMessage.includes('cumplimiento')) {
+            return charResponses.compliance || charResponses.default;
         } else {
-            return responses.general[Math.floor(Math.random() * responses.general.length)];
+            return charResponses.default;
+        }
+    }
+
+    showTypingIndicator() {
+        const area = document.getElementById('conversationArea');
+        const character = this.characters[this.currentCharacter];
+        
+        const typingDiv = document.createElement('div');
+        typingDiv.id = 'typingIndicator';
+        typingDiv.className = 'flex items-start space-x-3';
+        typingDiv.innerHTML = `
+            <div class="w-8 h-8 bg-gradient-to-br from-${character.color}-500 to-${character.color}-600 rounded-full flex items-center justify-center">
+                <i data-lucide="${character.icon}" class="w-4 h-4 text-white"></i>
+            </div>
+            <div class="bg-gray-100 rounded-xl p-3 max-w-xs">
+                <div class="flex space-x-1">
+                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                </div>
+            </div>
+        `;
+        area.appendChild(typingDiv);
+        area.scrollTop = area.scrollHeight;
+        lucide.createIcons();
+    }
+
+    hideTypingIndicator() {
+        const indicator = document.getElementById('typingIndicator');
+        if (indicator) {
+            indicator.remove();
         }
     }
 

@@ -1,9 +1,9 @@
 [build]
   publish = "."
-  command = "echo 'Static site ready'"
+  command = ""
 
 [build.environment]
-  NODE_VERSION = "18"
+  PYTHON_VERSION = "3.11"
 
 [[headers]]
   for = "/*"

@@ -3,7 +3,7 @@
   command = ""
 
 [build.environment]
-  PYTHON_VERSION = "3.11"
+  DISABLE_PYTHON_BUILDS = "true"
 
 [[headers]]
   for = "/*"

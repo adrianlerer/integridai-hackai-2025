@@ -1,0 +1,9 @@
+# IntegridAI RegTech Platform - HackAI 2025
+# FLAISimulator routing
+/flaisimulator/* /flaisimulator/index.html 200
+
+# API Functions routing  
+/api/* /.netlify/functions/:splat 200
+
+# IntegridAI Gestión de Integridad (Main React App)
+/*    /index.html   200

@@ -1,88 +1,30 @@
 {
-  "name": "integridai-hackai-2025",
-  "version": "1.0.0-hackathon",
-  "description": "IntegridAI Suite - HackAI 2025 Universidad Austral",
-  "main": "index.js",
+  "name": "integridai-netlify-unified",
+  "version": "1.0.0",
+  "description": "IntegridAI RegTech Platform - HackAI 2025",
+  "main": "public/index.html",
   "scripts": {
-    "dev": "concurrently \"npm run api:mock\" \"npm run frontend:dev\"",
-    "api:mock": "node api/mock/regtech.js",
-    "frontend:dev": "cd src/frontend && npm run dev",
-    "build": "npm run build:frontend && npm run build:api",
-    "build:frontend": "cd src/frontend && npm run build",
-    "build:api": "echo 'Mock API build complete'",
-    "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "seed:demo": "node scripts/seed-demo-data.js",
-    "generate:samples": "node scripts/generate-sample-analyses.js",
-    "docker:build": "docker build -t integridai-hackai .",
-    "docker:run": "docker run -p 3000:3000 integridai-hackai",
-    "deploy:vercel": "vercel --prod",
-    "deploy:netlify": "netlify deploy --prod"
+    "build": "echo 'Static build complete'",
+    "dev": "netlify dev",
+    "deploy": "netlify deploy --prod"
   },
   "keywords": [
     "regtech",
     "compliance",
     "ai",
-    "hackathon",
+    "ley27401",
     "argentina",
-    "ley-27401",
-    "fintech"
+    "hackai2025"
   ],
-  "author": {
-    "name": "Adrian Lerer",
-    "email": "adrian@lerer.com.ar",
-    "url": "https://integridai.com.ar"
-  },
+  "author": "IntegridAI",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/adrianlerer/integridai-hackai-2025.git"
-  },
-  "bugs": {
-    "url": "https://github.com/adrianlerer/integridai-hackai-2025/issues"
-  },
-  "homepage": "https://github.com/adrianlerer/integridai-hackai-2025#readme",
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "concurrently": "^8.2.0",
-    "dotenv": "^16.3.1",
-    "helmet": "^7.0.0",
-    "morgan": "^1.10.0",
-    "compression": "^1.7.4"
+    "node-fetch": "^2.7.0"
   },
   "devDependencies": {
-    "jest": "^29.6.2",
-    "eslint": "^8.46.0",
-    "prettier": "^3.0.1",
-    "nodemon": "^3.0.1",
-    "@types/node": "^20.5.0",
-    "@types/express": "^4.17.17",
-    "@types/cors": "^2.8.13"
+    "netlify-cli": "^17.0.0"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0"
-  },
-  "hackathon": {
-    "event": "HackAI 2025",
-    "university": "Universidad Austral",
-    "date": "2025-09-01",
-    "challenges": [
-      "frontend-ux-ui",
-      "backend-apis",
-      "data-analytics",
-      "mobile-experience"
-    ],
-    "mentor": {
-      "name": "Adrian Lerer",
-      "email": "adrian@lerer.com.ar",
-      "linkedin": "https://linkedin.com/in/adrianlerer"
-    }
-  },
-  "config": {
-    "demo_mode": true,
-    "mock_apis": true,
-    "real_integrations": false
+    "node": ">=18.0.0"
   }
 }

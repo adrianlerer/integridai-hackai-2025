@@ -1,228 +1,151 @@
-# IntegridAI Suite - HackAI 2025 Public Platform
+# IntegridAI RegTech Platform - HackAI 2025
 
-## 🎯 Overview
+![IntegridAI Logo](https://img.shields.io/badge/IntegridAI-RegTech%20Platform-blue?style=for-the-badge&logo=react)
+![HackAI 2025](https://img.shields.io/badge/HackAI-2025-gold?style=for-the-badge)
+![AI Powered](https://img.shields.io/badge/AI-Powered-green?style=for-the-badge&logo=openai)
 
-**IntegridAI Suite** is Argentina's leading RegTech platform for corporate integrity and compliance management, built around **Ley 27.401** (Argentine Corporate Criminal Liability Law). This public repository provides a collaborative environment for HackAI 2025 participants to explore, extend, and innovate on real-world compliance technology.
+## 🚀 Plataforma de Compliance Empresarial con IA Conversacional
 
-## 🏗️ Architecture
+Plataforma RegTech especializada en **Ley 27.401** (Responsabilidad Penal Empresaria Argentina) con IA conversacional real para entrenamiento en compliance y simulación de escenarios de corrupción.
 
-### Core Components
+## 📋 Módulos Incluidos
 
-#### **🌐 IntegridAI Landing** (`integridai-landing-real/`)
-Professional landing page showcasing the complete IntegridAI ecosystem. Built with React and optimized for production deployment.
+### ⚠️ FLAISimulator - Simulador de Corrupción
+- **Catalina Oportunista**: Personaje de IA que simula tentaciones de corrupción
+- **Dr. Mentor**: Experto académico en Ley 27.401
+- **Ana Auditora**: Especialista en controles operacionales
+- **Carlos CEO**: Perspectiva estratégica ejecutiva
 
-**Key Features:**
-- Corporate branding and messaging
-- Feature demonstrations
-- Integration points overview
-- Production-ready build
+### 🔧 IntegridAI Suite (En desarrollo)
+- Dashboard de compliance en tiempo real
+- Análisis automatizado de riesgo
+- Auditorías inteligentes con IA
+- Reportes regulatorios automáticos
 
-#### **🎮 FlaiSimulator** (`flaisimulator-fixed/`)
-Interactive compliance training platform with conversational AI capabilities for Ley 27.401 education.
+### 🌐 Portal Principal
+- Información corporativa
+- Documentación técnica
+- Enlaces a [integridai.com.ar](https://integridai.com.ar)
 
-**Key Features:**
-- AI-powered conversation engine (P4 framework)
-- Three specialized characters: Dr. Mentor, Ana Auditora, Carlos CEO
-- Real-world compliance scenarios
-- Progress tracking and certification paths
+## 🛠️ Tecnologías
 
-#### **🔧 Backend APIs** (`api/`, `src/`)
-Mock API endpoints and backend infrastructure for development and experimentation.
+- **Frontend**: HTML5, CSS3, JavaScript vanilla
+- **Backend**: Netlify Functions (Node.js)
+- **IA**: OpenRouter API con Claude 3.5 Sonnet
+- **Deployment**: Netlify
+- **Especialización**: Ley 27.401 Argentina
 
-**Available Endpoints:**
-- Compliance assessment APIs
-- Risk management simulators  
-- Integration testing frameworks
-- Data processing pipelines
+## 🚀 Deployment en Netlify
 
-## 🚀 Quick Start
+### Requisitos Previos
+- Cuenta de Netlify
+- Clave API de OpenRouter
+- Node.js 18+
 
-### Prerequisites
-- Git
-- Python 3.8+ or Node.js 16+
-- Web browser
+### Pasos de Deployment
 
-### Local Development
+1. **Conectar con Netlify**
+   ```bash
+   npm install -g netlify-cli
+   netlify login
+   ```
+
+2. **Configurar Variables de Entorno**
+   En Netlify Dashboard → Site settings → Environment variables:
+   ```
+   OPENROUTER_API_KEY=tu_clave_api_aqui
+   ```
+
+3. **Deploy**
+   ```bash
+   netlify deploy --prod --dir=public
+   ```
+
+### Configuración de Build
+```toml
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "18"
+```
+
+## 🔧 Desarrollo Local
 
 ```bash
-# Clone the repository
-git clone https://github.com/adrianlerer/integridai-hackai-2025.git
-cd integridai-hackai-2025
+# Instalar dependencias
+npm install
 
-# Option 1: IntegridAI Landing
-cd integridai-landing-real
-python -m http.server 3000
-# Access: http://localhost:3000
-
-# Option 2: FlaiSimulator  
-cd flaisimulator-fixed
-python -m http.server 3001
-# Access: http://localhost:3001
-
-# Option 3: Backend Development
-cd api
-python -m http.server 3002
-# Access: http://localhost:3002
+# Desarrollo local
+npm run dev
 ```
 
-## 🎯 HackAI 2025 Collaboration Opportunities
+## 🎯 Funcionalidades Principales
 
-### **🎨 Frontend Enhancement**
-Modernize and enhance user interfaces across all platform components:
+### IA Conversacional Real
+- ✅ Integración con OpenRouter API
+- ✅ Claude 3.5 Sonnet para análisis de compliance
+- ✅ Prompts XML estructurados para expertise en Ley 27.401
+- ✅ Reasoning levels adaptativos (bajo/medio/alto)
 
-- **Landing Page Optimization**: Improve UX/UI of `integridai-landing-real/`
-- **Component Library**: Create reusable UI components
-- **Responsive Design**: Enhanced mobile experience
-- **Accessibility**: WCAG compliance implementation
+### Simulación de Corrupción
+- ⚠️ Catalina Oportunista: Tentaciones realistas de corrupción
+- 🎯 Escenarios contextualizados por sector empresarial
+- 📚 Análisis post-simulación con expertos en compliance
+- ⚖️ Evaluación de riesgos según Ley 27.401
 
-### **🔌 API Integration**
-Connect platform modules through robust API architecture:
+### Expertise en Compliance
+- 📖 Citación específica de artículos Ley 27.401
+- 🔍 Análisis contextual por tipo de empresa
+- 📋 Recomendaciones operacionales implementables
+- 💼 Perspectiva estratégica ejecutiva
 
-- **Microservices Architecture**: Design scalable service connections
-- **Real-time Communication**: WebSocket implementations  
-- **Data Synchronization**: Cross-platform state management
-- **Authentication Systems**: Secure access control
+## 📚 Documentación
 
-### **🧠 FlaiSimulator Extensions**
-Enhance the conversational AI training platform:
+### Endpoints de API (Netlify Functions)
 
-- **New Training Modules**: Additional compliance scenarios
-- **Advanced AI Conversations**: Enhanced natural language processing
-- **Gamification Features**: Progress systems and achievements  
-- **Multi-language Support**: Spanish/English localization
+- `GET /.netlify/functions/get-characters` - Lista personajes disponibles
+- `POST /.netlify/functions/start-conversation` - Inicia conversación con IA
+- `POST /.netlify/functions/continue-conversation` - Continúa conversación
+- `POST /.netlify/functions/end-conversation` - Finaliza con análisis
 
-### **🔗 Module Integration**
-Create seamless connections between platform components:
+### Estructura de Personajes
 
-- **Unified Dashboard**: Single-point access to all features
-- **Data Analytics**: Cross-platform insights and reporting
-- **Workflow Automation**: Compliance process orchestration
-- **Third-party Integrations**: External service connections
-
-## 📁 Repository Structure
-
-```
-integridai-hackai-2025/
-├── integridai-landing-real/     # Production landing page
-│   ├── assets/                  # Images, fonts, compiled JS/CSS
-│   ├── images/                  # Content images
-│   ├── index.html              # Main landing page
-│   ├── _headers                # Netlify headers configuration
-│   └── _redirects              # Netlify routing rules
-│
-├── flaisimulator-fixed/         # Interactive training platform
-│   ├── index.html              # Main application
-│   ├── app.js                  # Core functionality and AI engine
-│   ├── netlify.toml            # Deployment configuration
-│   └── _redirects              # SPA routing
-│
-├── api/                         # Mock API endpoints
-│   ├── mock/                   # Simulated data services
-│   ├── endpoints/              # API route definitions
-│   └── middleware/             # Request/response processing
-│
-├── src/                         # Source code and utilities
-│   ├── components/             # Reusable UI components  
-│   ├── services/              # Business logic
-│   └── utils/                 # Helper functions
-│
-├── hackathon/                   # HackAI 2025 specific resources
-│   ├── challenges/             # Development challenges
-│   ├── guidelines/             # Contribution guidelines
-│   └── resources/              # Documentation and assets
-│
-└── docs/                        # Technical documentation
-    ├── API.md                  # API documentation
-    ├── DEPLOYMENT.md           # Deployment guides
-    └── ARCHITECTURE.md         # System architecture
+```javascript
+{
+  "catalina": "Simulador de corrupción y tentaciones",
+  "mentor": "Experto académico Ley 27.401", 
+  "ana": "Controles operacionales",
+  "carlos": "Decisiones estratégicas"
+}
 ```
 
-## 🛠️ Development Guidelines
+## 🌐 URLs de Producción
 
-### **Code Standards**
-- **ES6+ JavaScript** for frontend development
-- **Python 3.8+** for backend services
-- **Semantic versioning** for releases
-- **Conventional commits** for git history
+- **Portal Principal**: `/`
+- **FLAISimulator**: `/flaisimulator/`
+- **IntegridAI Suite**: `/integridai-suite/`
+- **Sitio Corporativo**: [integridai.com.ar](https://integridai.com.ar)
 
-### **Testing Requirements**
-- **Unit tests** for core functionality
-- **Integration tests** for API endpoints  
-- **E2E tests** for user workflows
-- **Performance benchmarks** for optimization
+## 🔐 Seguridad
 
-### **Documentation**
-- **Code comments** for complex logic
-- **API documentation** using OpenAPI/Swagger
-- **README files** for each major component
-- **Change logs** for version updates
+- HTTPS habilitado por defecto
+- Headers de seguridad configurados
+- API Keys protegidas en variables de entorno
+- CORS configurado para dominios autorizados
 
-## 🔐 Security Considerations
+## 📞 Contacto
 
-This public repository contains **demonstration and development code only**:
+- **Empresa**: IntegridAI
+- **Evento**: HackAI 2025
+- **Especialización**: RegTech Ley 27.401
+- **Sitio Web**: [integridai.com.ar](https://integridai.com.ar)
 
-- ❌ **No production credentials** or sensitive data
-- ❌ **No real user information** or corporate data
-- ❌ **No production API keys** or authentication tokens
-- ✅ **Mock data and simulated responses** for safe development
-- ✅ **Sanitized examples** and test cases
-- ✅ **Public documentation** and open-source components
+## 📄 Licencia
 
-## 🎯 Production vs Development
-
-| Component | Development (This Repo) | Production (Private) |
-|-----------|------------------------|---------------------|
-| **Authentication** | Mock/Disabled | Full OAuth/SAML |
-| **Data Sources** | Simulated | Real AFIP/BCRA/CNV APIs |
-| **Database** | SQLite/JSON files | PostgreSQL cluster |
-| **Analytics** | Local logging | Enterprise monitoring |
-| **Compliance** | Demo scenarios | Real corporate data |
-
-## 🌟 Contributing
-
-### **Getting Started**
-1. **Fork** this repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-### **Contribution Areas**
-- **🐛 Bug fixes** and stability improvements  
-- **✨ New features** and functionality enhancements
-- **📚 Documentation** updates and improvements
-- **🎨 UI/UX** design and user experience enhancements
-- **⚡ Performance** optimizations and refactoring
-- **🧪 Testing** coverage and quality assurance
-
-## 📞 Support & Resources
-
-### **HackAI 2025 Resources**
-- **Project Repository**: [github.com/adrianlerer/integridai-hackai-2025](https://github.com/adrianlerer/integridai-hackai-2025)
-- **Live Demos**: Available during hackathon sessions
-- **Technical Support**: Via GitHub Issues and discussions
-- **Documentation**: Comprehensive guides in `/docs` directory
-
-### **Technology Stack**
-- **Frontend**: React, TypeScript, Tailwind CSS
-- **Backend**: Python, FastAPI, Node.js
-- **Database**: SQLite (dev), PostgreSQL (production)
-- **Deployment**: Netlify, Vercel, Docker
-- **APIs**: REST, WebSocket, GraphQL
+MIT License - IntegridAI © 2025
 
 ---
 
-## 📋 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-## 🎯 Acknowledgments
-
-- **Universidad Austral** - HackAI 2025 Organization
-- **MiniMax AI** - Original landing page development
-- **IntegridAI Team** - Platform architecture and design
-- **Open Source Community** - Libraries and frameworks
-
----
-
-**Built for HackAI 2025 | Universidad Austral | RegTech Innovation Challenge**
+**🏆 HackAI 2025** | **🤖 IA Conversacional Real** | **⚖️ Especialización Ley 27.401** | **🇦🇷 Argentina RegTech**

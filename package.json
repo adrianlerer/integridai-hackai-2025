@@ -19,7 +19,8 @@
   "author": "IntegridAI",
   "license": "MIT",
   "dependencies": {
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^2.7.0",
+    "axios": "^1.6.0"
   },
   "devDependencies": {
     "netlify-cli": "^17.0.0"

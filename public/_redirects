@@ -2,6 +2,11 @@
 # FLAISimulator routing
 /flaisimulator/* /flaisimulator/index.html 200
 
+# HackAI Info and Documentation
+/hackai-info.html /hackai-info.html 200
+/docs /hackai-info.html 200
+/github /hackai-info.html 200
+
 # API Functions routing  
 /api/* /.netlify/functions/:splat 200
 

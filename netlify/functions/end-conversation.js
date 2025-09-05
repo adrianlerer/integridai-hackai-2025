@@ -79,7 +79,11 @@ exports.handler = async (event, context) => {
 
 async function generateFinalAnalysis(character) {
     try {
-        const openrouter_api_key = process.env.OPENROUTER_API_KEY || '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';
+        const openrouter_api_key = process.env.OPENROUTER_API_KEY;
+        
+        if (!openrouter_api_key) {
+            throw new Error('OPENROUTER_API_KEY no configurada en variables de entorno');
+        }
         
         const character_info = {
             'catalina': {

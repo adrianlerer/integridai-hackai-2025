@@ -5,6 +5,9 @@
 # Gestión de Integridad Dashboard
 /gestion-integridad/* /gestion-integridad/index.html 200
 
+# RAG Combined Demo
+/rag-demo/* /rag-demo/index.html 200
+
 # HackAI Info and Documentation
 /hackai-info.html /hackai-info.html 200
 /docs /hackai-info.html 200

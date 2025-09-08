@@ -3,705 +3,366 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLAISimulator - IntegridAI</title>
-    <meta name="description" content="FLAISimulator - Entrenamiento anti-corrupción con IA conversacional especializada en Ley 27.401">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-color: #2563eb;
-            --secondary-color: #1e40af;
-            --accent-color: #3b82f6;
-            --success-color: #059669;
-            --warning-color: #d97706;
-            --danger-color: #dc2626;
-            --dark-bg: #0f172a;
-            --card-bg: #1e293b;
-            --text-light: #e2e8f0;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: var(--text-light);
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        /* Header */
-        header {
-            background: rgba(30, 41, 59, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 0;
-        }
-
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        .btn-secondary:hover {
-            background: var(--accent-color);
-            color: white;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Character Selection */
-        .character-selection {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .character-card {
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .character-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border-color: var(--accent-color);
-        }
-
-        .character-card.selected {
-            border-color: var(--success-color);
-            background: linear-gradient(135deg, rgba(5, 150, 105, 0.1), var(--card-bg));
-        }
-
-        .character-avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .character-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-light);
-            margin-bottom: 0.5rem;
-        }
-
-        .character-role {
-            color: var(--accent-color);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .character-description {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Chat Interface */
-        .chat-container {
-            display: none;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            height: 600px;
-            flex-direction: column;
-        }
-
-        .chat-container.active {
-            display: flex;
-        }
-
-        .chat-header {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            color: white;
-            border-radius: 12px 12px 0 0;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .message {
-            max-width: 80%;
-            padding: 0.75rem 1rem;
-            border-radius: 12px;
-            word-wrap: break-word;
-        }
-
-        .message.user {
-            background: var(--accent-color);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        .message.ai {
-            background: var(--border-color);
-            color: var(--text-light);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-
-        .chat-input-container {
-            padding: 1rem;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            gap: 1rem;
-            background: var(--dark-bg);
-            border-radius: 0 0 12px 12px;
-        }
-
-        .chat-input {
-            flex: 1;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.75rem;
-            color: var(--text-light);
-            font-size: 1rem;
-            resize: none;
-            min-height: 44px;
-            max-height: 120px;
-        }
-
-        .chat-input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: none;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            padding: 0.5rem 0;
-        }
-
-        .loading.active {
-            display: flex;
-        }
-
-        .loading-dots {
-            display: flex;
-            gap: 4px;
-        }
-
-        .loading-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            animation: loadingPulse 1.4s infinite ease-in-out both;
-        }
-
-        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes loadingPulse {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-
-        /* Warning Banner */
-        .warning-banner {
-            background: linear-gradient(135deg, var(--warning-color), #f59e0b);
-            color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        /* Title Section */
-        .page-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .page-title h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--accent-color), #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .page-title p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-
-            .character-selection {
-                grid-template-columns: 1fr;
-            }
-
-            .chat-container {
-                height: 500px;
-            }
-
-            .page-title h1 {
-                font-size: 2rem;
-            }
-
-            nav {
-                padding: 0 1rem;
-            }
-        }
-    </style>
+    <title>FLAISimulator - Entrenamiento en Ética Empresarial Argentina</title>
+    <meta name="description" content="El juego viral que entrena tu ética empresarial mientras colectamos datos culturales argentinos. ¿Qué tan ético eres realmente?">
+    <meta property="og:title" content="FLAISimulator - Test de Ética Empresarial Argentina" />
+    <meta property="og:description" content="El primer simulador de ética empresarial argentina. 10 dilemas reales, 5 minutos, análisis cultural profundo. ¿Qué tan ético eres en tu trabajo?" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://adrianlerer.github.io/integridai-hackai-2025/flaisimulator/" />
+    <meta property="og:image" content="https://adrianlerer.github.io/integridai-hackai-2025/flaisimulator/og-image.jpg" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FLAISimulator - Test de Ética Empresarial Argentina">
+    <meta name="twitter:description" content="Simulador profesional de ética empresarial argentina. Casos reales, análisis cultural, ranking profesional.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="../" class="logo">
-                <div class="logo-icon">I</div>
-                <span>IntegridAI</span>
-            </a>
-            <a href="../" class="btn btn-secondary">← Volver al Portal</a>
-        </nav>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">FLAI</span><span class="logo-accent">Simulator</span>
+            </div>
+            <div class="nav-links">
+                <a href="#como-funciona">Cómo Funciona</a>
+                <a href="#ranking">Ranking</a>
+                <a href="#about">Nosotros</a>
+                <a href="game.html" class="nav-cta">Jugar Ahora</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    ¿Qué tan <span class="highlight">ético</span> eres en tu trabajo?
+                </h1>
+                <p class="hero-subtitle">
+                    El primer simulador de ética empresarial argentina que combina gaming con investigación cultural. 
+                    <strong>10 dilemas reales, 5 minutos, resultados que te van a sorprender.</strong>
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="total-players">2,847</span>
+                        <span class="stat-label">Jugadores</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="total-decisions">12,394</span>
+                        <span class="stat-label">Decisiones Analizadas</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">89%</span>
+                        <span class="stat-label">Recomiendan</span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <a href="game.html" class="btn btn-primary">Comenzar Test Ahora</a>
+                    <button class="btn btn-secondary" id="share-challenge">Desafiar Colegas</button>
+                </div>
+                <p class="hero-disclaimer">
+                    ⚡ <strong>Gratis y anónimo.</strong> Basado en Ley 27.401 - Responsabilidad Penal Empresaria
+                </p>
+            </div>
+            <div class="hero-visual">
+                <div class="game-preview">
+                    <div class="preview-screen">
+                        <div class="preview-header">
+                            <span class="preview-dot red"></span>
+                            <span class="preview-dot yellow"></span>
+                            <span class="preview-dot green"></span>
+                        </div>
+                        <div class="preview-content">
+                            <div class="scenario-preview">
+                                <h4>Dilema #1: El Cliente VIP</h4>
+                                <p>"Tu mejor cliente te ofrece un 'regalo' de $50,000 para acelerar su proyecto..."</p>
+                                <div class="preview-options">
+                                    <div class="option">✅ Aceptar discretamente</div>
+                                    <div class="option">⚖️ Consultar con legal</div>
+                                    <div class="option">❌ Rechazar inmediatamente</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <main class="container">
-        <div class="page-title">
-            <h1>FLAISimulator</h1>
-            <p>Entrenamiento anti-corrupción con IA conversacional especializada en Ley 27.401</p>
-        </div>
-
-        <div class="warning-banner">
-            ⚠️ Simulación Educativa: Este entorno recrea escenarios de corrupción para entrenamiento. Los personajes actúan roles ficticios con propósitos pedagógicos.
-        </div>
-
-        <div id="characterSelection" class="character-selection">
-            <div class="character-card" data-character="catalina">
-                <div class="character-avatar">🦹‍♀️</div>
-                <div class="character-name">Catalina Oportunista</div>
-                <div class="character-role">Contacto Corrupto</div>
-                <div class="character-description">
-                    Simula una persona que busca involucrar a tu empresa en esquemas de corrupción. 
-                    Te tentará con "oportunidades de negocio" cuestionables para probar tu respuesta ética.
+    <section id="como-funciona" class="how-it-works">
+        <div class="container">
+            <h2>¿Cómo Funciona FLAISimulator?</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">🎯</div>
+                    <h3>10 Dilemas Reales</h3>
+                    <p>Situaciones extraídas de casos reales del mercado argentino, adaptadas por expertos en compliance.</p>
                 </div>
-            </div>
-
-            <div class="character-card" data-character="mentor">
-                <div class="character-avatar">👨‍🏫</div>
-                <div class="character-name">Dr. Mentor</div>
-                <div class="character-role">Experto en Ley 27.401</div>
-                <div class="character-description">
-                    Académico especialista en compliance corporativo argentino. 
-                    Proporciona análisis técnico sobre prevención de corrupción y cumplimiento normativo.
+                <div class="step">
+                    <div class="step-icon">⚡</div>
+                    <h3>5 Minutos Total</h3>
+                    <p>Cada decisión cuenta. El tiempo presiona como en la vida real. ¿Qué harías bajo presión?</p>
                 </div>
-            </div>
-
-            <div class="character-card" data-character="ana">
-                <div class="character-avatar">👩‍💼</div>
-                <div class="character-name">Ana Auditora</div>
-                <div class="character-role">Auditora Senior</div>
-                <div class="character-description">
-                    Profesional en auditoría interna especializada en riesgos de corrupción. 
-                    Ayuda a identificar controles y procesos para prevenir irregularidades.
+                <div class="step">
+                    <div class="step-icon">📊</div>
+                    <h3>Análisis Cultural</h3>
+                    <p>Tu puntaje refleja patrones culturales argentinos. Comparate con otros profesionales.</p>
                 </div>
-            </div>
-
-            <div class="character-card" data-character="carlos">
-                <div class="character-avatar">👨‍💼</div>
-                <div class="character-name">Carlos CEO</div>
-                <div class="character-role">Director Ejecutivo</div>
-                <div class="character-description">
-                    CEO experimentado que ha implementado programas de compliance. 
-                    Comparte perspectivas estratégicas sobre gobierno corporativo y ética empresarial.
+                <div class="step">
+                    <div class="step-icon">🏆</div>
+                    <h3>Ranking Social</h3>
+                    <p>Compite con colegas y descubre quién tiene el perfil ético más sólido de tu empresa.</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div id="chatContainer" class="chat-container">
-            <div class="chat-header">
-                <div class="character-avatar" style="width: 50px; height: 50px; font-size: 1.5rem;" id="activeCharacterAvatar"></div>
-                <div>
-                    <div id="activeCharacterName" style="font-weight: 700; font-size: 1.1rem;"></div>
-                    <div id="activeCharacterRole" style="opacity: 0.9; font-size: 0.9rem;"></div>
+    <section id="ranking" class="ranking">
+        <div class="container">
+            <h2>Ranking de Ética Empresarial</h2>
+            <div class="ranking-tabs">
+                <button class="tab-btn active" data-tab="general">General</button>
+                <button class="tab-btn" data-tab="sectores">Por Sector</button>
+                <button class="tab-btn" data-tab="regiones">Por Región</button>
+            </div>
+            
+            <div class="ranking-content">
+                <div id="general-ranking" class="ranking-tab active">
+                    <div class="leaderboard">
+                        <div class="leader-item podium gold">
+                            <span class="position">🥇</span>
+                            <span class="name">María L.</span>
+                            <span class="score">94/100</span>
+                            <span class="sector">Fintech</span>
+                        </div>
+                        <div class="leader-item podium silver">
+                            <span class="position">🥈</span>
+                            <span class="name">Carlos R.</span>
+                            <span class="score">91/100</span>
+                            <span class="sector">Consultoría</span>
+                        </div>
+                        <div class="leader-item podium bronze">
+                            <span class="position">🥉</span>
+                            <span class="name">Ana S.</span>
+                            <span class="score">89/100</span>
+                            <span class="sector">IT</span>
+                        </div>
+                        <div class="leader-item">
+                            <span class="position">4</span>
+                            <span class="name">Diego M.</span>
+                            <span class="score">87/100</span>
+                            <span class="sector">Retail</span>
+                        </div>
+                        <div class="leader-item">
+                            <span class="position">5</span>
+                            <span class="name">Lucía F.</span>
+                            <span class="score">86/100</span>
+                            <span class="sector">Banca</span>
+                        </div>
+                    </div>
                 </div>
-                <button id="endChat" class="btn btn-secondary" style="margin-left: auto;">Terminar Chat</button>
             </div>
-
-            <div id="chatMessages" class="chat-messages">
-                <!-- Messages will be added here -->
-            </div>
-
-            <div class="loading" id="loadingIndicator">
-                <div class="loading-dots">
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                </div>
-                <span>Procesando respuesta...</span>
-            </div>
-
-            <div class="chat-input-container">
-                <textarea 
-                    id="chatInput" 
-                    class="chat-input" 
-                    placeholder="Escribe tu mensaje aquí..."
-                    rows="1"
-                ></textarea>
-                <button id="sendMessage" class="btn">Enviar</button>
+            
+            <div class="ranking-cta">
+                <p><strong>¿Dónde te ubicarías vos?</strong></p>
+                <a href="game.html" class="btn btn-primary">Descubrir Mi Posición</a>
             </div>
         </div>
-    </main>
+    </section>
 
+    <section class="testimonials">
+        <div class="container">
+            <h2>Lo Que Dicen Los Jugadores</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Me hizo replantear cómo manejo situaciones grises en mi trabajo. Súper realista."</p>
+                        <div class="testimonial-author">
+                            <strong>Laura M.</strong>
+                            <span>Directora de RRHH</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-score">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Lo jugamos en todo el equipo. Generó conversaciones súper importantes sobre ética."</p>
+                        <div class="testimonial-author">
+                            <strong>Roberto C.</strong>
+                            <span>Gerente de Ventas</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-score">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Increíble cómo te confronta con tu verdadero perfil ético. Muy argentino."</p>
+                        <div class="testimonial-author">
+                            <strong>Mariana K.</strong>
+                            <span>CFO</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-score">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Investigación Cultural + Gaming</h2>
+                    <p>FLAISimulator es más que un juego. Es la primera herramienta que combina entretenimiento viral con investigación cultural profunda sobre ética empresarial argentina.</p>
+                    
+                    <div class="about-features">
+                        <div class="feature">
+                            <h4>🧠 Basado en Ciencia</h4>
+                            <p>Desarrollado por expertos en compliance, psicología organizacional y análisis cultural.</p>
+                        </div>
+                        <div class="feature">
+                            <h4>📊 Datos Reales</h4>
+                            <p>Cada decisión alimenta nuestra base de datos cultural argentina más grande del país.</p>
+                        </div>
+                        <div class="feature">
+                            <h4>⚖️ Marco Legal</h4>
+                            <p>Alineado con Ley 27.401 de Responsabilidad Penal Empresaria de Argentina.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="research-note">
+                        <h4>🔬 Propósito de Investigación</h4>
+                        <p>Tus respuestas (completamente anónimas) nos ayudan a entender mejor los patrones culturales de decisión ética en Argentina. Este conocimiento contribuye a desarrollar mejores programas de compliance y entrenamiento ético para empresas argentinas.</p>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="culture-map">
+                        <h4>Mapa Cultural Argentino</h4>
+                        <div class="culture-stats">
+                            <div class="culture-stat">
+                                <span class="culture-label">Tendencia a consultar</span>
+                                <div class="culture-bar">
+                                    <div class="culture-fill" style="width: 78%"></div>
+                                </div>
+                                <span class="culture-value">78%</span>
+                            </div>
+                            <div class="culture-stat">
+                                <span class="culture-label">Aversión al riesgo</span>
+                                <div class="culture-bar">
+                                    <div class="culture-fill" style="width: 65%"></div>
+                                </div>
+                                <span class="culture-value">65%</span>
+                            </div>
+                            <div class="culture-stat">
+                                <span class="culture-label">Influencia social</span>
+                                <div class="culture-bar">
+                                    <div class="culture-fill" style="width: 84%"></div>
+                                </div>
+                                <span class="culture-value">84%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="viral-challenge">
+        <div class="container">
+            <div class="challenge-content">
+                <h2>🚀 ¡Desafiá a Tu Equipo!</h2>
+                <p>¿Creés que tu equipo de trabajo tiene un perfil ético sólido? <strong>¡Pónelos a prueba!</strong></p>
+                
+                <div class="challenge-steps">
+                    <div class="challenge-step">
+                        <span class="step-num">1</span>
+                        <p>Jugá vos primero y obtené tu puntaje</p>
+                    </div>
+                    <div class="challenge-step">
+                        <span class="step-num">2</span>
+                        <p>Compartí el desafío con tu equipo</p>
+                    </div>
+                    <div class="challenge-step">
+                        <span class="step-num">3</span>
+                        <p>Compartan resultados y discutan</p>
+                    </div>
+                </div>
+
+                <div class="challenge-actions">
+                    <a href="game.html" class="btn btn-primary">Empezar Mi Test</a>
+                    <button class="btn btn-secondary" id="share-team-challenge">Compartir Desafío</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">FLAI</span><span class="logo-accent">Simulator</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#privacy">Privacidad</a>
+                    <a href="#terms">Términos</a>
+                    <a href="mailto:contacto@flaisimulator.com">Contacto</a>
+                </div>
+                <div class="footer-social">
+                    <button class="social-btn" id="share-linkedin">LinkedIn</button>
+                    <button class="social-btn" id="share-whatsapp">WhatsApp</button>
+                    <button class="social-btn" id="share-twitter">Twitter</button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 FLAISimulator. Investigación cultural argentina en ética empresarial.</p>
+                <p><small>Basado en Ley 27.401 - Responsabilidad Penal Empresaria | Datos completamente anónimos</small></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="share.js"></script>
+    <script src="data-export.js"></script>
     <script>
-        class FLAISimulator {
-            constructor() {
-                this.currentCharacter = null;
-                this.conversationId = null;
-                this.messages = [];
-                this.isLoading = false;
-                
-                this.init();
-            }
-
-            init() {
-                this.bindEvents();
-                this.setupAutoResize();
-            }
-
-            bindEvents() {
-                // Character selection
-                document.querySelectorAll('.character-card').forEach(card => {
-                    card.addEventListener('click', () => {
-                        const character = card.dataset.character;
-                        this.selectCharacter(character, card);
-                    });
-                });
-
-                // Send message
-                document.getElementById('sendMessage').addEventListener('click', () => {
-                    this.sendMessage();
-                });
-
-                // Enter key to send
-                document.getElementById('chatInput').addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault();
-                        this.sendMessage();
-                    }
-                });
-
-                // End chat
-                document.getElementById('endChat').addEventListener('click', () => {
-                    this.endConversation();
-                });
-            }
-
-            setupAutoResize() {
-                const textarea = document.getElementById('chatInput');
-                textarea.addEventListener('input', function() {
-                    this.style.height = 'auto';
-                    this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-                });
-            }
-
-            selectCharacter(character, cardElement) {
-                // Remove previous selection
-                document.querySelectorAll('.character-card').forEach(card => {
-                    card.classList.remove('selected');
-                });
-
-                // Select new character
-                cardElement.classList.add('selected');
-                this.currentCharacter = character;
-
-                // Start conversation
-                this.startConversation(character);
-            }
-
-            async startConversation(character) {
-                try {
-                    this.showLoading(true);
-                    
-                    const response = await fetch('/.netlify/functions/start-conversation', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ character })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        this.conversationId = data.conversationId;
-                        this.showChatInterface(character);
-                        this.addMessage('ai', data.message);
-                    } else {
-                        throw new Error(data.error || 'Error al iniciar conversación');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('Error al conectar con el servidor. Verifica que las funciones estén deployadas correctamente.');
-                } finally {
-                    this.showLoading(false);
-                }
-            }
-
-            showChatInterface(character) {
-                const characterData = this.getCharacterData(character);
-                
-                // Update header
-                document.getElementById('activeCharacterAvatar').textContent = characterData.avatar;
-                document.getElementById('activeCharacterName').textContent = characterData.name;
-                document.getElementById('activeCharacterRole').textContent = characterData.role;
-                
-                // Show chat container
-                document.getElementById('characterSelection').style.display = 'none';
-                document.getElementById('chatContainer').classList.add('active');
-                
-                // Clear previous messages
-                document.getElementById('chatMessages').innerHTML = '';
-                this.messages = [];
-                
-                // Focus input
-                document.getElementById('chatInput').focus();
-            }
-
-            async sendMessage() {
-                if (this.isLoading) return;
-
-                const input = document.getElementById('chatInput');
-                const message = input.value.trim();
-                
-                if (!message || !this.conversationId) return;
-
-                // Add user message
-                this.addMessage('user', message);
-                input.value = '';
-                input.style.height = 'auto';
-
-                // Show loading
-                this.showLoading(true);
-
-                try {
-                    const response = await fetch('/.netlify/functions/continue-conversation', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            conversationId: this.conversationId,
-                            message: message
-                        })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        this.addMessage('ai', data.message);
-                    } else {
-                        throw new Error(data.error || 'Error al procesar mensaje');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    this.addMessage('ai', 'Disculpa, hubo un error técnico. Por favor intenta nuevamente.');
-                } finally {
-                    this.showLoading(false);
-                }
-            }
-
-            addMessage(sender, text) {
-                const messagesContainer = document.getElementById('chatMessages');
-                const messageDiv = document.createElement('div');
-                messageDiv.classList.add('message', sender);
-                messageDiv.textContent = text;
-                
-                messagesContainer.appendChild(messageDiv);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                
-                this.messages.push({ sender, text, timestamp: Date.now() });
-            }
-
-            showLoading(show) {
-                this.isLoading = show;
-                const loadingIndicator = document.getElementById('loadingIndicator');
-                const sendButton = document.getElementById('sendMessage');
-                
-                if (show) {
-                    loadingIndicator.classList.add('active');
-                    sendButton.disabled = true;
+        // Animate counters on page load
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target.toLocaleString();
+                    clearInterval(timer);
                 } else {
-                    loadingIndicator.classList.remove('active');
-                    sendButton.disabled = false;
+                    element.textContent = Math.floor(current).toLocaleString();
                 }
-            }
-
-            async endConversation() {
-                if (!this.conversationId) return;
-
-                try {
-                    await fetch('/.netlify/functions/end-conversation', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            conversationId: this.conversationId
-                        })
-                    });
-                } catch (error) {
-                    console.error('Error ending conversation:', error);
-                }
-
-                // Reset interface
-                this.currentCharacter = null;
-                this.conversationId = null;
-                this.messages = [];
-                
-                document.getElementById('chatContainer').classList.remove('active');
-                document.getElementById('characterSelection').style.display = 'grid';
-                
-                // Remove selections
-                document.querySelectorAll('.character-card').forEach(card => {
-                    card.classList.remove('selected');
-                });
-            }
-
-            getCharacterData(character) {
-                const characters = {
-                    catalina: {
-                        name: 'Catalina Oportunista',
-                        role: 'Contacto Corrupto',
-                        avatar: '🦹‍♀️'
-                    },
-                    mentor: {
-                        name: 'Dr. Mentor',
-                        role: 'Experto en Ley 27.401',
-                        avatar: '👨‍🏫'
-                    },
-                    ana: {
-                        name: 'Ana Auditora',
-                        role: 'Auditora Senior',
-                        avatar: '👩‍💼'
-                    },
-                    carlos: {
-                        name: 'Carlos CEO',
-                        role: 'Director Ejecutivo',
-                        avatar: '👨‍💼'
-                    }
-                };
-                
-                return characters[character] || characters.mentor;
-            }
+            }, 20);
         }
 
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new FLAISimulator();
+        // Tab functionality
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.ranking-tab').forEach(t => t.classList.remove('active'));
+                
+                btn.classList.add('active');
+                const tabId = btn.getAttribute('data-tab') + '-ranking';
+                const tab = document.getElementById(tabId);
+                if (tab) tab.classList.add('active');
+            });
+        });
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            const playersElement = document.getElementById('total-players');
+            const decisionsElement = document.getElementById('total-decisions');
+            
+            // Add some randomness to make it feel live
+            const basePlayers = 2847;
+            const baseDecisions = 12394;
+            const randomPlayers = basePlayers + Math.floor(Math.random() * 100);
+            const randomDecisions = baseDecisions + Math.floor(Math.random() * 500);
+            
+            animateCounter(playersElement, randomPlayers);
+            animateCounter(decisionsElement, randomDecisions);
         });
     </script>
 </body>

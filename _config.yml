@@ -1,0 +1,23 @@
+title: "FLAISimulator - Viral Ethics Training Game"
+description: "El primer simulador viral de ética empresarial argentina"
+url: "https://adrianlerer.github.io"
+baseurl: "/integridai-hackai-2025"
+
+# GitHub Pages settings
+github:
+  repository_url: "https://github.com/adrianlerer/integridai-hackai-2025"
+
+# Enable GitHub Pages
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Include files/directories
+include:
+  - flaisimulator/
+
+# Exclude files
+exclude:
+  - README.md
+  - netlify-deploy.toml
+  - QUICK_DEPLOY.md

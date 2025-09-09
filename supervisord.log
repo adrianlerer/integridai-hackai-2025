@@ -1,0 +1,28 @@
+2025-09-09 23:09:40,017 INFO RPC interface 'supervisor' initialized
+2025-09-09 23:09:40,017 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2025-09-09 23:09:40,019 INFO daemonizing the supervisord process
+2025-09-09 23:09:40,020 INFO supervisord started with pid 1986
+2025-09-09 23:09:41,024 INFO spawned: 'integridai-server' with pid 1988
+2025-09-09 23:09:41,126 WARN exited: integridai-server (exit status 1; not expected)
+2025-09-09 23:09:42,130 INFO spawned: 'integridai-server' with pid 1990
+2025-09-09 23:09:42,231 WARN exited: integridai-server (exit status 1; not expected)
+2025-09-09 23:09:44,236 INFO spawned: 'integridai-server' with pid 1993
+2025-09-09 23:09:44,336 WARN exited: integridai-server (exit status 1; not expected)
+2025-09-09 23:09:47,567 INFO spawned: 'integridai-server' with pid 1999
+2025-09-09 23:09:47,669 WARN exited: integridai-server (exit status 1; not expected)
+2025-09-09 23:09:48,671 INFO gave up: integridai-server entered FATAL state, too many start retries too quickly
+2025-09-09 23:09:54,239 INFO spawned: 'integridai-server' with pid 2012
+2025-09-09 23:09:54,355 WARN exited: integridai-server (exit status 1; not expected)
+2025-09-09 23:09:55,358 INFO spawned: 'integridai-server' with pid 2014
+2025-09-09 23:09:55,459 WARN exited: integridai-server (exit status 1; not expected)
+2025-09-09 23:09:57,466 INFO spawned: 'integridai-server' with pid 2017
+2025-09-09 23:09:57,571 WARN exited: integridai-server (exit status 1; not expected)
+2025-09-09 23:10:00,577 INFO spawned: 'integridai-server' with pid 2021
+2025-09-09 23:10:00,689 WARN exited: integridai-server (exit status 1; not expected)
+2025-09-09 23:10:01,154 INFO gave up: integridai-server entered FATAL state, too many start retries too quickly
+2025-09-09 23:10:01,347 INFO RPC interface 'supervisor' initialized
+2025-09-09 23:10:01,347 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2025-09-09 23:10:01,349 INFO daemonizing the supervisord process
+2025-09-09 23:10:01,350 INFO supervisord started with pid 2027
+2025-09-09 23:10:02,354 INFO spawned: 'integridai-server' with pid 2030
+2025-09-09 23:10:03,357 INFO success: integridai-server entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)

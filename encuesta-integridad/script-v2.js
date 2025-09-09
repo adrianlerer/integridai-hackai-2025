@@ -684,16 +684,13 @@ window.sendByEmail = function() {
     // Crear resumen para email
     const emailBody = createEmailSummary(data);
     
-    // Preparar email
-    const subject = encodeURIComponent(`Encuesta Integridad - ${data.companyName} - ${data.responseId}`);
+    // Preparar email usando configuración
+    const subject = encodeURIComponent(getEmailSubject(data.companyName, data.responseId));
     const body = encodeURIComponent(emailBody);
     
-    // Emails del equipo IntegridAI
-    const integridaiEmails = [
-        'contacto@integridai.com.ar',
-        'surveys@integridai.com.ar',
-        'compliance@integridai.com.ar'
-    ].join(',');
+    // Obtener emails del equipo desde configuración
+    const teamEmails = getTeamEmails();
+    const integridaiEmails = teamEmails.join(',');
     
     // Abrir cliente de email
     window.open(`mailto:${integridaiEmails}?subject=${subject}&body=${body}`);

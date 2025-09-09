@@ -135,7 +135,7 @@ async function sendConfirmationEmail(email, responseId) {
     
     const msg = {
         to: email,
-        from: 'surveys@integridai.com.ar',
+        from: 'noreply@netlify.app', // Cambiar por email real del equipo
         subject: 'Confirmación de Encuesta de Integridad - IntegridAI',
         html: `
             <h2>¡Gracias por completar nuestra encuesta!</h2>

@@ -7,25 +7,24 @@
 ![Game Changer](https://img.shields.io/badge/GAME-CHANGER-red?style=for-the-badge&logo=rocket)
 ![FLAISimulator](https://img.shields.io/badge/FLAISimulator-VIRAL%20MVP-orange?style=for-the-badge&logo=gamepad2)
 
-## 🚀 BREAKTHROUGH REVOLUCIONARIO - RAG HYBRID ENHANCED v3.0
+## 🚀 Plataforma IntegridAI - HackAI 2025
 
-### 🔬 **Primer Sistema RAG Híbrido en RegTech Argentino**
+### 🎯 **Sistema Integral de Compliance Empresarial**
 
-**BREAKTHROUGH HISTÓRICO**: Combinamos **3 tipos de RAG** en una sola arquitectura que logra **+60% de precisión** vs RAG tradicional y **resolverá el problema crítico** de datos estructurados legales.
+Plataforma RegTech especializada en la **Ley 27401** que combina herramientas de evaluación, capacitación y simulación para empresas argentinas.
 
-#### 🎯 **3 Componentes Revolucionarios:**
-1. **📊 SQL RAG** → Consultas inteligentes a datos estructurados (casos, multas, precedentes)
-2. **🔍 Vector RAG** → Búsqueda semántica en documentos legales  
-3. **🧠 Memory RAG** → Contexto empresarial a largo plazo dinámico
+#### 🛠️ **Componentes Principales:**
+1. **📋 Encuesta de Integridad** → Evaluación detallada del estado de compliance
+2. **🎮 FLAISimulator** → Simulación interactiva de escenarios éticos  
+3. **🤖 Sistema IA** → Asistente conversacional para consultas de compliance
 
-#### 🔥 **7 Técnicas Avanzadas Integradas:**
-1. **Intelligent Document Routing** → 95% accuracy en tipo de consulta
-2. **SQL-like Structured Queries** → Cálculos precisos sobre datos legales
-3. **Dynamic Long-Term Memory** → Contexto empresarial personalizado
-4. **Self-Consistency Ensemble** → 91-92% consistencia (v2.0)
-5. **Enhanced Role Prompting** → 100% character consistency (v2.0)
-6. **Legal Chain-of-Verification** → 68.8% verification score (v2.0)  
-7. **Multi-Source Response Integration** → Respuestas híbridas únicas
+#### ✨ **Características Técnicas:**
+1. **Formularios Dinámicos** → Lógica condicional y validación en tiempo real
+2. **Almacenamiento Confiable** → Triple backup de datos (Local + IndexedDB + Servidor)
+3. **Exportación Completa** → Datos en CSV/JSON para análisis empresarial
+4. **Integración Email** → Compartir automático con equipos de compliance
+5. **Design Responsive** → Funciona en móviles y desktop
+6. **Enfoque Ley 27401** → Contenido específico para regulación argentina
 
 ---
 
@@ -35,25 +34,25 @@ Plataforma RegTech especializada en **Ley 27.401** (Responsabilidad Penal Empres
 
 ## 📋 Módulos Incluidos
 
-### ⚠️ FLAISimulator - Simulador de Corrupción **ENHANCED v2.0**
-- **Catalina Oportunista**: IA con contexto emocional y triggers psicológicos reales
-- **Dr. Mentor**: Experto académico con verificación legal multi-dimensional
-- **Ana Auditora**: Controles + Chain-of-Verification automatizada
-- **Carlos CEO**: Perspectiva estratégica con Self-Consistency Ensemble
+### 🎮 FLAISimulator - Simulador de Ética Empresarial
+- **Catalina Oportunista**: Personaje IA que presenta tentaciones de corrupción
+- **Dr. Mentor**: Experto académico que explica aspectos legales
+- **Ana Auditora**: Especialista en controles internos y procedimientos
+- **Carlos CEO**: Perspectiva ejecutiva sobre decisiones estratégicas
 
-**Nuevas capacidades HYBRID v3.0:**
-- ✅ **93-95% Precision Score** (HÍBRIDO: +60% vs RAG tradicional)
-- ✅ **3-8ms Processing Time** (Optimizado con routing inteligente)  
-- ✅ **100% Character Consistency** (4/4 personajes híbridos)
-- ✅ **SQL Queries Working** (Primera implementación en RegTech)
-- ✅ **Dynamic Memory Active** (Contexto empresarial personalizado)
+**Características del simulador:**
+- ✅ **Escenarios Interactivos** basados en casos reales del mercado argentino
+- ✅ **Training Gamificado** con mecánicas de juego para mejor engagement  
+- ✅ **Feedback Personalizado** según las decisiones del usuario
+- ✅ **Contenido Ley 27401** específicamente desarrollado para compliance argentino
+- ✅ **Análisis Post-Simulación** con recomendaciones de mejora
 
-### 🔧 IntegridAI RAG HYBRID Enhanced v3.0
-- **🧠 Intelligent Router**: Decide automáticamente qué tipo de RAG usar
-- **📊 SQL RAG Engine**: Consultas tipo `SELECT AVG(monto_multa) FROM sanciones_27401`
-- **🔍 Semantic Vector Search**: Búsqueda avanzada en normativa legal
-- **💾 Long-Term Memory**: Recordar contexto empresarial entre sesiones
-- **🤖 Multi-Source Integration**: Combina 3 fuentes en respuesta única
+### 📋 Encuesta de Integridad Empresarial
+- **🏢 Evaluación Completa**: 6 secciones con 50+ preguntas específicas
+- **⚖️ Enfoque Ley 27401**: Contenido especializado en regulación argentina
+- **💾 Datos Confiables**: Triple almacenamiento para garantizar recolección
+- **📊 Exportación Completa**: CSV/JSON para análisis empresarial
+- **📧 Integración Team**: Compartir automático con equipos de compliance
 
 ### 🌐 Portal Principal
 - Información corporativa

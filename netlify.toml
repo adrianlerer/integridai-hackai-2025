@@ -1,35 +1,7 @@
 [build]
-  publish = "public"
-  functions = "netlify/functions"
-
-[build.environment]
-  NODE_VERSION = "18"
-
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/flaisimulator/*"
-  to = "/flaisimulator/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/integridai-suite/*"
-  to = "/integridai-suite/index.html"
-  status = 200
-
-[functions]
-  directory = "netlify/functions"
-
-[dev]
-  framework = "#static"
+  publish = "."
   
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "<string>", line 9, in <module>
-  File "/usr/local/lib/python3.12/socketserver.py", line 457, in __init__
-    self.server_bind()
-  File "/usr/local/lib/python3.12/socketserver.py", line 478, in server_bind
-    self.socket.bind(self.server_address)
-OSError: [Errno 98] Address already in use

@@ -1,0 +1,31 @@
+{
+  "name": "integridai-netlify-unified",
+  "version": "1.0.0",
+  "description": "IntegridAI RegTech Platform - HackAI 2025",
+  "main": "public/index.html",
+  "scripts": {
+    "build": "echo 'Static build complete'",
+    "dev": "netlify dev",
+    "deploy": "netlify deploy --prod"
+  },
+  "keywords": [
+    "regtech",
+    "compliance",
+    "ai",
+    "ley27401",
+    "argentina",
+    "hackai2025"
+  ],
+  "author": "IntegridAI",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.7.0",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

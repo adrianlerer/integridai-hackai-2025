@@ -1,0 +1,33 @@
+{
+  "name": "flaisimulator",
+  "version": "1.0.0",
+  "description": "Simulador viral de ética empresarial argentina para recolección de datos culturales",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build step required'",
+    "dev": "netlify dev",
+    "deploy": "netlify deploy --prod"
+  },
+  "keywords": [
+    "ethics",
+    "compliance",
+    "argentina",
+    "game",
+    "cultural-research",
+    "ley-27401",
+    "viral"
+  ],
+  "author": "Adrian Lerer",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adrianlerer/integridai-hackai-2025.git"
+  },
+  "homepage": "https://adrianlerer.github.io/integridai-hackai-2025/flaisimulator/"
+}

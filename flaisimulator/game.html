@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLAISimulator - Test de Ética Empresarial</title>
+    <meta name="description" content="Enfrentá 10 dilemas éticos empresariales reales. ¿Qué decisiones tomarías bajo presión?">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="game-body">
+    <div class="game-container">
+        <!-- Header with progress -->
+        <header class="game-header">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <span class="logo-text">FLAI</span><span class="logo-accent">Simulator</span>
+                    </a>
+                </div>
+                <div class="progress-section">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <span class="progress-text" id="progress-text">Pregunta 1 de 10</span>
+                </div>
+                <div class="timer">
+                    <span class="timer-icon">⏱️</span>
+                    <span class="timer-text" id="timer">30s</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Welcome Screen -->
+        <section id="welcome-screen" class="welcome-screen active">
+            <div class="welcome-content">
+                <h1>🎯 Test de Ética Empresarial Argentina</h1>
+                <div class="welcome-info">
+                    <p class="welcome-subtitle">
+                        Te presentaremos <strong>10 situaciones reales</strong> del mundo empresarial argentino. 
+                        <br>Cada una basada en casos reales de compliance y Ley 27.401.
+                    </p>
+                    
+                    <div class="welcome-rules">
+                        <h3>📋 Cómo funciona:</h3>
+                        <ul>
+                            <li><strong>30 segundos</strong> por pregunta (como en la vida real)</li>
+                            <li><strong>3 opciones</strong> por dilema: Ética, Consulta, o Riesgosa</li>
+                            <li><strong>Puntuación inmediata</strong> + análisis cultural al final</li>
+                            <li><strong>Completamente anónimo</strong> - Solo guardamos patrones agregados</li>
+                        </ul>
+                    </div>
+
+                    <div class="welcome-disclaimer">
+                        <h4>🔬 Propósito de Investigación</h4>
+                        <p>Tus respuestas anónimas contribuyen al mayor estudio cultural sobre ética empresarial en Argentina. Los datos ayudan a empresas a desarrollar mejores programas de compliance.</p>
+                    </div>
+
+                    <div class="profile-inputs">
+                        <h4>📊 Datos Demográficos (Opcionales)</h4>
+                        <div class="input-grid">
+                            <select id="sector" class="profile-input">
+                                <option value="">Sector empresarial</option>
+                                <option value="tecnologia">Tecnología</option>
+                                <option value="finanzas">Finanzas/Banca</option>
+                                <option value="consultoria">Consultoría</option>
+                                <option value="retail">Retail/Comercio</option>
+                                <option value="manufactura">Manufactura</option>
+                                <option value="salud">Salud</option>
+                                <option value="educacion">Educación</option>
+                                <option value="gobierno">Gobierno/Público</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                            
+                            <select id="position" class="profile-input">
+                                <option value="">Posición/Nivel</option>
+                                <option value="junior">Junior/Analista</option>
+                                <option value="senior">Senior/Especialista</option>
+                                <option value="supervisor">Supervisor/Team Lead</option>
+                                <option value="gerente">Gerente</option>
+                                <option value="director">Director</option>
+                                <option value="c-level">C-Level/VP</option>
+                            </select>
+                            
+                            <select id="experience" class="profile-input">
+                                <option value="">Años de experiencia</option>
+                                <option value="0-2">0-2 años</option>
+                                <option value="3-5">3-5 años</option>
+                                <option value="6-10">6-10 años</option>
+                                <option value="11-15">11-15 años</option>
+                                <option value="16+">16+ años</option>
+                            </select>
+                            
+                            <select id="region" class="profile-input">
+                                <option value="">Región</option>
+                                <option value="caba">CABA</option>
+                                <option value="gba">GBA</option>
+                                <option value="cordoba">Córdoba</option>
+                                <option value="rosario">Rosario</option>
+                                <option value="mendoza">Mendoza</option>
+                                <option value="tucuman">Tucumán</option>
+                                <option value="otra">Otra provincia</option>
+                            </select>
+                        </div>
+                        <p class="input-note">Estos datos nos ayudan a entender diferencias regionales y sectoriales. Son completamente opcionales y anónimos.</p>
+                    </div>
+
+                    <div class="welcome-actions">
+                        <button id="start-game" class="btn btn-primary btn-large">
+                            🚀 Comenzar Test de Ética
+                        </button>
+                        <p class="action-note">⚡ 5 minutos total - ¿Listo para el desafío?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Screen -->
+        <section id="game-screen" class="game-screen">
+            <div class="scenario-container">
+                <div class="scenario-content">
+                    <div class="scenario-header">
+                        <span class="scenario-type" id="scenario-type">Dilema Ético</span>
+                        <span class="scenario-number" id="scenario-number">1/10</span>
+                    </div>
+                    
+                    <div class="scenario-situation">
+                        <h2 id="scenario-title">Cargando escenario...</h2>
+                        <div class="scenario-context" id="scenario-context">
+                            <p id="scenario-description">Preparando tu primer dilema ético...</p>
+                        </div>
+                    </div>
+
+                    <div class="scenario-question">
+                        <h3 id="scenario-question-text">¿Qué harías en esta situación?</h3>
+                        <div class="options-container" id="options-container">
+                            <!-- Options will be dynamically generated -->
+                        </div>
+                    </div>
+
+                    <div class="scenario-footer">
+                        <div class="scenario-meta">
+                            <span class="legal-reference" id="legal-reference">Ley 27.401 - Art. X</span>
+                            <span class="risk-level" id="risk-level">Riesgo: ALTO</span>
+                        </div>
+                        <button id="skip-scenario" class="btn btn-ghost">Saltar pregunta</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading Screen -->
+        <section id="loading-screen" class="loading-screen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <h2>🧠 Analizando tus respuestas...</h2>
+                <p class="loading-text" id="loading-text">Calculando tu perfil ético cultural</p>
+                <div class="loading-steps">
+                    <div class="loading-step" id="step-1">✅ Respuestas procesadas</div>
+                    <div class="loading-step" id="step-2">⏳ Análisis cultural en progreso</div>
+                    <div class="loading-step" id="step-3">⏳ Comparando con base de datos</div>
+                    <div class="loading-step" id="step-4">⏳ Generando tu reporte</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="results-screen" class="results-screen">
+            <div class="results-container">
+                <div class="results-header">
+                    <h1>🏆 Tu Perfil Ético Empresarial</h1>
+                    <div class="overall-score">
+                        <div class="score-circle">
+                            <span class="score-number" id="final-score">85</span>
+                            <span class="score-total">/100</span>
+                        </div>
+                        <div class="score-label">
+                            <h3 id="score-category">Ético Sólido</h3>
+                            <p id="score-description">Tienes un perfil ético sólido con tendencia a consultar antes de actuar.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-breakdown">
+                    <h3>📊 Análisis Detallado</h3>
+                    <div class="breakdown-grid">
+                        <div class="breakdown-item">
+                            <div class="breakdown-icon">⚖️</div>
+                            <div class="breakdown-content">
+                                <h4>Decisiones Éticas</h4>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill ethical" id="ethical-bar"></div>
+                                </div>
+                                <span class="breakdown-percent" id="ethical-percent">70%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="breakdown-item">
+                            <div class="breakdown-icon">🤔</div>
+                            <div class="breakdown-content">
+                                <h4>Consultó con Expertos</h4>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill consultation" id="consultation-bar"></div>
+                                </div>
+                                <span class="breakdown-percent" id="consultation-percent">20%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="breakdown-item">
+                            <div class="breakdown-icon">⚠️</div>
+                            <div class="breakdown-content">
+                                <h4>Decisiones Riesgosas</h4>
+                                <div class="breakdown-bar">
+                                    <div class="breakdown-fill risky" id="risky-bar"></div>
+                                </div>
+                                <span class="breakdown-percent" id="risky-percent">10%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cultural-analysis">
+                    <h3>🇦🇷 Análisis Cultural Argentino</h3>
+                    <div class="cultural-insights">
+                        <div class="cultural-insight" id="cultural-insight-1">
+                            <h4>Patrón de Consulta</h4>
+                            <p>Tu tendencia a consultar está <strong>15% por encima</strong> del promedio argentino. Esto refleja un perfil más cauteloso típico del sector financiero.</p>
+                        </div>
+                        <div class="cultural-insight" id="cultural-insight-2">
+                            <h4>Aversión al Riesgo</h4>
+                            <p>Muestras <strong>alta aversión al riesgo</strong> ético, alineado con las nuevas generaciones de profesionales argentinos post-crisis 2001.</p>
+                        </div>
+                        <div class="cultural-insight" id="cultural-insight-3">
+                            <h4>Influencia Contextual</h4>
+                            <p>Tus decisiones están <strong>fuertemente influenciadas</strong> por el contexto empresarial, característico de la cultura corporativa argentina.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-section">
+                    <h3>📈 Comparación con Otros Profesionales</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <h4>Tu Sector</h4>
+                            <div class="comparison-bar">
+                                <span class="comparison-label">Promedio sector</span>
+                                <div class="comparison-track">
+                                    <div class="comparison-fill sector" style="width: 73%"></div>
+                                    <div class="comparison-marker you" style="left: 85%">TÚ</div>
+                                </div>
+                                <span class="comparison-value">73 pts</span>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-item">
+                            <h4>Tu Nivel</h4>
+                            <div class="comparison-bar">
+                                <span class="comparison-label">Promedio gerencial</span>
+                                <div class="comparison-track">
+                                    <div class="comparison-fill level" style="width: 78%"></div>
+                                    <div class="comparison-marker you" style="left: 85%">TÚ</div>
+                                </div>
+                                <span class="comparison-value">78 pts</span>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-item">
+                            <h4>Nacional</h4>
+                            <div class="comparison-bar">
+                                <span class="comparison-label">Promedio Argentina</span>
+                                <div class="comparison-track">
+                                    <div class="comparison-fill national" style="width: 68%"></div>
+                                    <div class="comparison-marker you" style="left: 85%">TÚ</div>
+                                </div>
+                                <span class="comparison-value">68 pts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <h3>🚀 ¡Compartí tu resultado!</h3>
+                    <div class="share-buttons">
+                        <button class="btn btn-primary" id="share-linkedin-result">
+                            Compartir en LinkedIn
+                        </button>
+                        <button class="btn btn-secondary" id="share-whatsapp-result">
+                            Enviar por WhatsApp
+                        </button>
+                        <button class="btn btn-ghost" id="challenge-team">
+                            Desafiar mi equipo
+                        </button>
+                    </div>
+                    
+                    <div class="next-steps">
+                        <a href="index.html" class="btn btn-outline">Volver al inicio</a>
+                        <button class="btn btn-primary" id="play-again">Jugar de nuevo</button>
+                    </div>
+                </div>
+
+                <div class="results-footer">
+                    <p class="anonymity-note">
+                        🔒 <strong>Datos anónimos:</strong> Solo guardamos patrones agregados para investigación cultural. 
+                        No almacenamos información personal identificable.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="game.js"></script>
+    <script src="share.js"></script>
+    <script src="leaderboard.js"></script>
+    <script src="data-export.js"></script>
+</body>
+</html>

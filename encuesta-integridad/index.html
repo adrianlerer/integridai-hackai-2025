@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Integridad Empresarial - Ley 27401 | IntegridAI</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .law-reference {
+            font-size: 0.9em;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .progress-container {
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .section {
+            display: none;
+            margin-bottom: 30px;
+            padding: 25px;
+            border: 2px solid #ecf0f1;
+            border-radius: 15px;
+        }
+
+        .section.active {
+            display: block;
+            border-color: #3498db;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-number {
+            background: #3498db;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .question-group {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #34495e;
+        }
+
+        input[type="text"], 
+        input[type="email"], 
+        input[type="number"],
+        select, 
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-item, .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            background: white;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-item:hover, .checkbox-item:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+
+        .radio-item.selected, .checkbox-item.selected {
+            border-color: #3498db;
+            background: #e8f4f8;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 12px;
+            margin-top: 2px;
+            transform: scale(1.3);
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        .option-description {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .conditional-section {
+            margin-left: 20px;
+            margin-top: 15px;
+            padding: 20px;
+            background: #f0f8ff;
+            border-radius: 8px;
+            border-left: 3px solid #3498db;
+            display: none;
+        }
+
+        .conditional-section.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #ecf0f1;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #2980b9, #27ae60);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+        }
+
+        .btn-export {
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            color: white;
+        }
+
+        .results-section {
+            display: none;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .help-text {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+
+        .success-message {
+            background: #e8f5e8;
+            color: #2d5f2d;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+            margin: 20px 0;
+        }
+
+        .data-preview {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .data-preview pre {
+            margin: 0;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 25px 20px;
+            }
+            
+            .form-container {
+                padding: 25px 20px;
+            }
+            
+            .logo {
+                font-size: 2em;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🏛️ IntegridAI</div>
+            <div class="subtitle">Encuesta Detallada de Programas de Integridad</div>
+            <div class="law-reference">Ley 27401 - Responsabilidad Penal Empresaria | HackAI 2025</div>
+        </div>
+
+        <div class="form-container">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar"></div>
+                </div>
+                <div class="progress-text" id="progressText">Sección 1 de 6</div>
+            </div>
+
+            <form id="integrityForm">
+                <!-- Sección 1: Información de la Empresa -->
+                <div class="section active" id="section1">
+                    <div class="section-title">
+                        <div class="section-number">1</div>
+                        <span>Información de la Empresa</span>
+                    </div>
+                    
+                    <div class="question-group">
+                        <div class="form-group">
+                            <label for="companyName">Nombre de la Empresa <span class="required">*</span></label>
+                            <input type="text" id="companyName" name="companyName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sector">Sector/Industria <span class="required">*</span></label>
+                            <select id="sector" name="sector" required>
+                                <option value="">Seleccione un sector</option>
+                                <option value="tecnologia">Tecnología e Informática</option>
+                                <option value="finanzas">Finanzas y Servicios Financieros</option>
+                                <option value="manufactura">Manufactura e Industria</option>
+                                <option value="energia">Energía y Servicios Públicos</option>
+                                <option value="construccion">Construcción e Inmobiliario</option>
+                                <option value="salud">Salud y Farmacéutica</option>
+                                <option value="comercio">Comercio y Retail</option>
+                                <option value="transporte">Transporte y Logística</option>
+                                <option value="consultoria">Consultoría y Servicios Profesionales</option>
+                                <option value="educacion">Educación</option>
+                                <option value="agro">Agropecuario</option>
+                                <option value="mineria">Minería</option>
+                                <option value="turismo">Turismo y Hotelería</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="companySize">Tamaño de la Empresa <span class="required">*</span></label>
+                            <select id="companySize" name="companySize" required>
+                                <option value="">Seleccione el tamaño</option>
+                                <option value="micro">Micro (1-10 empleados)</option>
+                                <option value="pequena">Pequeña (11-50 empleados)</option>
+                                <option value="mediana">Mediana (51-200 empleados)</option>
+                                <option value="grande">Grande (201-500 empleados)</option>
+                                <option value="muy_grande">Muy Grande (500+ empleados)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="employeeCount">Número aproximado de empleados</label>
+                            <input type="number" id="employeeCount" name="employeeCount" min="1" max="50000">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactEmail">Email de Contacto <span class="required">*</span></label>
+                            <input type="email" id="contactEmail" name="contactEmail" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="position">Cargo/Posición del encuestado <span class="required">*</span></label>
+                            <input type="text" id="position" name="position" required>
+                            <div class="help-text">Ej: CEO, Gerente de Compliance, Director Legal, etc.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="companyLocation">Ubicación de la empresa</label>
+                            <select id="companyLocation" name="companyLocation">
+                                <option value="">Seleccione ubicación</option>
+                                <option value="parque_austral">Parque Austral</option>
+                                <option value="caba">CABA</option>
+                                <option value="gba">GBA</option>
+                                <option value="interior">Interior del país</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 2: Programa de Integridad Principal -->
+                <div class="section" id="section2">
+                    <div class="section-title">
+                        <div class="section-number">2</div>
+                        <span>Programa de Integridad - Estado General</span>
+                    </div>
+                    
+                    <div class="question-group">
+                        <div class="question-title">¿Su empresa tiene implementado un Programa de Integridad según la Ley 27401? <span class="required">*</span></div>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="hasProgram_completo" name="hasProgram" value="completo" required>
+                                <div class="option-text">
+                                    <strong>Sí, tenemos un Programa de Integridad completo implementado</strong>
+                                    <div class="option-description">Incluye todos los elementos requeridos por la Ley 27401</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="hasProgram_parcial" name="hasProgram" value="parcial" required>
+                                <div class="option-text">
+                                    <strong>Sí, pero tenemos un programa parcial</strong>
+                                    <div class="option-description">Algunos elementos implementados, otros en desarrollo</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="hasProgram_desarrollo" name="hasProgram" value="desarrollo" required>
+                                <div class="option-text">
+                                    <strong>Estamos en proceso de desarrollo</strong>
+                                    <div class="option-description">Iniciando la implementación del programa</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="hasProgram_planeado" name="hasProgram" value="planeado" required>
+                                <div class="option-text">
+                                    <strong>No tenemos, pero está planeado para este año</strong>
+                                    <div class="option-description">Reconocemos la necesidad y planificamos implementar</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="hasProgram_no" name="hasProgram" value="no" required>
+                                <div class="option-text">
+                                    <strong>No tenemos y no está planeado</strong>
+                                    <div class="option-description">No hemos considerado implementar un programa</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subsección condicional para empresas SIN programa -->
+                    <div class="conditional-section" id="noProgramSection">
+                        <div class="question-title">¿Cuál es el principal motivo por el que no han implementado un Programa de Integridad?</div>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="reason_recursos" name="noImplementationReason" value="falta_recursos">
+                                <div class="option-text">Falta de recursos (financieros/humanos)</div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="reason_conocimiento" name="noImplementationReason" value="falta_conocimiento">
+                                <div class="option-text">Falta de conocimiento sobre la ley</div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="reason_prioridad" name="noImplementationReason" value="no_prioridad">
+                                <div class="option-text">No es una prioridad actual</div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="reason_tamano" name="noImplementationReason" value="empresa_pequena">
+                                <div class="option-text">Consideramos que nuestra empresa es muy pequeña</div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="reason_costo" name="noImplementationReason" value="muy_costoso">
+                                <div class="option-text">Percibimos que sería muy costoso de implementar</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="implementationInterest">¿Estarían interesados en recibir información sobre cómo implementar un programa de integridad?</label>
+                            <select id="implementationInterest" name="implementationInterest">
+                                <option value="">Seleccione una opción</option>
+                                <option value="muy_interesado">Muy interesado</option>
+                                <option value="algo_interesado">Algo interesado</option>
+                                <option value="poco_interesado">Poco interesado</option>
+                                <option value="no_interesado">No interesado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 3: Elementos Específicos del Programa -->
+                <div class="section" id="section3">
+                    <div class="section-title">
+                        <div class="section-number">3</div>
+                        <span>Elementos Específicos del Programa de Integridad</span>
+                    </div>
+                    
+                    <!-- Solo se muestra si tienen programa -->
+                    <div class="conditional-section show" id="hasProgramElements">
+                        <div class="question-title">¿Cuáles de los siguientes elementos tienen desarrollados e implementados?</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="element_codigo" name="programElements" value="codigo_etica">
+                                <div class="option-text">
+                                    <strong>Código de Ética</strong>
+                                    <div class="option-description">Documento formal con valores y principios éticos</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="element_funcionarios" name="programElements" value="politica_funcionarios">
+                                <div class="option-text">
+                                    <strong>Política de Relacionamiento con Funcionarios Públicos</strong>
+                                    <div class="option-description">Protocolo específico para interacciones con sector público</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="element_contrataciones" name="programElements" value="politica_contrataciones">
+                                <div class="option-text">
+                                    <strong>Política de Contrataciones Públicas</strong>
+                                    <div class="option-description">Procedimientos para licitaciones y contratos públicos</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="element_proveedores" name="programElements" value="due_diligence_proveedores">
+                                <div class="option-text">
+                                    <strong>Debida Diligencia de Cadena de Valor/Proveedores</strong>
+                                    <div class="option-description">Evaluación y monitoreo de terceros</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="element_canal" name="programElements" value="canal_denuncias">
+                                <div class="option-text">
+                                    <strong>Canal de Denuncias</strong>
+                                    <div class="option-description">Sistema para reportar irregularidades</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="element_riesgos" name="programElements" value="evaluacion_riesgos">
+                                <div class="option-text">
+                                    <strong>Evaluación de Riesgos de Integridad</strong>
+                                    <div class="option-description">Análisis sistemático de riesgos de compliance</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="element_capacitacion" name="programElements" value="plan_capacitacion">
+                                <div class="option-text">
+                                    <strong>Plan de Capacitación en Integridad</strong>
+                                    <div class="option-description">Programa formal de entrenamiento</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="element_auditoria" name="programElements" value="auditoria_monitoreo">
+                                <div class="option-text">
+                                    <strong>Auditoría y Monitoreo</strong>
+                                    <div class="option-description">Sistema de revisión y seguimiento</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="question-title" style="margin-top: 30px;">Sobre el Código de Ética (si lo tienen):</div>
+                        <div class="form-group">
+                            <label for="ethicsCodeStatus">¿Cuál es el estado actual de su Código de Ética?</label>
+                            <select id="ethicsCodeStatus" name="ethicsCodeStatus">
+                                <option value="">No aplica / No tenemos</option>
+                                <option value="completo_actualizado">Completo y actualizado (menos de 2 años)</option>
+                                <option value="completo_desactualizado">Completo pero desactualizado (más de 2 años)</option>
+                                <option value="basico">Documento básico que necesita ampliarse</option>
+                                <option value="en_desarrollo">En proceso de desarrollo</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ethicsCodeCommunication">¿Cómo comunican el Código de Ética a los empleados?</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_induction" name="ethicsCodeCommunication" value="induccion">
+                                    <div class="option-text">Durante la inducción de nuevos empleados</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_training" name="ethicsCodeCommunication" value="capacitaciones">
+                                    <div class="option-text">En capacitaciones periódicas</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_intranet" name="ethicsCodeCommunication" value="intranet">
+                                    <div class="option-text">A través de intranet/plataforma digital</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_physical" name="ethicsCodeCommunication" value="carteleras">
+                                    <div class="option-text">Carteleras y material físico</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="comm_none" name="ethicsCodeCommunication" value="no_comunica">
+                                    <div class="option-text">No lo comunicamos activamente</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 4: Responsable de Integridad -->
+                <div class="section" id="section4">
+                    <div class="section-title">
+                        <div class="section-number">4</div>
+                        <span>Responsable de Integridad</span>
+                    </div>
+                    
+                    <div class="question-group">
+                        <div class="question-title">¿Su empresa tiene un Responsable Interno de Integridad designado? <span class="required">*</span></div>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="hasResponsible_si_exclusivo" name="hasResponsible" value="si_exclusivo" required>
+                                <div class="option-text">
+                                    <strong>Sí, con dedicación exclusiva</strong>
+                                    <div class="option-description">Una persona dedicada únicamente a funciones de integridad</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="hasResponsible_si_compartido" name="hasResponsible" value="si_compartido" required>
+                                <div class="option-text">
+                                    <strong>Sí, pero con otras funciones</strong>
+                                    <div class="option-description">Persona que también tiene otras responsabilidades</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="hasResponsible_externo" name="hasResponsible" value="externo" required>
+                                <div class="option-text">
+                                    <strong>Tenemos un consultor externo</strong>
+                                    <div class="option-description">Tercerizado con consultoría especializada</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="hasResponsible_no" name="hasResponsible" value="no" required>
+                                <div class="option-text">
+                                    <strong>No tenemos responsable designado</strong>
+                                    <div class="option-description">No hay nadie específicamente asignado</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subsección para funciones adicionales -->
+                    <div class="conditional-section" id="sharedResponsibilitySection">
+                        <div class="question-title">¿Cuáles son las otras funciones que desempeña el responsable de integridad?</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="function_cfo" name="otherResponsibilities" value="CFO">
+                                <div class="option-text">CFO / Gerente Financiero</div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="function_legal" name="otherResponsibilities" value="legal">
+                                <div class="option-text">Área Legal / Asesoría Jurídica</div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="function_rrhh" name="otherResponsibilities" value="rrhh">
+                                <div class="option-text">Recursos Humanos</div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="function_admin" name="otherResponsibilities" value="administracion">
+                                <div class="option-text">Administración General</div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="function_auditoria" name="otherResponsibilities" value="auditoria">
+                                <div class="option-text">Auditoría Interna</div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="function_gerencia" name="otherResponsibilities" value="gerencia_general">
+                                <div class="option-text">Gerencia General / Dirección</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="responsibleTraining">¿El responsable de integridad ha recibido capacitación específica en Ley 27401?</label>
+                            <select id="responsibleTraining" name="responsibleTraining">
+                                <option value="">Seleccione una opción</option>
+                                <option value="capacitacion_completa">Sí, capacitación completa y certificación</option>
+                                <option value="capacitacion_basica">Sí, capacitación básica</option>
+                                <option value="autoformacion">Autoformación / Lectura de normativa</option>
+                                <option value="no_capacitacion">No ha recibido capacitación específica</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 5: Capacitación Detallada -->
+                <div class="section" id="section5">
+                    <div class="section-title">
+                        <div class="section-number">5</div>
+                        <span>Plan de Capacitación en Integridad</span>
+                    </div>
+                    
+                    <div class="question-group">
+                        <div class="question-title">¿Su empresa realiza capacitaciones en integridad/ética empresarial? <span class="required">*</span></div>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="hasTraining_formal" name="hasTraining" value="formal" required>
+                                <div class="option-text">
+                                    <strong>Sí, tenemos un plan formal de capacitación</strong>
+                                    <div class="option-description">Con cronograma, contenidos y seguimiento estructurado</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="hasTraining_informal" name="hasTraining" value="informal" required>
+                                <div class="option-text">
+                                    <strong>Sí, realizamos capacitaciones ocasionales</strong>
+                                    <div class="option-description">Sin plan estructurado, según necesidad</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="hasTraining_induccion" name="hasTraining" value="solo_induccion" required>
+                                <div class="option-text">
+                                    <strong>Solo durante la inducción de personal</strong>
+                                    <div class="option-description">Una vez al ingreso, sin seguimiento posterior</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="hasTraining_no" name="hasTraining" value="no" required>
+                                <div class="option-text">
+                                    <strong>No realizamos capacitaciones en integridad</strong>
+                                    <div class="option-description">No hemos implementado training específico</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detalles de capacitación -->
+                    <div class="conditional-section" id="trainingDetailsSection">
+                        <div class="question-title">Detalles del plan de capacitación:</div>
+                        
+                        <div class="form-group">
+                            <label for="trainingFrequency">¿Con qué frecuencia realizan las capacitaciones?</label>
+                            <select id="trainingFrequency" name="trainingFrequency">
+                                <option value="">Seleccione frecuencia</option>
+                                <option value="mensual">Mensual</option>
+                                <option value="bimestral">Bimestral</option>
+                                <option value="trimestral">Trimestral</option>
+                                <option value="semestral">Semestral</option>
+                                <option value="anual">Anual</option>
+                                <option value="irregular">Sin frecuencia definida</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="trainingDuration">¿Cuál es la duración típica de cada capacitación?</label>
+                            <select id="trainingDuration" name="trainingDuration">
+                                <option value="">Seleccione duración</option>
+                                <option value="menos_1h">Menos de 1 hora</option>
+                                <option value="1_2h">1-2 horas</option>
+                                <option value="2_4h">2-4 horas</option>
+                                <option value="medio_dia">Medio día</option>
+                                <option value="dia_completo">Día completo</option>
+                                <option value="multiple_dias">Múltiples días</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="trainingModalities">¿Qué modalidades utilizan para las capacitaciones?</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mod_presencial" name="trainingModalities" value="presencial">
+                                    <div class="option-text">Presencial en oficina</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mod_virtual" name="trainingModalities" value="virtual_sincrona">
+                                    <div class="option-text">Virtual sincrónica (videoconferencia en vivo)</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mod_elearning" name="trainingModalities" value="elearning">
+                                    <div class="option-text">E-learning (cursos online asincrónicos)</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mod_videos" name="trainingModalities" value="videos">
+                                    <div class="option-text">Videos educativos</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mod_material" name="trainingModalities" value="material_lectura">
+                                    <div class="option-text">Material de lectura / Manuales</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="trainingContent">¿Qué temas cubren en las capacitaciones?</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="content_ley27401" name="trainingContent" value="ley_27401">
+                                    <div class="option-text">Ley 27401 específicamente</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="content_etica" name="trainingContent" value="etica_general">
+                                    <div class="option-text">Ética empresarial general</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="content_corrupcion" name="trainingContent" value="prevencion_corrupcion">
+                                    <div class="option-text">Prevención de corrupción</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="content_conflictos" name="trainingContent" value="conflictos_interes">
+                                    <div class="option-text">Conflictos de interés</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="content_denuncias" name="trainingContent" value="uso_canal_denuncias">
+                                    <div class="option-text">Uso del canal de denuncias</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="content_regalos" name="trainingContent" value="regalos_entretenimiento">
+                                    <div class="option-text">Política de regalos y entretenimiento</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="trainingEffectiveness">¿Cómo miden la efectividad de las capacitaciones?</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="measure_quiz" name="trainingEffectiveness" value="examenes_quiz">
+                                    <div class="option-text">Exámenes o quizzes</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="measure_survey" name="trainingEffectiveness" value="encuestas_satisfaccion">
+                                    <div class="option-text">Encuestas de satisfacción</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="measure_attendance" name="trainingEffectiveness" value="asistencia">
+                                    <div class="option-text">Solo registramos asistencia</div>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="measure_none" name="trainingEffectiveness" value="no_medimos">
+                                    <div class="option-text">No medimos efectividad</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 6: Interés en Soluciones IA -->
+                <div class="section" id="section6">
+                    <div class="section-title">
+                        <div class="section-number">6</div>
+                        <span>Sistema de Gestión con Inteligencia Artificial</span>
+                    </div>
+                    
+                    <div class="question-group">
+                        <div class="question-title">¿Qué tan interesada estaría su empresa en una plataforma de gestión de integridad potenciada con IA? <span class="required">*</span></div>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="aiInterest_muy" name="aiInterest" value="muy_interesado" required>
+                                <div class="option-text">
+                                    <strong>Muy interesado</strong>
+                                    <div class="option-description">Buscaríamos implementar lo antes posible</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="aiInterest_bastante" name="aiInterest" value="bastante_interesado" required>
+                                <div class="option-text">
+                                    <strong>Bastante interesado</strong>
+                                    <div class="option-description">Lo consideraríamos seriamente</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="aiInterest_algo" name="aiInterest" value="algo_interesado" required>
+                                <div class="option-text">
+                                    <strong>Algo interesado</strong>
+                                    <div class="option-description">Nos gustaría saber más</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="aiInterest_poco" name="aiInterest" value="poco_interesado" required>
+                                <div class="option-text">
+                                    <strong>Poco interesado</strong>
+                                    <div class="option-description">No es una prioridad actual</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="aiInterest_no" name="aiInterest" value="no_interesado" required>
+                                <div class="option-text">
+                                    <strong>No interesado</strong>
+                                    <div class="option-description">Preferimos métodos tradicionales</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <div class="question-title">¿Cuáles de estas funcionalidades con IA serían más valiosas para su empresa? (Seleccione hasta 5 opciones)</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_chatbot" name="aiFeatures" value="chatbot_consultas">
+                                <div class="option-text">
+                                    <strong>Chatbot para consultas de compliance</strong>
+                                    <div class="option-description">IA que responde consultas sobre ley 27401 en tiempo real</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_simulator" name="aiFeatures" value="simulador_escenarios">
+                                <div class="option-text">
+                                    <strong>Simulador de escenarios éticos</strong>
+                                    <div class="option-description">Training interactivo con dilemas de corrupción</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_risk" name="aiFeatures" value="evaluacion_riesgos_automatica">
+                                <div class="option-text">
+                                    <strong>Evaluación automática de riesgos</strong>
+                                    <div class="option-description">IA que identifica riesgos de integridad automáticamente</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_training" name="aiFeatures" value="capacitacion_personalizada">
+                                <div class="option-text">
+                                    <strong>Capacitación personalizada por rol</strong>
+                                    <div class="option-description">Training adaptado según posición y riesgos específicos</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_monitoring" name="aiFeatures" value="monitoreo_automatico">
+                                <div class="option-text">
+                                    <strong>Monitoreo automático del cumplimiento</strong>
+                                    <div class="option-description">IA que supervisa adherencia a políticas</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_reports" name="aiFeatures" value="reportes_inteligentes">
+                                <div class="option-text">
+                                    <strong>Reportes inteligentes y dashboards</strong>
+                                    <div class="option-description">Analytics automáticos con insights accionables</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_alerts" name="aiFeatures" value="alertas_preventivas">
+                                <div class="option-text">
+                                    <strong>Alertas preventivas de situaciones de riesgo</strong>
+                                    <div class="option-description">Notificaciones proactivas ante potenciales problemas</div>
+                                </div>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ai_investigation" name="aiFeatures" value="asistente_investigacion">
+                                <div class="option-text">
+                                    <strong>Asistente IA para investigación de denuncias</strong>
+                                    <div class="option-description">Ayuda a analizar y procesar casos reportados</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="aiImplementationTimeframe">Si deciden implementar, ¿cuál sería el plazo ideal?</label>
+                        <select id="aiImplementationTimeframe" name="aiImplementationTimeframe">
+                            <option value="">Seleccione plazo</option>
+                            <option value="inmediato">Inmediatamente (1-3 meses)</option>
+                            <option value="corto_plazo">Corto plazo (3-6 meses)</option>
+                            <option value="medio_plazo">Medio plazo (6-12 meses)</option>
+                            <option value="largo_plazo">Largo plazo (más de 1 año)</option>
+                            <option value="no_definido">No tenemos plazo definido</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="aiInvestmentBudget">¿Cuál sería un rango de inversión anual aceptable para una solución integral?</label>
+                        <select id="aiInvestmentBudget" name="aiInvestmentBudget">
+                            <option value="">Prefiero no especificar</option>
+                            <option value="hasta_50k">Hasta $50,000 USD anuales</option>
+                            <option value="50k_100k">$50,000 - $100,000 USD anuales</option>
+                            <option value="100k_250k">$100,000 - $250,000 USD anuales</option>
+                            <option value="250k_500k">$250,000 - $500,000 USD anuales</option>
+                            <option value="mas_500k">Más de $500,000 USD anuales</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additionalComments">Comentarios adicionales, necesidades específicas o preguntas:</label>
+                        <textarea id="additionalComments" name="additionalComments" rows="4" placeholder="Comparta cualquier comentario adicional sobre su programa de integridad, necesidades específicas que podrían tener, o preguntas sobre soluciones con IA..."></textarea>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">« Anterior</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn">Siguiente »</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn" style="display: none;">Enviar Encuesta</button>
+                </div>
+            </form>
+
+            <!-- Sección de Resultados -->
+            <div class="results-section" id="resultsSection">
+                <h2>✅ ¡Encuesta Completada!</h2>
+                <div class="success-message">
+                    Gracias por completar la encuesta. Sus respuestas han sido procesadas y guardadas.
+                </div>
+                
+                <div class="data-preview" id="dataPreview"></div>
+                
+                <div class="buttons">
+                    <button type="button" class="btn btn-export" onclick="exportData('json')">📥 Exportar JSON</button>
+                    <button type="button" class="btn btn-export" onclick="exportData('csv')">📊 Exportar CSV</button>
+                    <button type="button" class="btn btn-export" onclick="sendByEmail()">📧 Enviar por Email</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">🔄 Nueva Encuesta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script-v2.js"></script>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLAISimulator - Entrenamiento en Ética Empresarial Argentina</title>
+    <meta name="description" content="El juego viral que entrena tu ética empresarial mientras colectamos datos culturales argentinos. ¿Qué tan ético eres realmente?">
+    <meta property="og:title" content="FLAISimulator - Test de Ética Empresarial Argentina" />
+    <meta property="og:description" content="El primer simulador de ética empresarial argentina. 10 dilemas reales, 5 minutos, análisis cultural profundo. ¿Qué tan ético eres en tu trabajo?" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://adrianlerer.github.io/integridai-hackai-2025/flaisimulator/" />
+    <meta property="og:image" content="https://adrianlerer.github.io/integridai-hackai-2025/flaisimulator/og-image.jpg" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FLAISimulator - Test de Ética Empresarial Argentina">
+    <meta name="twitter:description" content="Simulador profesional de ética empresarial argentina. Casos reales, análisis cultural, ranking profesional.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">FLAI</span><span class="logo-accent">Simulator</span>
+            </div>
+            <div class="nav-links">
+                <a href="#como-funciona">Cómo Funciona</a>
+                <a href="#ranking">Ranking</a>
+                <a href="#about">Nosotros</a>
+                <a href="game.html" class="nav-cta">Jugar Ahora</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    ¿Qué tan <span class="highlight">ético</span> eres en tu trabajo?
+                </h1>
+                <p class="hero-subtitle">
+                    El primer simulador de ética empresarial argentina que combina gaming con investigación cultural. 
+                    <strong>10 dilemas reales, 5 minutos, resultados que te van a sorprender.</strong>
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="total-players">2,847</span>
+                        <span class="stat-label">Jugadores</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="total-decisions">12,394</span>
+                        <span class="stat-label">Decisiones Analizadas</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">89%</span>
+                        <span class="stat-label">Recomiendan</span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <a href="game.html" class="btn btn-primary">Comenzar Test Ahora</a>
+                    <button class="btn btn-secondary" id="share-challenge">Desafiar Colegas</button>
+                </div>
+                <p class="hero-disclaimer">
+                    ⚡ <strong>Gratis y anónimo.</strong> Basado en Ley 27.401 - Responsabilidad Penal Empresaria
+                </p>
+            </div>
+            <div class="hero-visual">
+                <div class="game-preview">
+                    <div class="preview-screen">
+                        <div class="preview-header">
+                            <span class="preview-dot red"></span>
+                            <span class="preview-dot yellow"></span>
+                            <span class="preview-dot green"></span>
+                        </div>
+                        <div class="preview-content">
+                            <div class="scenario-preview">
+                                <h4>Dilema #1: El Cliente VIP</h4>
+                                <p>"Tu mejor cliente te ofrece un 'regalo' de $50,000 para acelerar su proyecto..."</p>
+                                <div class="preview-options">
+                                    <div class="option">✅ Aceptar discretamente</div>
+                                    <div class="option">⚖️ Consultar con legal</div>
+                                    <div class="option">❌ Rechazar inmediatamente</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="como-funciona" class="how-it-works">
+        <div class="container">
+            <h2>¿Cómo Funciona FLAISimulator?</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">🎯</div>
+                    <h3>10 Dilemas Reales</h3>
+                    <p>Situaciones extraídas de casos reales del mercado argentino, adaptadas por expertos en compliance.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">⚡</div>
+                    <h3>5 Minutos Total</h3>
+                    <p>Cada decisión cuenta. El tiempo presiona como en la vida real. ¿Qué harías bajo presión?</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">📊</div>
+                    <h3>Análisis Cultural</h3>
+                    <p>Tu puntaje refleja patrones culturales argentinos. Comparate con otros profesionales.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">🏆</div>
+                    <h3>Ranking Social</h3>
+                    <p>Compite con colegas y descubre quién tiene el perfil ético más sólido de tu empresa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ranking" class="ranking">
+        <div class="container">
+            <h2>Ranking de Ética Empresarial</h2>
+            <div class="ranking-tabs">
+                <button class="tab-btn active" data-tab="general">General</button>
+                <button class="tab-btn" data-tab="sectores">Por Sector</button>
+                <button class="tab-btn" data-tab="regiones">Por Región</button>
+            </div>
+            
+            <div class="ranking-content">
+                <div id="general-ranking" class="ranking-tab active">
+                    <div class="leaderboard">
+                        <div class="leader-item podium gold">
+                            <span class="position">🥇</span>
+                            <span class="name">María L.</span>
+                            <span class="score">94/100</span>
+                            <span class="sector">Fintech</span>
+                        </div>
+                        <div class="leader-item podium silver">
+                            <span class="position">🥈</span>
+                            <span class="name">Carlos R.</span>
+                            <span class="score">91/100</span>
+                            <span class="sector">Consultoría</span>
+                        </div>
+                        <div class="leader-item podium bronze">
+                            <span class="position">🥉</span>
+                            <span class="name">Ana S.</span>
+                            <span class="score">89/100</span>
+                            <span class="sector">IT</span>
+                        </div>
+                        <div class="leader-item">
+                            <span class="position">4</span>
+                            <span class="name">Diego M.</span>
+                            <span class="score">87/100</span>
+                            <span class="sector">Retail</span>
+                        </div>
+                        <div class="leader-item">
+                            <span class="position">5</span>
+                            <span class="name">Lucía F.</span>
+                            <span class="score">86/100</span>
+                            <span class="sector">Banca</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ranking-cta">
+                <p><strong>¿Dónde te ubicarías vos?</strong></p>
+                <a href="game.html" class="btn btn-primary">Descubrir Mi Posición</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2>Lo Que Dicen Los Jugadores</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Me hizo replantear cómo manejo situaciones grises en mi trabajo. Súper realista."</p>
+                        <div class="testimonial-author">
+                            <strong>Laura M.</strong>
+                            <span>Directora de RRHH</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-score">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Lo jugamos en todo el equipo. Generó conversaciones súper importantes sobre ética."</p>
+                        <div class="testimonial-author">
+                            <strong>Roberto C.</strong>
+                            <span>Gerente de Ventas</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-score">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Increíble cómo te confronta con tu verdadero perfil ético. Muy argentino."</p>
+                        <div class="testimonial-author">
+                            <strong>Mariana K.</strong>
+                            <span>CFO</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-score">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Investigación Cultural + Gaming</h2>
+                    <p>FLAISimulator es más que un juego. Es la primera herramienta que combina entretenimiento viral con investigación cultural profunda sobre ética empresarial argentina.</p>
+                    
+                    <div class="about-features">
+                        <div class="feature">
+                            <h4>🧠 Basado en Ciencia</h4>
+                            <p>Desarrollado por expertos en compliance, psicología organizacional y análisis cultural.</p>
+                        </div>
+                        <div class="feature">
+                            <h4>📊 Datos Reales</h4>
+                            <p>Cada decisión alimenta nuestra base de datos cultural argentina más grande del país.</p>
+                        </div>
+                        <div class="feature">
+                            <h4>⚖️ Marco Legal</h4>
+                            <p>Alineado con Ley 27.401 de Responsabilidad Penal Empresaria de Argentina.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="research-note">
+                        <h4>🔬 Propósito de Investigación</h4>
+                        <p>Tus respuestas (completamente anónimas) nos ayudan a entender mejor los patrones culturales de decisión ética en Argentina. Este conocimiento contribuye a desarrollar mejores programas de compliance y entrenamiento ético para empresas argentinas.</p>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="culture-map">
+                        <h4>Mapa Cultural Argentino</h4>
+                        <div class="culture-stats">
+                            <div class="culture-stat">
+                                <span class="culture-label">Tendencia a consultar</span>
+                                <div class="culture-bar">
+                                    <div class="culture-fill" style="width: 78%"></div>
+                                </div>
+                                <span class="culture-value">78%</span>
+                            </div>
+                            <div class="culture-stat">
+                                <span class="culture-label">Aversión al riesgo</span>
+                                <div class="culture-bar">
+                                    <div class="culture-fill" style="width: 65%"></div>
+                                </div>
+                                <span class="culture-value">65%</span>
+                            </div>
+                            <div class="culture-stat">
+                                <span class="culture-label">Influencia social</span>
+                                <div class="culture-bar">
+                                    <div class="culture-fill" style="width: 84%"></div>
+                                </div>
+                                <span class="culture-value">84%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="viral-challenge">
+        <div class="container">
+            <div class="challenge-content">
+                <h2>🚀 ¡Desafiá a Tu Equipo!</h2>
+                <p>¿Creés que tu equipo de trabajo tiene un perfil ético sólido? <strong>¡Pónelos a prueba!</strong></p>
+                
+                <div class="challenge-steps">
+                    <div class="challenge-step">
+                        <span class="step-num">1</span>
+                        <p>Jugá vos primero y obtené tu puntaje</p>
+                    </div>
+                    <div class="challenge-step">
+                        <span class="step-num">2</span>
+                        <p>Compartí el desafío con tu equipo</p>
+                    </div>
+                    <div class="challenge-step">
+                        <span class="step-num">3</span>
+                        <p>Compartan resultados y discutan</p>
+                    </div>
+                </div>
+
+                <div class="challenge-actions">
+                    <a href="game.html" class="btn btn-primary">Empezar Mi Test</a>
+                    <button class="btn btn-secondary" id="share-team-challenge">Compartir Desafío</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">FLAI</span><span class="logo-accent">Simulator</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#privacy">Privacidad</a>
+                    <a href="#terms">Términos</a>
+                    <a href="mailto:contacto@flaisimulator.com">Contacto</a>
+                </div>
+                <div class="footer-social">
+                    <button class="social-btn" id="share-linkedin">LinkedIn</button>
+                    <button class="social-btn" id="share-whatsapp">WhatsApp</button>
+                    <button class="social-btn" id="share-twitter">Twitter</button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 FLAISimulator. Investigación cultural argentina en ética empresarial.</p>
+                <p><small>Basado en Ley 27.401 - Responsabilidad Penal Empresaria | Datos completamente anónimos</small></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="share.js"></script>
+    <script src="data-export.js"></script>
+    <script>
+        // Animate counters on page load
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target.toLocaleString();
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString();
+                }
+            }, 20);
+        }
+
+        // Tab functionality
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.ranking-tab').forEach(t => t.classList.remove('active'));
+                
+                btn.classList.add('active');
+                const tabId = btn.getAttribute('data-tab') + '-ranking';
+                const tab = document.getElementById(tabId);
+                if (tab) tab.classList.add('active');
+            });
+        });
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            const playersElement = document.getElementById('total-players');
+            const decisionsElement = document.getElementById('total-decisions');
+            
+            // Add some randomness to make it feel live
+            const basePlayers = 2847;
+            const baseDecisions = 12394;
+            const randomPlayers = basePlayers + Math.floor(Math.random() * 100);
+            const randomDecisions = baseDecisions + Math.floor(Math.random() * 500);
+            
+            animateCounter(playersElement, randomPlayers);
+            animateCounter(decisionsElement, randomDecisions);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+[build]
+  command = "npm run build"
+  functions = "netlify/functions"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NEXT_PRIVATE_TARGET = "server"
+
+[functions]
+  # Configuración para funciones MCP
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[functions]]
+  path = "/.netlify/functions/mcp-handler"
+  included_files = ["lib/**", "prisma/**"]
+
+# Configuración de redirects y rewrites
+[[redirects]]
+  from = "/api/mcp/*"
+  to = "/.netlify/functions/mcp-handler"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/health"
+  to = "/.netlify/functions/health-check"
+  status = 200
+
+[[redirects]]
+  from = "/status" 
+  to = "/.netlify/functions/health-check"
+  status = 200
+
+# Headers para CORS y seguridad
+[[headers]]
+  for = "/.netlify/functions/mcp-handler"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization, Idempotency-Key"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/api/artifacts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+    X-Content-Type-Options = "nosniff"
+
+# Variables de entorno para build
+[context.production.environment]
+  NODE_ENV = "production"
+  NEXT_PRIVATE_STANDALONE = "true"
+
+[context.deploy-preview.environment]
+  NODE_ENV = "preview"
+
+[context.branch-deploy.environment]
+  NODE_ENV = "development"

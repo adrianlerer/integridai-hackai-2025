@@ -16,7 +16,7 @@ import {
 // Input schema with Zod validation
 export const SimulateEthicsCaseSchema = z.object({
   persona: z.enum(['catalina', 'mentor', 'ana', 'carlos'], {
-    description: 'Personaje del simulador: catalina (oportunista), mentor (académico), ana (auditora), carlos (CEO)',
+    description: 'VACUNA: catalina (tentaciones), mentor (guía ética), ana (controles), carlos (liderazgo)',
   }),
   caseId: z.string().min(1, 'Case ID es requerido'),
   userId: z.string().optional(),
@@ -26,8 +26,8 @@ export const SimulateEthicsCaseSchema = z.object({
 // Output schema
 export const SimulateEthicsCaseOutputSchema = z.object({
   status: z.literal('completed'),
-  summary: z.string().describe('Resumen ejecutivo del caso simulado'),
-  reportUrl: z.string().describe('URL firmada del informe ejecutivo'),
+  summary: z.string().describe('Resultado de inmunización: qué aprendió el empleado'),
+  reportUrl: z.string().describe('Certificado de vacunación anti-corrupción'),
   runId: z.string().describe('ID único de la ejecución'),
   executionTime: z.number().describe('Tiempo de ejecución en milisegundos'),
   legalReferences: z.array(z.string()).describe('Referencias legales aplicadas'),
@@ -37,8 +37,9 @@ export type SimulateEthicsCaseInput = z.infer<typeof SimulateEthicsCaseSchema>;
 export type SimulateEthicsCaseOutput = z.infer<typeof SimulateEthicsCaseOutputSchema>;
 
 /**
- * Herramienta MCP para ejecutar simulación ética completa
- * Encapsula todo el workflow: sesión, decisiones, análisis y reporte
+ * 🛡️ VACUNA ANTI-CORRUPCIÓN MCP
+ * Inmuniza empleados contra corrupción en 5 minutos mediante simulación práctica
+ * Workflow: situación real → decisiones → feedback → inmunización
  */
 export async function simulateEthicsCase(
   input: SimulateEthicsCaseInput,

@@ -9,6 +9,11 @@ import {
   RunIntegritySurveySchema,
   RunIntegritySurveyOutputSchema
 } from '../../lib/mcp/tools/runIntegritySurvey';
+import {
+  vaccinateEmployee,
+  EmployeeVaccinationSchema,
+  EmployeeVaccinationOutputSchema
+} from '../../lib/mcp/tools/employeeVaccination';
 import { OAuthMiddleware, RateLimiter } from '../../lib/infra/oauth';
 import { AuditLogger, AuditEventType } from '../../lib/infra/audit';
 import { cleanExpiredIdempotencyRecords } from '../../lib/infra/db';
@@ -161,7 +166,7 @@ async function handleMCPMethod(
           serverInfo: {
             name: 'integridai-mcp-server',
             version: '1.0.0',
-            description: 'IntegridAI MCP Server - Workflow tools para compliance Ley 27.401',
+            description: '💉 IntegridAI MCP Server - Vacuna Anti-Corrupción para Empleados (Ley 27.401)',
           },
         },
       };
@@ -173,13 +178,18 @@ async function handleMCPMethod(
         result: {
           tools: [
             {
+              name: 'vaccinate_employee',
+              description: '💉 Vacuna Anti-Corrupción: Inmuniza empleados en 5 minutos contra situaciones de corrupción específicas',
+              inputSchema: EmployeeVaccinationSchema,
+            },
+            {
               name: 'simulate_ethics_case',
-              description: 'Ejecuta un caso del FLAISimulator end-to-end y devuelve un informe ejecutivo con recomendaciones conforme Ley 27.401',
+              description: '🛡️ Simulación de inmunización ética: Ejecuta casos del FLAISimulator para generar inmunidad específica',
               inputSchema: SimulateEthicsCaseSchema,
             },
             {
               name: 'run_integrity_survey',
-              description: 'Ejecuta la Encuesta de Integridad completa, genera artefactos CSV/JSON y resumen ejecutivo conforme Ley 27.401',
+              description: '📊 Evaluación de integridad: Ejecuta encuesta completa para detectar vulnerabilidades antes de la vacunación',
               inputSchema: RunIntegritySurveySchema,
             },
           ],
@@ -236,6 +246,30 @@ async function handleToolCall(
     let result: any;
 
     switch (name) {
+      case 'vaccinate_employee':
+        // Rate limiting
+        if (authContext.user?.id) {
+          const rateLimit = await RateLimiter.checkRateLimit(
+            authContext.user.id,
+            'employee_vaccination'
+          );
+          
+          if (!rateLimit.allowed) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              error: {
+                code: -32603,
+                message: 'Rate limit exceeded. Please try again later.',
+              },
+            };
+          }
+        }
+
+        result = await vaccinateEmployee(args, requestContext);
+        result = EmployeeVaccinationOutputSchema.parse(result);
+        break;
+
       case 'simulate_ethics_case':
         // Rate limiting
         if (authContext.user?.id) {

@@ -1,0 +1,52 @@
+{
+  "mcpServers": {
+    "trinity-asi-integridai": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-stdio", 
+        "node",
+        "/path/to/your/webapp/apps/mcp-server/app/api/mcp/[transport]/route.ts"
+      ],
+      "env": {
+        "NODE_ENV": "production",
+        "TRINITY_ASI_ENABLED": "true",
+        "JURISRANK_PATENTS": "true",
+        "OAK_ARCHITECTURE": "true",
+        "ZERO_TRUST_SECURITY": "true",
+        "P4_FRAMEWORK": "true",
+        "SLM_ROUTING": "true",
+        "ANTI_SMOKE_VALIDATION": "true"
+      }
+    }
+  },
+  "globalShortcut": "Ctrl+Shift+T",
+  "theme": "trinity-asi",
+  "integrations": {
+    "trinity-asi": {
+      "name": "Trinity-ASI Anti-Corruption System",
+      "description": "World's most advanced anti-corruption prevention system with JurisRank + Oak Architecture + Vaccination",
+      "version": "1.0.0",
+      "capabilities": [
+        "vaccinate_employee",
+        "analyze_political_actors", 
+        "analyze_network_intelligence",
+        "simulate_corruption_biofilm",
+        "simulate_ethics_case",
+        "run_integrity_survey"
+      ],
+      "security": {
+        "zeroTrust": true,
+        "bsiCompliant": true,
+        "anssiCompliant": true,
+        "patentProtected": true
+      },
+      "performance": {
+        "slmRouting": true,
+        "costReduction": "30x",
+        "efficiency": "90%",
+        "edgeDeployment": true
+      }
+    }
+  }
+}

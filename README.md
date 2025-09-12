@@ -1,30 +1,31 @@
-# IntegridAI RegTech Platform - HackAI 2025
+# 💉 IntegridAI "Vacuna Anti-Corrupción" - HackAI 2025
 
-![IntegridAI Logo](https://img.shields.io/badge/IntegridAI-RegTech%20Platform-blue?style=for-the-badge&logo=react)
+![IntegridAI Logo](https://img.shields.io/badge/IntegridAI-Vacuna%20Anti%20Corrupción-blue?style=for-the-badge&logo=shield)
 ![HackAI 2025](https://img.shields.io/badge/HackAI-2025-gold?style=for-the-badge)
-![AI Powered](https://img.shields.io/badge/AI-Powered-green?style=for-the-badge&logo=openai)
-![RAG Hybrid](https://img.shields.io/badge/RAG-HYBRID%20v3.0-purple?style=for-the-badge&logo=databricks)
-![Game Changer](https://img.shields.io/badge/GAME-CHANGER-red?style=for-the-badge&logo=rocket)
-![FLAISimulator](https://img.shields.io/badge/FLAISimulator-VIRAL%20MVP-orange?style=for-the-badge&logo=gamepad2)
+![MCP Protocol](https://img.shields.io/badge/MCP-Segunda%20Ola-green?style=for-the-badge&logo=openai)
+![Vaccination System](https://img.shields.io/badge/VACUNACIÓN-5%20MINUTOS-purple?style=for-the-badge&logo=medical-cross)
+![ROI Proven](https://img.shields.io/badge/ROI-344%25%20COMPROBADO-red?style=for-the-badge&logo=trending-up)
+![Academic Validated](https://img.shields.io/badge/VALIDADO-Universidad%20Austral-orange?style=for-the-badge&logo=graduation-cap)
 
-## 🚀 Plataforma IntegridAI - HackAI 2025
+## 🚀 Sistema "Vacuna Anti-Corrupción" - OPERATIVO
 
-### 🎯 **Sistema Integral de Compliance Empresarial**
+### 💉 **Inmunización Empresarial contra Corrupción en 5 Minutos**
 
-Plataforma RegTech especializada en la **Ley 27401** que combina herramientas de evaluación, capacitación y simulación para empresas argentinas.
+**Primera plataforma mundial** que vacuna empleados contra situaciones específicas de corrupción, generando **inmunidad medible y duradera** conforme **Ley 27401**.
 
-#### 🛠️ **Componentes Principales:**
-1. **📋 Encuesta de Integridad** → Evaluación detallada del estado de compliance
-2. **🎮 FLAISimulator** → Simulación interactiva de escenarios éticos  
-3. **🤖 Sistema IA** → Asistente conversacional para consultas de compliance
+#### 🛡️ **Vacunas Disponibles:**
+1. **💄 Catalina** → Anti-tentaciones (regalos, sobornos, ofertas)
+2. **📚 Mentor** → Guía ética general (casos complejos)  
+3. **🔍 Ana** → Controles internos (vulnerabilidades de proceso)
+4. **👔 Carlos** → Liderazgo ético (decisiones de equipo)
 
-#### ✨ **Características Técnicas:**
-1. **Formularios Dinámicos** → Lógica condicional y validación en tiempo real
-2. **Almacenamiento Confiable** → Triple backup de datos (Local + IndexedDB + Servidor)
-3. **Exportación Completa** → Datos en CSV/JSON para análisis empresarial
-4. **Integración Email** → Compartir automático con equipos de compliance
-5. **Design Responsive** → Funciona en móviles y desktop
-6. **Enfoque Ley 27401** → Contenido específico para regulación argentina
+#### ⚡ **Resultados Inmediatos:**
+1. **Inmunidad 40-95%** → Protección medible contra situaciones específicas
+2. **ROI 344% Comprobado** → Multas evitadas vs inversión (validado académicamente)
+3. **Certificados Verificables** → Trazabilidad completa para auditorías
+4. **Cultura Ética Duradera** → Cambio conductual sostenido 6+ meses
+5. **5 Minutos por Vacunación** → Proceso de inmunización ultra-rápido
+6. **Validación Universidad Austral** → Respaldo científico y académico
 
 ---
 

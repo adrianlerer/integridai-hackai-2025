@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id          String   @id @default(cuid())
+  userId      String?
+  sessionType String   // "ethics_case" | "integrity_survey"
+  status      String   // "pending" | "active" | "completed" | "failed"
+  metadata    Json?    // Additional session metadata
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  expiresAt   DateTime?
+  
+  // Relations
+  runs        Run[]
+  
+  @@map("sessions")
+}
+
+model Run {
+  id           String   @id @default(cuid())
+  sessionId    String
+  runType      String   // "simulate_ethics_case" | "run_integrity_survey"
+  status       String   // "pending" | "running" | "completed" | "failed"
+  
+  // Input parameters (sanitized)
+  inputHash    String   // Hash of sanitized inputs for idempotency
+  inputParams  Json     // Sanitized input parameters
+  
+  // Output data
+  outputData   Json?    // Run results
+  summary      String?  // Executive summary
+  
+  // Execution metadata
+  startedAt    DateTime @default(now())
+  completedAt  DateTime?
+  duration     Int?     // Duration in milliseconds
+  errorMessage String?
+  
+  // Idempotency
+  idempotencyKey String? @unique
+  
+  // Relations
+  session      Session    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  artifacts    Artifact[]
+  auditLogs    AuditLog[]
+  
+  @@map("runs")
+}
+
+model Artifact {
+  id          String   @id @default(cuid())
+  runId       String
+  artifactType String  // "report_pdf" | "report_html" | "csv_export" | "json_export"
+  fileName    String
+  fileUrl     String
+  fileHash    String   // SHA-256 hash for integrity
+  fileSize    Int?     // File size in bytes
+  mimeType    String
+  
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime?
+  
+  // Relations
+  run         Run      @relation(fields: [runId], references: [id], onDelete: Cascade)
+  
+  @@map("artifacts")
+}
+
+model SurveyResponse {
+  id          String   @id @default(cuid())
+  runId       String   // Link to the run that generated this survey
+  userId      String?
+  
+  // Survey data
+  responses   Json     // Survey responses object
+  sectionScores Json?  // Scores by section
+  totalScore  Float?   // Overall score
+  
+  // Delivery preferences
+  deliveryFormat String[] // ["csv", "json"]
+  notifyEmails   String[] // Email addresses for notifications
+  
+  createdAt   DateTime @default(now())
+  
+  @@map("survey_responses")
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  runId       String?
+  sessionId   String?
+  
+  // Event details
+  eventType   String   // "run_started" | "run_completed" | "artifact_created" | "error_occurred"
+  eventData   Json     // Event-specific data
+  
+  // User context
+  userId      String?
+  userAgent   String?
+  ipAddress   String?
+  
+  // Legal/compliance references
+  legalRefs   String[] // Array of legal references applied (e.g., "Ley 27.401 Art. 23")
+  
+  timestamp   DateTime @default(now())
+  
+  // Relations  
+  run         Run?     @relation(fields: [runId], references: [id], onDelete: Cascade)
+  
+  @@map("audit_logs")
+}
+
+model IdempotencyRecord {
+  id              String   @id @default(cuid())
+  idempotencyKey  String   @unique
+  runId           String   @unique
+  
+  createdAt       DateTime @default(now())
+  expiresAt       DateTime
+  
+  @@map("idempotency_records")
+}

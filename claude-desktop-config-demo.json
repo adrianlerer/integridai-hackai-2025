@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "integridai-demo": {
+      "command": "node",
+      "args": [
+        "/ruta/a/integridai-hackai-2025/apps/mcp-server/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "demo"
+      }
+    }
+  }
+}

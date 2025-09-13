@@ -1,0 +1,28 @@
+{
+  "name": "integridai-mcp-server-basic",
+  "version": "1.0.0",
+  "description": "IntegridAI MCP Server básico para HackAI 2025 - Herramientas de compliance Ley 27.401",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "compliance",
+    "ley-27401",
+    "hackai-2025",
+    "regtech"
+  ],
+  "author": "IntegridAI",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

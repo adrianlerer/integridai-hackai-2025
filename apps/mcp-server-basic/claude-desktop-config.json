@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "integridai-basic": {
+      "command": "node",
+      "args": [
+        "/home/user/webapp/apps/mcp-server-basic/dist/index.js"
+      ],
+      "env": {},
+      "description": "IntegridAI MCP Server Básico - Herramientas de compliance Ley 27.401 para HackAI 2025"
+    }
+  }
+}

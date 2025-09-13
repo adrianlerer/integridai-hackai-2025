@@ -180,12 +180,63 @@ cd integridai-hackai-2025/flaisimulator
 
 ## 📚 Documentación
 
+### 🤖 MCP Server Básico - Herramientas de Compliance
+
+**4 Herramientas especializadas para Claude Desktop:**
+
+#### 🔍 `integrity_assessment` - Evaluación de Integridad
+Evalúa el nivel de compliance empresarial según Ley 27.401:
+- Análisis por sector y tamaño empresarial
+- Identificación de fortalezas y debilidades
+- Plan de acción personalizado
+- Referencias legales específicas
+
+#### 🎭 `basic_ethics_simulation` - Simulador Ético
+Simula dilemas éticos empresariales comunes:
+- **Regalos de proveedores**: Manejo ético de obsequios
+- **Conflictos de interés**: Identificación y resolución
+- **Información privilegiada**: Uso ético de datos sensibles
+- **Pagos de facilitación**: Prevención de corrupción
+
+#### 📊 `compliance_checker` - Verificador de Compliance
+Verifica cumplimiento de requisitos Ley 27.401:
+- Evaluación de elementos obligatorios (Art. 23)
+- Identificación de brechas legales
+- Recomendaciones de implementación
+- Marco legal de referencia completo
+
+#### 📚 `basic_training_recommendations` - Entrenamiento
+Genera planes de capacitación personalizados:
+- Adaptado por departamento y experiencia
+- Módulos específicos con duración
+- Plan de implementación y KPIs
+- Metodologías de evaluación
+
 ### Endpoints de API (Netlify Functions)
 
 - `GET /.netlify/functions/get-characters` - Lista personajes disponibles
 - `POST /.netlify/functions/start-conversation` - Inicia conversación con IA
 - `POST /.netlify/functions/continue-conversation` - Continúa conversación
 - `POST /.netlify/functions/end-conversation` - Finaliza con análisis
+
+### Instalación MCP Server
+
+```bash
+# Instalar y compilar
+cd apps/mcp-server-basic
+npm install && npm run build
+
+# Configurar Claude Desktop (añadir a config.json)
+{
+  "mcpServers": {
+    "integridai-basic": {
+      "command": "node",
+      "args": ["/ruta/completa/apps/mcp-server-basic/dist/index.js"],
+      "description": "IntegridAI Compliance Tools"
+    }
+  }
+}
+```
 
 ### Estructura de Personajes
 

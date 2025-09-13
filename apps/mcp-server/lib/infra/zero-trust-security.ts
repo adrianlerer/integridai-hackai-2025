@@ -1,22 +1,25 @@
 /**
- * 🛡️ TRINITY-ASI ZERO TRUST SECURITY LAYER
+ * 🛡️ TRINITY-ASI ZERO TRUST SECURITY LAYER WITH DETERMINISTIC VALIDATION
  * 
  * Compliant with:
  * - BSI (German Federal Office for Information Security) 2025 Guidelines
  * - ANSSI (French National Cybersecurity Agency) 2025 Standards  
  * - JurisRank Multi-Layer Security Architecture
  * - Oak Architecture Autonomy Guardian Protection
+ * - Deterministic LLM Inference Security (Reproducible AI Compliance)
  * 
  * Zero Trust Principles Applied:
- * 1. Never trust, always verify
- * 2. Assume breach has occurred
- * 3. Verify explicitly with dynamic authority scoring
- * 4. Use least privilege access with SLM routing
+ * 1. Never trust, always verify (including AI outputs)
+ * 2. Assume breach has occurred (validate deterministic integrity)
+ * 3. Verify explicitly with dynamic authority scoring + deterministic fingerprinting
+ * 4. Use least privilege access with SLM routing + audit trail
  * 5. Micro-segmentation for each Trinity-ASI component
+ * 6. Deterministic inference validation for compliance reproducibility
  */
 
 import crypto from 'crypto';
 import { AuditLogger, AuditEventType } from './audit';
+import { DeterministicInferenceEngine, DeterministicInferenceResult, PromptFingerprint } from './deterministic-inference';
 
 // 🔐 Zero Trust Configuration
 interface ZeroTrustConfig {
@@ -35,6 +38,12 @@ interface ZeroTrustConfig {
   // Oak Architecture Protection
   antiSmokeValidation: boolean;
   slmRoutingSecurity: boolean;
+  
+  // Deterministic Inference Security
+  requireDeterministicValidation: boolean;
+  auditTrailMandatory: boolean;
+  reproducibilityEnforced: boolean;
+  complianceLevel: 'basic' | 'standard' | 'forensic';
 }
 
 // 🛡️ Security Validation Results
@@ -43,7 +52,13 @@ export interface SecurityValidation {
   trustScore: number; // 0-1
   violations: SecurityViolation[];
   recommendations: string[];
-  complianceLevel: 'BSI_2025' | 'ANSSI_2025' | 'TRINITY_ASI_MAX';
+  complianceLevel: 'BSI_2025' | 'ANSSI_2025' | 'TRINITY_ASI_MAX' | 'DETERMINISTIC_COMPLIANT';
+  deterministicValidation?: {
+    fingerprintVerified: boolean;
+    auditTrailComplete: boolean;
+    reproducibilityConfirmed: boolean;
+    complianceScore: number;
+  };
 }
 
 export interface SecurityViolation {
@@ -70,8 +85,9 @@ export class ZeroTrustSecurityEngine {
   private config: ZeroTrustConfig;
   private trustedClients: Map<string, number> = new Map(); // clientId -> trustScore
   private suspiciousActivities: Map<string, number> = new Map(); // clientId -> suspicionCount
+  private deterministicEngine: DeterministicInferenceEngine | null = null;
   
-  constructor() {
+  constructor(deterministicEngine?: DeterministicInferenceEngine) {
     this.config = {
       minimumTlsVersion: '1.3',
       certificateValidation: 'strict',
@@ -81,7 +97,14 @@ export class ZeroTrustSecurityEngine {
       federatedLearningSecure: true,
       antiSmokeValidation: true,
       slmRoutingSecurity: true,
+      // Deterministic security enhancements
+      requireDeterministicValidation: true,
+      auditTrailMandatory: true,
+      reproducibilityEnforced: true,
+      complianceLevel: 'forensic',
     };
+    
+    this.deterministicEngine = deterministicEngine || null;
   }
   
   /**
@@ -166,9 +189,26 @@ export class ZeroTrustSecurityEngine {
       trustScore *= 0.8;
     }
     
-    // Determine compliance level
-    let complianceLevel: 'BSI_2025' | 'ANSSI_2025' | 'TRINITY_ASI_MAX' = 'BSI_2025';
-    if (trustScore >= 0.9 && violations.length === 0) {
+    // 7. Deterministic Inference Security Validation
+    let deterministicValidation: any = null;
+    if (this.config.requireDeterministicValidation) {
+      deterministicValidation = await this.validateDeterministicSecurity(request, context);
+      if (!deterministicValidation.passed) {
+        violations.push({
+          type: 'deterministic_compliance',
+          severity: 'critical',
+          description: 'Deterministic inference validation failed - reproducibility at risk',
+          mitigation: 'Enable audit trail and ensure deterministic configuration'
+        });
+        trustScore *= 0.2; // Critical for compliance systems
+      }
+    }
+    
+    // Determine compliance level with deterministic consideration
+    let complianceLevel: 'BSI_2025' | 'ANSSI_2025' | 'TRINITY_ASI_MAX' | 'DETERMINISTIC_COMPLIANT' = 'BSI_2025';
+    if (trustScore >= 0.95 && violations.length === 0 && deterministicValidation?.passed) {
+      complianceLevel = 'DETERMINISTIC_COMPLIANT';
+    } else if (trustScore >= 0.9 && violations.length === 0) {
       complianceLevel = 'TRINITY_ASI_MAX';
     } else if (trustScore >= 0.7) {
       complianceLevel = 'ANSSI_2025';
@@ -184,7 +224,13 @@ export class ZeroTrustSecurityEngine {
       trustScore,
       violations,
       recommendations,
-      complianceLevel
+      complianceLevel,
+      deterministicValidation: deterministicValidation ? {
+        fingerprintVerified: deterministicValidation.fingerprintVerified || false,
+        auditTrailComplete: deterministicValidation.auditTrailComplete || false,
+        reproducibilityConfirmed: deterministicValidation.reproducibilityConfirmed || false,
+        complianceScore: deterministicValidation.complianceScore || 0,
+      } : undefined
     };
   }
   
@@ -370,6 +416,170 @@ export class ZeroTrustSecurityEngine {
     });
   }
   
+  /**
+   * 🔬 Deterministic Inference Security Validation
+   * 
+   * Validates the security and compliance of deterministic inference operations
+   * Critical for world-class compliance systems requiring reproducible AI
+   */
+  private async validateDeterministicSecurity(
+    request: any, 
+    context: any
+  ): Promise<{
+    passed: boolean;
+    fingerprintVerified: boolean;
+    auditTrailComplete: boolean;
+    reproducibilityConfirmed: boolean;
+    complianceScore: number;
+  }> {
+    
+    let fingerprintVerified = false;
+    let auditTrailComplete = false;
+    let reproducibilityConfirmed = false;
+    let complianceScore = 0;
+
+    try {
+      // 1. Validate deterministic fingerprint exists and is valid
+      const fingerprint = request.headers?.[`x-deterministic-fingerprint`] || request.deterministicFingerprint;
+      if (fingerprint && this.validateDeterministicFingerprint(fingerprint)) {
+        fingerprintVerified = true;
+        complianceScore += 0.3;
+      }
+
+      // 2. Validate audit trail completeness
+      if (this.deterministicEngine) {
+        try {
+          const auditData = this.deterministicEngine.getAuditTrail();
+          if (auditData instanceof Map && auditData.size > 0) {
+            auditTrailComplete = true;
+            complianceScore += 0.3;
+          }
+        } catch (error) {
+          // Audit trail validation failed
+          auditTrailComplete = false;
+        }
+      }
+
+      // 3. Validate reproducibility configuration
+      const reproducibilityHeaders = {
+        temperature: request.headers?.['x-deterministic-temperature'],
+        seed: request.headers?.['x-deterministic-seed'],
+        model: request.headers?.['x-deterministic-model']
+      };
+
+      if (this.validateReproducibilityConfig(reproducibilityHeaders)) {
+        reproducibilityConfirmed = true;
+        complianceScore += 0.3;
+      }
+
+      // 4. Additional compliance checks
+      if (this.config.auditTrailMandatory && auditTrailComplete) {
+        complianceScore += 0.1;
+      }
+
+      const passed = fingerprintVerified && 
+                    (this.config.auditTrailMandatory ? auditTrailComplete : true) && 
+                    (this.config.reproducibilityEnforced ? reproducibilityConfirmed : true) &&
+                    complianceScore >= 0.7;
+
+      return {
+        passed,
+        fingerprintVerified,
+        auditTrailComplete,
+        reproducibilityConfirmed,
+        complianceScore
+      };
+
+    } catch (error) {
+      // Security validation failed
+      return {
+        passed: false,
+        fingerprintVerified: false,
+        auditTrailComplete: false,
+        reproducibilityConfirmed: false,
+        complianceScore: 0
+      };
+    }
+  }
+
+  /**
+   * Validate deterministic fingerprint integrity
+   */
+  private validateDeterministicFingerprint(fingerprint: any): boolean {
+    if (typeof fingerprint === 'string') {
+      // Simple fingerprint string validation
+      return fingerprint.length >= 32 && /^[a-f0-9]+$/i.test(fingerprint);
+    }
+
+    if (typeof fingerprint === 'object' && fingerprint !== null) {
+      // Complex fingerprint object validation
+      const required = ['promptHash', 'configHash', 'modelVersion', 'timestamp'];
+      return required.every(field => fingerprint[field] && typeof fingerprint[field] === 'string');
+    }
+
+    return false;
+  }
+
+  /**
+   * Validate reproducibility configuration
+   */
+  private validateReproducibilityConfig(config: any): boolean {
+    // Check for deterministic settings
+    const temperature = parseFloat(config.temperature || '1.0');
+    const hasSeed = config.seed !== undefined && config.seed !== null;
+    const hasModel = config.model && typeof config.model === 'string';
+
+    // Deterministic requirements: temperature near 0, fixed seed, consistent model
+    const isDeterministicTemp = temperature <= 0.01;
+    
+    return isDeterministicTemp && hasSeed && hasModel;
+  }
+
+  /**
+   * Set deterministic inference engine for validation
+   */
+  setDeterministicEngine(engine: DeterministicInferenceEngine): void {
+    this.deterministicEngine = engine;
+  }
+
+  /**
+   * Validate production readiness for deterministic compliance
+   */
+  validateDeterministicProductionReadiness(): {
+    ready: boolean;
+    issues: string[];
+    recommendations: string[];
+  } {
+    const issues: string[] = [];
+    const recommendations: string[] = [];
+
+    // Check deterministic engine availability
+    if (!this.deterministicEngine) {
+      issues.push('Deterministic inference engine not configured');
+      recommendations.push('Initialize ZeroTrustSecurityEngine with DeterministicInferenceEngine');
+    }
+
+    // Check configuration compliance
+    if (!this.config.requireDeterministicValidation) {
+      issues.push('Deterministic validation disabled');
+      recommendations.push('Enable requireDeterministicValidation for compliance');
+    }
+
+    if (!this.config.auditTrailMandatory) {
+      recommendations.push('Consider enabling mandatory audit trail for maximum compliance');
+    }
+
+    if (this.config.complianceLevel !== 'forensic') {
+      recommendations.push('Set compliance level to "forensic" for world-class compliance');
+    }
+
+    return {
+      ready: issues.length === 0,
+      issues,
+      recommendations
+    };
+  }
+
   // Helper methods (simplified implementations)
   
   private async calculateAuthorityScore(userId: string): Promise<number> {
@@ -424,5 +634,17 @@ export class ZeroTrustSecurityEngine {
   }
 }
 
-// Export singleton instance
+/**
+ * Factory function for creating Zero Trust engine with deterministic capabilities
+ */
+export function createDeterministicZeroTrustEngine(
+  deterministicEngine: DeterministicInferenceEngine
+): ZeroTrustSecurityEngine {
+  return new ZeroTrustSecurityEngine(deterministicEngine);
+}
+
+// Export singleton instance (basic configuration)
 export const ZeroTrust = new ZeroTrustSecurityEngine();
+
+// Export enhanced Zero Trust for Trinity-ASI integration
+export { ZeroTrustSecurityEngine as DeterministicZeroTrust };

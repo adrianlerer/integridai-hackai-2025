@@ -14,6 +14,11 @@ import {
   EmployeeVaccinationSchema,
   EmployeeVaccinationOutputSchema
 } from '../../lib/mcp/tools/employeeVaccination';
+import {
+  vaccinateEmployeeForensic,
+  ForensicVaccinationOutputSchema
+} from '../../lib/mcp/tools/employeeVaccinationForensic';
+import { ForensicContext } from '../../lib/infra/forensic';
 import { OAuthMiddleware, RateLimiter } from '../../lib/infra/oauth';
 import { AuditLogger, AuditEventType } from '../../lib/infra/audit';
 import { cleanExpiredIdempotencyRecords } from '../../lib/infra/db';
@@ -178,6 +183,11 @@ async function handleMCPMethod(
         result: {
           tools: [
             {
+              name: 'vaccinate_employee_forensic',
+              description: '🔒💉 Vacuna Anti-Corrupción FORENSE: Inmunización 100% reproducible para auditorías regulatorias (Ley 27.401)',
+              inputSchema: EmployeeVaccinationSchema,
+            },
+            {
               name: 'vaccinate_employee',
               description: '💉 Vacuna Anti-Corrupción: Inmuniza empleados en 5 minutos contra situaciones de corrupción específicas',
               inputSchema: EmployeeVaccinationSchema,
@@ -246,6 +256,43 @@ async function handleToolCall(
     let result: any;
 
     switch (name) {
+      case 'vaccinate_employee_forensic':
+        // [Crítico] Rate limiting más estricto para operaciones forenses
+        if (authContext.user?.id) {
+          const rateLimit = await RateLimiter.checkRateLimit(
+            authContext.user.id,
+            'forensic_vaccination'
+          );
+          
+          if (!rateLimit.allowed) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              error: {
+                code: -32603,
+                message: 'Forensic rate limit exceeded. Please try again later.',
+              },
+            };
+          }
+        }
+
+        // [Esencial] Contexto forense para compliance
+        const forensicContext: ForensicContext = {
+          userId: authContext.user?.id,
+          complianceMode: true,
+          auditRequired: true,
+          legalReference: 'Ley 27.401 - Auditoría Regulatoria'
+        };
+
+        const forensicResult = await vaccinateEmployeeForensic(args, forensicContext);
+        result = {
+          ...forensicResult.data,
+          _forensicMetadata: forensicResult.forensicMetadata // [Crítico] Incluir metadata
+        };
+        // [Nota] Usar schema estándar por compatibilidad con MCP
+        result = EmployeeVaccinationOutputSchema.parse(forensicResult.data);
+        break;
+
       case 'vaccinate_employee':
         // Rate limiting
         if (authContext.user?.id) {

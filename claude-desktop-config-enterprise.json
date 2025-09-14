@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "integridai-enterprise": {
+      "command": "node",
+      "args": [
+        "REPLACE_WITH_YOUR_PATH/integridai-suite/apps/mcp-server-legal/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production",
+        "INTEGRIDAI_VERSION": "enterprise",
+        "LEGAL_SHIELD_ENABLED": "true",
+        "FORENSIC_DETERMINISM": "true",
+        "LEY_27401_PROTECTION": "full",
+        "RETENTION_YEARS": "7",
+        "COMPLIANCE_LEVEL": "full"
+      }
+    }
+  }
+}

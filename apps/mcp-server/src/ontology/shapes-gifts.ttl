@@ -1,0 +1,106 @@
+@prefix sh:  <http://www.w3.org/ns/shacl#> .
+@prefix ia:  <https://integridai.example/schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# Shape general para Gift/Hospitality: registro obligatorio si Approved/PreApproved
+#################################################################
+ia:BenefitEventShape
+  a sh:NodeShape ;
+  sh:targetClass ia:BenefitEvent ;
+  sh:property [
+    sh:path ia:approvalStatus ;
+    sh:in ( ia:ApprovalApproved ia:ApprovalPreApproved ia:ApprovalRejected ) ;
+    sh:message "approvalStatus debe ser Approved, PreApproved o Rejected." ;
+  ] ;
+  sh:sparql [
+    sh:message "Todo beneficio aprobado o preaprobado debe estar registrado (recordedInRegister=true).";
+    sh:select """
+      PREFIX ia: <https://integridai.example/schema#>
+      SELECT $this WHERE {
+        $this ia:approvalStatus ?st .
+        FILTER (?st IN (ia:ApprovalApproved, ia:ApprovalPreApproved))
+        $this ia:recordedInRegister ?reg .
+        FILTER (!BOUND(?reg) || ?reg != true)
+      }
+    """ ;
+  ] .
+
+#################################################################
+# BAN: Cash o equivalentes siempre Rejected (sector privado)
+#################################################################
+ia:BanCashEquivalentsShape
+  a sh:NodeShape ;
+  sh:targetClass ia:BenefitEvent ;
+  sh:sparql [
+    sh:message "Cash o equivalentes no permitidos: debe estar Rejected.";
+    sh:select """
+      PREFIX ia: <https://integridai.example/schema#>
+      SELECT $this WHERE {
+        $this ia:isCashOrEquivalent ?b .
+        FILTER (?b = true)
+        $this ia:approvalStatus ?st .
+        FILTER (?st != ia:ApprovalRejected)
+      }
+    """ ;
+  ] .
+
+#################################################################
+# Regla de preaprobación: umbral de monto / negociación abierta / frecuencia
+#################################################################
+ia:PreapprovalRuleShape
+  a sh:NodeShape ;
+  sh:targetClass ia:BenefitEvent ;
+  sh:sparql [
+    sh:message "Si supera umbral, hay decisión pendiente o excede frecuencia 12m, el estado debe ser PreApproved o Rejected.";
+    sh:select """
+      PREFIX ia: <https://integridai.example/schema#>
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+      SELECT $this WHERE {
+        ia:PolicyParams ia:PolicyThresholdMinorGift ?th .
+        ia:PolicyParams ia:PolicyMaxFrequency12m ?maxf .
+
+        $this ia:valueAmount ?amt .
+        OPTIONAL { $this ia:pendingBusinessDecision ?pbd . }
+        OPTIONAL { $this ia:frequency12m ?fq . }
+        $this ia:approvalStatus ?st .
+
+        BIND (IF(BOUND(?pbd) && ?pbd = true, true, false) AS ?neg)
+        BIND (IF(BOUND(?fq) && ?fq > ?maxf, true, false) AS ?overFq)
+        BIND ((?amt > ?th) || ?neg || ?overFq AS ?needsPre)
+
+        FILTER (?needsPre = true && ?st NOT IN (ia:ApprovalPreApproved, ia:ApprovalRejected))
+      }
+    """ ;
+  ] .
+
+#################################################################
+# Funcionarios públicos: regla legal (Ley 25.188 art.18 + Dec. 1179/2016)
+# Por defecto, Rejected; solo se admite excepción de cortesía/diplomática CON registro.
+#################################################################
+ia:PublicOfficialGiftShape
+  a sh:NodeShape ;
+  sh:targetClass ia:BenefitEvent ;
+  sh:sparql [
+    sh:message "Interacción con funcionario público: Rejected salvo excepción (Courtesy/DiplomaticCustom) y registro.";
+    sh:select """
+      PREFIX ia: <https://integridai.example/schema#>
+      SELECT $this WHERE {
+        $this ia:publicOfficialInvolved ?pof .
+        FILTER (?pof = true)
+
+        $this ia:approvalStatus ?st .
+        OPTIONAL { $this ia:exceptionType ?exc . }
+        OPTIONAL { $this ia:recordedInRegister ?reg . }
+
+        BIND (COALESCE(?exc, ia:ExcNone) AS ?ex)
+        BIND (COALESCE(?reg, false) AS ?rg)
+
+        # incumple si NO está Rejected y NO (excepción válida CON registro)
+        FILTER ( !(
+           (?st = ia:ApprovalRejected) ||
+           ((?ex IN (ia:ExcCourtesy, ia:ExcDiplomaticCustom)) && (?rg = true))
+        ))
+      }
+    """ ;
+  ] .

@@ -3,10 +3,11 @@
     "integridai-demo": {
       "command": "node",
       "args": [
-        "/ruta/a/integridai-hackai-2025/apps/mcp-server/dist/index.js"
+        "REPLACE_WITH_YOUR_PATH/integridai-hackai-2025/apps/mcp-server/dist/index.js"
       ],
       "env": {
-        "NODE_ENV": "demo"
+        "NODE_ENV": "demo",
+        "INTEGRIDAI_VERSION": "demo"
       }
     }
   }

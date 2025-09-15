@@ -1,0 +1,40 @@
+{
+  "@context": {
+    "ia": "https://integridai.example/schema#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "sh": "http://www.w3.org/ns/shacl#"
+  },
+  "@graph": [
+    {"@id": "ia:Person", "@type": "rdfs:Class", "rdfs:label": "Person"},
+    {"@id": "ia:Employee", "@type": "rdfs:Class", "rdfs:subClassOf": "ia:Person"},
+    {"@id": "ia:ThirdParty", "@type": "rdfs:Class", "rdfs:subClassOf": "ia:Person"},
+    {"@id": "ia:PublicOfficial", "@type": "rdfs:Class", "rdfs:subClassOf": "ia:Person"},
+
+    {"@id": "ia:BenefitEvent", "@type": "rdfs:Class"},
+    {"@id": "ia:Gift", "@type": "rdfs:Class", "rdfs:subClassOf": "ia:BenefitEvent"},
+    {"@id": "ia:Hospitality", "@type": "rdfs:Class", "rdfs:subClassOf": "ia:BenefitEvent"},
+
+    {"@id": "ia:offeredBy", "@type": "rdf:Property", "rdfs:domain": "ia:BenefitEvent", "rdfs:range": "ia:Person"},
+    {"@id": "ia:receivedBy", "@type": "rdf:Property", "rdfs:domain": "ia:BenefitEvent", "rdfs:range": "ia:Person"},
+    {"@id": "ia:context", "@type": "rdf:Property", "rdfs:domain": "ia:BenefitEvent", "rdfs:range": "xsd:string"},
+    {"@id": "ia:valueAmount", "@type": "rdf:Property", "rdfs:domain": "ia:BenefitEvent", "rdfs:range": "xsd:decimal"},
+    {"@id": "ia:valueCurrency", "@type": "rdf:Property", "rdfs:domain": "ia:BenefitEvent", "rdfs:range": "xsd:string"},
+    {"@id": "ia:isCashOrEquivalent", "@type": "rdf:Property", "rdfs:domain": "ia:BenefitEvent", "rdfs:range": "xsd:boolean"},
+    {"@id": "ia:publicOfficialInvolved", "@type": "rdf:Property", "rdfs:domain": "ia:BenefitEvent", "rdfs:range": "xsd:boolean"},
+    {"@id": "ia:pendingBusinessDecision", "@type": "rdf:Property", "rdfs:domain": "ia:BenefitEvent", "rdfs:range": "xsd:boolean"},
+    {"@id": "ia:frequency12m", "@type": "rdf:Property", "rdfs:domain": "ia:BenefitEvent", "rdfs:range": "xsd:integer"},
+    {"@id": "ia:recordedInRegister", "@type": "rdf:Property", "rdfs:domain": "ia:BenefitEvent", "rdfs:range": "xsd:boolean"},
+    {"@id": "ia:approvalStatus", "@type": "rdf:Property", "rdfs:domain": "ia:BenefitEvent", "rdfs:range": "xsd:string"},
+    {"@id": "ia:exceptionType", "@type": "rdf:Property", "rdfs:domain": "ia:BenefitEvent", "rdfs:range": "xsd:string"},
+
+    { "@id": "ia:ApprovalApproved", "@type": "rdfs:Resource" },
+    { "@id": "ia:ApprovalPreApproved", "@type": "rdfs:Resource" },
+    { "@id": "ia:ApprovalRejected", "@type": "rdfs:Resource" },
+
+    { "@id": "ia:ExcNone", "@type": "rdfs:Resource" },
+    { "@id": "ia:ExcCourtesy", "@type": "rdfs:Resource" },
+    { "@id": "ia:ExcDiplomaticCustom", "@type": "rdfs:Resource" }
+  ]
+}

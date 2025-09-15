@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntegridAI - HackAI 2025: Para Empresarios y Directivos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .presentation-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            background: white;
+            margin: 30px 0;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            min-height: 70vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #d69e2e, #ed8936, #e53e3e, #38b2ac);
+        }
+
+        .executive-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .executive-header::before {
+            content: '👔';
+            font-size: 4em;
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.2;
+        }
+
+        h1 {
+            color: #1a365d;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            color: #2c5282;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 700;
+        }
+
+        h3 {
+            color: #d69e2e;
+            font-size: 1.8em;
+            margin: 25px 0 15px 0;
+            font-weight: 600;
+        }
+
+        .risk-alert {
+            background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%);
+            border-left: 6px solid #e53e3e;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .solution-highlight {
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+            border-left: 6px solid #38a169;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .executive-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 25px 0;
+        }
+
+        .business-card {
+            background: linear-gradient(135deg, #fff 0%, #f7fafc 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .business-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+            border-color: #d69e2e;
+        }
+
+        .business-card::before {
+            content: attr(data-icon);
+            font-size: 3em;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            opacity: 0.15;
+        }
+
+        .roi-showcase {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .roi-metric {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, #fff 0%, #f7fafc 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 2px solid #e2e8f0;
+        }
+
+        .roi-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #d69e2e;
+            display: block;
+            line-height: 1;
+        }
+
+        .roi-label {
+            font-size: 0.9em;
+            color: #4a5568;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .business-risk {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .business-risk::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 4s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .cost-comparison {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin: 25px 0;
+        }
+
+        .comparison-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: white;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 15px;
+            font-weight: bold;
+        }
+
+        .comparison-row {
+            padding: 15px 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 15px;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comparison-row:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .expensive { color: #e53e3e; font-weight: bold; }
+        .affordable { color: #38a169; font-weight: bold; }
+        .breakthrough { color: #d69e2e; font-weight: bold; }
+
+        .board-section {
+            background: linear-gradient(135deg, #d69e2e 0%, #ed8936 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .implementation-timeline {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .timeline-phase {
+            background: linear-gradient(135deg, #fff 0%, #f7fafc 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            position: relative;
+        }
+
+        .timeline-phase::before {
+            content: attr(data-phase);
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #d69e2e;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 20px;
+            right: 25px;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .cta-executive {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #d69e2e 0%, #ed8936 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(214, 158, 46, 0.4);
+        }
+
+        .legal-liability {
+            background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 6px solid #e53e3e;
+            margin: 20px 0;
+        }
+
+        .protection-solution {
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 6px solid #38a169;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 20px;
+                margin: 20px 0;
+            }
+            
+            .executive-grid,
+            .roi-showcase,
+            .implementation-timeline {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 { font-size: 2.2em; }
+            h2 { font-size: 1.8em; }
+            
+            .comparison-header,
+            .comparison-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        
+        <!-- Slide 1: Executive Problem -->
+        <div class="slide">
+            <div class="executive-header">
+                <h1 style="color: white; margin-bottom: 15px;">👔⚖️ Para Empresarios y Directivos</h1>
+                <h2 style="color: #fbd38d; font-size: 1.8em;">¿Su Compliance Officer está legalmente protegido?</h2>
+                <p style="font-size: 1.3em; margin-top: 15px; opacity: 0.9;">
+                    La primera solución mundial que protege a SU empresa Y a su Oficial de Cumplimiento
+                </p>
+            </div>
+            
+            <div class="legal-liability">
+                <h3 style="color: #e53e3e;">🚨 RIESGO EMPRESARIAL CRÍTICO</h3>
+                <p style="font-size: 1.3em; margin: 15px 0;"><strong>"Cuando su empleado ignora al Compliance Officer, USTED como empresario puede ser responsabilizado"</strong></p>
+                <ul style="font-size: 1.1em; margin: 15px 0;">
+                    <li>Su Compliance Officer puede ser procesado penalmente si no puede demostrar que cumplió sus deberes</li>
+                    <li>Su empresa puede perder defensas legales en auditorías regulatorias</li>
+                    <li>Usted puede enfrentar responsabilidad personal bajo Ley 27.401</li>
+                    <li>Un solo empleado que ignore recomendaciones puede comprometer toda la organización</li>
+                </ul>
+            </div>
+            
+            <div class="protection-solution">
+                <h3 style="color: #38a169;">🛡️ SOLUCIÓN: Legal Compliance Shield</h3>
+                <p style="font-size: 1.3em; margin: 15px 0;"><strong>Proteja a su Compliance Officer = Proteja su empresa</strong></p>
+                <ul style="font-size: 1.1em; margin: 15px 0;">
+                    <li><strong>Evidencia automática:</strong> Prueba irrefutable de que su officer cumplió sus deberes</li>
+                    <li><strong>Transferencia de responsabilidad:</strong> Documentación legal que transfiere liability al empleado</li>
+                    <li><strong>Defensa corporativa:</strong> Evidencia de "debido cuidado" lista para cualquier auditoría</li>
+                    <li><strong>Protección de 7 años:</strong> Validez legal extendida para máxima seguridad</li>
+                </ul>
+            </div>
+            
+            <div class="slide-number">1</div>
+        </div>
+
+        <!-- Slide 2: Business Risk Assessment -->
+        <div class="slide">
+            <h2>📊 Evaluación de Riesgo Empresarial</h2>
+            
+            <div class="executive-grid">
+                <div class="business-card" data-icon="⚠️">
+                    <h4 style="color: #e53e3e;">Riesgos Actuales para su Empresa</h4>
+                    <ul style="margin: 15px 0;">
+                        <li><strong>Multas regulatorias:</strong> $50K - $2M por incumplimiento</li>
+                        <li><strong>Daño reputacional:</strong> Pérdida de licitaciones públicas</li>
+                        <li><strong>Responsabilidad personal:</strong> Directivos pueden ser procesados</li>
+                        <li><strong>Costos legales:</strong> $100K - $500K en defensa</li>
+                        <li><strong>Pérdida de licencias:</strong> Suspensión de operaciones</li>
+                    </ul>
+                </div>
+                
+                <div class="business-card" data-icon="🛡️">
+                    <h4 style="color: #38a169;">Protección IntegridAI</h4>
+                    <ul style="margin: 15px 0;">
+                        <li><strong>Evidencia automática:</strong> Su officer siempre protegido</li>
+                        <li><strong>Defensa inmediata:</strong> Documentación lista para auditorías</li>
+                        <li><strong>Costo fijo predecible:</strong> $299-999/mes vs multas millonarias</li>
+                        <li><strong>Compliance cuantificado:</strong> Métricas objetivas para el board</li>
+                        <li><strong>Ventaja competitiva:</strong> Diferenciación en licitaciones</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="business-risk">
+                <h3>💼 CASO REAL: ¿Qué pasa cuando un empleado ignora al Compliance Officer?</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 25px;">
+                    <div>
+                        <h4 style="color: #fed7d7;">❌ Sin IntegridAI</h4>
+                        <ul style="margin: 15px 0;">
+                            <li>Compliance Officer sin evidencia de que advirtió</li>
+                            <li>Empresa no puede probar "debido cuidado"</li>
+                            <li>Multa regulatoria + procesamiento penal</li>
+                            <li>Costos legales + daño reputacional</li>
+                            <li>Pérdida de confianza del mercado</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 style="color: #c6f6d5;">✅ Con IntegridAI</h4>
+                        <ul style="margin: 15px 0;">
+                            <li>Evidencia cryptográfica automática de advertencia</li>
+                            <li>Responsabilidad transferida documentalmente al empleado</li>
+                            <li>Defensa corporativa irrefutable</li>
+                            <li>Compliance Officer legalmente protegido</li>
+                            <li>Empresa demuestra "debido cuidado" perfecto</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slide-number">2</div>
+        </div>
+
+        <!-- Slide 3: Cost-Benefit Analysis -->
+        <div class="slide">
+            <h2>💰 Análisis Costo-Beneficio para Empresarios</h2>
+            
+            <div class="cost-comparison">
+                <div class="comparison-header">
+                    <div><strong>Escenario</strong></div>
+                    <div><strong>Consultoras Tradicionales</strong></div>
+                    <div><strong>Sin Protección</strong></div>
+                    <div><strong>IntegridAI</strong></div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div><strong>Costo de Implementación</strong></div>
+                    <div class="expensive">$50,000 - $200,000</div>
+                    <div class="expensive">$0 (pero riesgo total)</div>
+                    <div class="affordable">$299 - $999/mes</div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div><strong>Protección Legal del Officer</strong></div>
+                    <div class="expensive">❌ No incluida</div>
+                    <div class="expensive">❌ Ninguna</div>
+                    <div class="breakthrough">✅ 7 años garantía</div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div><strong>Evidencia para Auditorías</strong></div>
+                    <div class="expensive">Manual/Incompleta</div>
+                    <div class="expensive">❌ Inexistente</div>
+                    <div class="breakthrough">✅ Automática/Forense</div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div><strong>Tiempo de Implementación</strong></div>
+                    <div class="expensive">6-12 meses</div>
+                    <div class="expensive">N/A</div>
+                    <div class="affordable">✅ 48 horas</div>
+                </div>
+                
+                <div class="comparison-row">
+                    <div><strong>ROI Empresarial</strong></div>
+                    <div class="expensive">Difícil de medir</div>
+                    <div class="expensive">❌ Riesgo alto</div>
+                    <div class="breakthrough">✅ 40x más económico</div>
+                </div>
+            </div>
+            
+            <div class="roi-showcase">
+                <div class="roi-metric">
+                    <span class="roi-number">85%</span>
+                    <div class="roi-label">Reducción<br>Riesgo Legal</div>
+                </div>
+                <div class="roi-metric">
+                    <span class="roi-number">$2M</span>
+                    <div class="roi-label">Multas Máximas<br>Evitadas</div>
+                </div>
+                <div class="roi-metric">
+                    <span class="roi-number">40x</span>
+                    <div class="roi-label">Más Económico<br>vs Consultoras</div>
+                </div>
+                <div class="roi-metric">
+                    <span class="roi-number">48h</span>
+                    <div class="roi-label">Implementación<br>Inmediata</div>
+                </div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%); padding: 25px; border-radius: 15px; text-align: center;">
+                <h3 style="color: #2f855a;">💡 Propuesta de Valor para Empresarios</h3>
+                <p style="font-size: 1.3em; margin-top: 15px; color: #2f855a;">
+                    <strong>Invierta $999/mes para proteger millones en multas potenciales</strong><br>
+                    <em>El costo de NO proteger a su Compliance Officer puede ser 2000x mayor</em>
+                </p>
+            </div>
+            
+            <div class="slide-number">3</div>
+        </div>
+
+        <!-- Slide 4: Business Demo Workflow -->
+        <div class="slide">
+            <h2>🎯 Demostración Empresarial: Protección en Acción</h2>
+            
+            <div class="board-section">
+                <h3 style="margin-bottom: 20px;">Scenario: Empleado de Compras recibe oferta sospechosa</h3>
+                <p style="font-size: 1.2em; opacity: 0.9;">
+                    Vea cómo IntegridAI protege automáticamente a su empresa Y a su Compliance Officer
+                </p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin: 30px 0;">
+                <div>
+                    <h3>📋 Proceso Tradicional (RIESGO)</h3>
+                    <div style="background: #fed7d7; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <strong>Paso 1:</strong> Officer envía email de advertencia<br>
+                        <small>❌ Email puede ser ignorado/eliminado</small>
+                    </div>
+                    <div style="background: #fed7d7; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <strong>Paso 2:</strong> Empleado procede sin autorización<br>
+                        <small>❌ No hay evidencia de la advertencia</small>
+                    </div>
+                    <div style="background: #fed7d7; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <strong>Resultado:</strong> Auditoría/Multa<br>
+                        <small>❌ Officer y empresa sin defensa legal</small>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>🛡️ Proceso IntegridAI (PROTECCIÓN)</h3>
+                    <div style="background: #c6f6d5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <strong>Paso 1:</strong> Sistema genera evidencia cryptográfica<br>
+                        <small>✅ Hash inmutable: SHA256-4f7b2a...</small>
+                    </div>
+                    <div style="background: #c6f6d5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <strong>Paso 2:</strong> Empleado confirma recepción automáticamente<br>
+                        <small>✅ Responsabilidad transferida documentalmente</small>
+                    </div>
+                    <div style="background: #c6f6d5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+                        <strong>Resultado:</strong> Protección Legal Completa<br>
+                        <small>✅ Officer protegido + Empresa con defensa irrefutable</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%); color: white; padding: 30px; border-radius: 15px; text-align: center;">
+                <h3>🏆 RESULTADO EMPRESARIAL</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
+                    <div>
+                        <h4>👤 Para el Empleado</h4>
+                        <p>Claridad total sobre expectativas + Protección personal documentada</p>
+                    </div>
+                    <div>
+                        <h4>⚖️ Para el Compliance Officer</h4>
+                        <p>Evidencia irrefutable de cumplimiento + Protección legal de 7 años</p>
+                    </div>
+                    <div>
+                        <h4>🏢 Para su Empresa</h4>
+                        <p>Defensa automática en auditorías + Ventaja competitiva demostrable</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slide-number">4</div>
+        </div>
+
+        <!-- Slide 5: Board-Level Business Case -->
+        <div class="slide">
+            <h2>📊 Business Case para el Directorio</h2>
+            
+            <div class="executive-grid">
+                <div class="business-card" data-icon="📈">
+                    <h4>Impacto en Resultados Financieros</h4>
+                    <ul style="margin: 15px 0;">
+                        <li><strong>Reducción seguros D&O:</strong> 15-25% descuento</li>
+                        <li><strong>Ventaja en licitaciones:</strong> +30% win rate</li>
+                        <li><strong>Prevención multas:</strong> Hasta $2M saved</li>
+                        <li><strong>Valoración empresa:</strong> Premium ESG compliance</li>
+                    </ul>
+                </div>
+                
+                <div class="business-card" data-icon="🎯">
+                    <h4>KPIs Ejecutivos Mejorados</h4>
+                    <ul style="margin: 15px 0;">
+                        <li><strong>Compliance Score:</strong> Métrica objetiva 0-100</li>
+                        <li><strong>Risk Exposure:</strong> Cuantificado y monitoreado</li>
+                        <li><strong>Audit Readiness:</strong> 100% preparación automática</li>
+                        <li><strong>Employee Immunity:</strong> Nivel de vacunación medible</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); padding: 30px; border-radius: 15px; margin: 25px 0;">
+                <h3 style="color: #975a16;">💼 Casos de Uso Ejecutivos</h3>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin-top: 20px;">
+                    <div>
+                        <h4 style="color: #975a16;">🏛️ Licitaciones Públicas</h4>
+                        <p><strong>Ventaja competitiva:</strong> Demostrar compliance superior con evidencia forense vs competidores con programas manuales</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #975a16;">🔍 Due Diligence M&A</h4>
+                        <p><strong>Valoración premium:</strong> Compliance cuantificado reduce riesgo para compradores/inversores</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #975a16;">🏦 Auditorías Bancarias</h4>
+                        <p><strong>Aprobación acelerada:</strong> Evidencia automática de controles internos para líneas de crédito</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #975a16;">📊 Reporting ESG</h4>
+                        <p><strong>Métricas objetivas:</strong> Scoring compliance para reportes de sostenibilidad y governance</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="implementation-timeline">
+                <div class="timeline-phase" data-phase="Mes 1">
+                    <h4>🚀 Implementación</h4>
+                    <ul style="text-align: left; margin: 15px 0;">
+                        <li>Setup 48 horas</li>
+                        <li>Training ejecutivo</li>
+                        <li>Primeros empleados</li>
+                        <li>Métricas baseline</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-phase" data-phase="Mes 3">
+                    <h4>📈 Optimización</h4>
+                    <ul style="text-align: left; margin: 15px 0;">
+                        <li>Rollout completo</li>
+                        <li>Dashboard ejecutivo</li>
+                        <li>Reportes automáticos</li>
+                        <li>ROI measurement</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-phase" data-phase="Mes 6">
+                    <h4>🏆 Resultados</h4>
+                    <ul style="text-align: left; margin: 15px 0;">
+                        <li>Compliance cuantificado</li>
+                        <li>Ventaja competitiva</li>
+                        <li>Reducción riesgos</li>
+                        <li>Business case validado</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="slide-number">5</div>
+        </div>
+
+        <!-- Slide 6: Investment & Implementation -->
+        <div class="slide">
+            <div class="board-section">
+                <h2 style="color: white; margin-bottom: 25px;">💰 Propuesta de Inversión Ejecutiva</h2>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin: 30px 0;">
+                    <div style="background: rgba(255,255,255,0.15); padding: 25px; border-radius: 15px;">
+                        <h3>💵 Inversión Requerida</h3>
+                        <div style="font-size: 2.5em; font-weight: bold; margin: 15px 0;">$999/mes</div>
+                        <p>Plan Enterprise completo para toda su organización</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.15); padding: 25px; border-radius: 15px;">
+                        <h3>📊 ROI Proyectado</h3>
+                        <div style="font-size: 2.5em; font-weight: bold; margin: 15px 0;">2000%</div>
+                        <p>Prevención de una sola multa paga 20 años de servicio</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="executive-grid">
+                <div class="business-card" data-icon="🎯">
+                    <h4>¿Por qué Implementar IntegridAI Ahora?</h4>
+                    <ul style="margin: 15px 0;">
+                        <li><strong>First-mover advantage:</strong> Único sistema mundial</li>
+                        <li><strong>Regulatory wave:</strong> Enforcement creciente Ley 27.401</li>
+                        <li><strong>Market timing:</strong> Competidores aún sin solución</li>
+                        <li><strong>Technology ready:</strong> MVP probado y operativo</li>
+                    </ul>
+                </div>
+                
+                <div class="business-card" data-icon="🤝">
+                    <h4>Opciones de Partnership</h4>
+                    <ul style="margin: 15px 0;">
+                        <li><strong>Pilot Program:</strong> 3 meses gratis para validar ROI</li>
+                        <li><strong>Enterprise License:</strong> Implementación inmediata</li>
+                        <li><strong>Strategic Partnership:</strong> Equity participation</li>
+                        <li><strong>White-label:</strong> Su marca, nuestra tecnología</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="background: #f7fafc; padding: 30px; border-radius: 15px; margin: 25px 0; border: 2px solid #e2e8f0;">
+                <h3 style="color: #2d3748;">🎯 Decisión Ejecutiva Simple</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px;">
+                    <div style="background: #fed7d7; padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #e53e3e;">❌ No Implementar</h4>
+                        <ul>
+                            <li>Compliance Officer expuesto legalmente</li>
+                            <li>Empresa vulnerable en auditorías</li>
+                            <li>Riesgo de multas millonarias</li>
+                            <li>Competidores con ventaja</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #c6f6d5; padding: 20px; border-radius: 10px;">
+                        <h4 style="color: #38a169;">✅ Implementar IntegridAI</h4>
+                        <ul>
+                            <li>Protección legal completa garantizada</li>
+                            <li>Defensa automática en auditorías</li>
+                            <li>Costo predecible y controlable</li>
+                            <li>Ventaja competitiva sostenible</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cta-executive">
+                <a href="#" class="cta-button">📊 Solicitar Demo Ejecutivo</a>
+                <a href="#" class="cta-button">📋 Pilot Program Gratuito</a>
+                <a href="#" class="cta-button">🤝 Reunión con Board</a>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; padding: 25px; background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%); color: white; border-radius: 15px;">
+                <h3>⚖️💉 IntegridAI: La Decisión Empresarial Inteligente</h3>
+                <p style="font-size: 1.2em; margin-top: 15px; opacity: 0.9;">
+                    <strong>No es un gasto - es una inversión en la supervivencia legal de su empresa</strong>
+                </p>
+            </div>
+            
+            <div class="slide-number">6</div>
+        </div>
+
+    </div>
+
+    <script>
+        // Presentation navigation optimized for business presentation
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) {
+                currentSlide++;
+                slides[currentSlide].scrollIntoView({behavior: 'smooth'});
+            } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                currentSlide--;
+                slides[currentSlide].scrollIntoView({behavior: 'smooth'});
+            }
+        });
+
+        // Click to advance slides
+        slides.forEach((slide, index) => {
+            slide.addEventListener('click', () => {
+                if (index < slides.length - 1) {
+                    currentSlide = index + 1;
+                    slides[currentSlide].scrollIntoView({behavior: 'smooth'});
+                }
+            });
+        });
+
+        // Enhanced interactivity for business elements
+        document.querySelectorAll('.business-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                button.style.transform = 'translateY(-4px) scale(1.05)';
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

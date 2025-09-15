@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntegridAI - Dashboard Ejecutivo de Compliance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+        
+        .dashboard-header h1 {
+            color: #2d3748;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .dashboard-header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .metric-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1));
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        }
+        
+        .metric-card.excellent { 
+            border-left-color: #10b981;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+        }
+        .metric-card.good { 
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%);
+        }
+        .metric-card.warning { 
+            border-left-color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
+        }
+        .metric-card.critical { 
+            border-left-color: #dc2626;
+            background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
+        }
+        
+        .metric-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .metric-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .metric-label {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .metric-trend {
+            font-size: 0.9rem;
+            padding: 8px 12px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .trend-up { 
+            background: #dcfce7; 
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        .trend-down { 
+            background: #fef2f2; 
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+        .trend-stable { 
+            background: #f3f4f6; 
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .department-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .department-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .department-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .department-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .department-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .compliance-bar {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .compliance-fill {
+            height: 100%;
+            transition: width 0.8s ease;
+            border-radius: 6px;
+            position: relative;
+        }
+        
+        .compliance-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .department-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+        
+        .department-stats div {
+            padding: 8px;
+            background: #f7fafc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alerts-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .alerts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .alerts-header h2 {
+            color: #2d3748;
+            font-size: 1.5rem;
+        }
+        
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .alert-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .alert-critical { 
+            background: #fef2f2; 
+            border-left-color: #dc2626;
+        }
+        
+        .alert-warning { 
+            background: #fefbf2; 
+            border-left-color: #f59e0b;
+        }
+        
+        .alert-info { 
+            background: #f0f9ff; 
+            border-left-color: #3b82f6;
+        }
+        
+        .alert-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            margin-top: 2px;
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2d3748;
+        }
+        
+        .alert-description {
+            color: #4a5568;
+            margin-bottom: 5px;
+        }
+        
+        .alert-timestamp {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+        
+        .controls-section {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .refresh-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .refresh-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .loading .refresh-button {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-excellent { background-color: #10b981; }
+        .status-good { background-color: #f59e0b; }
+        .status-warning { background-color: #ef4444; }
+        .status-critical { background-color: #dc2626; }
+        
+        .last-updated {
+            text-align: center;
+            color: #718096;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-grid, .departments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+            
+            .controls-section {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>🏢 IntegridAI - Dashboard Ejecutivo de Compliance</h1>
+            <p>Sistema Unificado de Gestión Empresarial • Ley 27.401 • Anyquery Powered</p>
+        </div>
+        
+        <!-- Métricas Principales -->
+        <div class="metrics-grid" id="metricsGrid">
+            <!-- Populated by JavaScript -->
+        </div>
+        
+        <!-- Departamentos -->
+        <div class="departments-grid" id="departmentsGrid">
+            <!-- Populated by JavaScript -->  
+        </div>
+        
+        <!-- Alertas Críticas -->
+        <div class="alerts-section">
+            <div class="alerts-header">
+                <h2>🚨 Alertas Críticas</h2>
+                <div id="alertsCount" class="alert-count"></div>
+            </div>
+            <div id="criticalAlerts">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Controles -->
+        <div class="controls-section">
+            <button class="refresh-button" onclick="refreshDashboard()">
+                <span id="refreshIcon">🔄</span>
+                <span id="refreshText">Actualizar Datos</span>
+            </button>
+        </div>
+        
+        <div class="last-updated">
+            <span id="lastUpdated">Última actualización: --</span>
+        </div>
+    </div>
+
+    <script>
+        // Dashboard JavaScript Integration
+        class ComplianceDashboard {
+            constructor() {
+                this.apiEndpoint = '/api';
+                this.refreshInterval = 30000; // 30 seconds
+                this.isLoading = false;
+                this.init();
+            }
+            
+            async init() {
+                await this.loadAllData();
+                this.startAutoRefresh();
+                this.updateLastUpdated();
+            }
+            
+            async loadAllData() {
+                if (this.isLoading) return;
+                
+                this.setLoading(true);
+                
+                try {
+                    await Promise.all([
+                        this.loadMetrics(),
+                        this.loadDepartments(),
+                        this.loadAlerts()
+                    ]);
+                } catch (error) {
+                    console.error('Error loading dashboard data:', error);
+                    this.showError('Error cargando datos del dashboard');
+                } finally {
+                    this.setLoading(false);
+                    this.updateLastUpdated();
+                }
+            }
+            
+            async loadMetrics() {
+                try {
+                    const response = await fetch(`${this.apiEndpoint}/dashboard/metrics`);
+                    const metrics = await response.json();
+                    this.renderMetrics(metrics);
+                } catch (error) {
+                    console.error('Error loading metrics:', error);
+                    this.renderMetrics(this.getMockMetrics());
+                }
+            }
+            
+            renderMetrics(metrics) {
+                const metricsGrid = document.getElementById('metricsGrid');
+                metricsGrid.innerHTML = '';
+                
+                const metricsConfig = [
+                    {
+                        title: 'Inmunidad Promedio',
+                        value: `${metrics.avg_immunity || 78}%`,
+                        trend: metrics.immunity_trend || 2.5,
+                        icon: '🛡️',
+                        class: this.getComplianceClass(metrics.avg_immunity || 78)
+                    },
+                    {
+                        title: 'Empleados en Riesgo Alto',
+                        value: metrics.high_risk_employees || 12,
+                        trend: metrics.risk_trend || -1.2, 
+                        icon: '⚠️',
+                        class: (metrics.high_risk_employees || 12) > 10 ? 'critical' : 'good'
+                    },
+                    {
+                        title: 'Vacunaciones Pendientes',
+                        value: metrics.vaccinations_due || 25,
+                        trend: metrics.vaccination_trend || 3.1,
+                        icon: '💉',
+                        class: (metrics.vaccinations_due || 25) > 20 ? 'warning' : 'excellent'
+                    },
+                    {
+                        title: 'Puntuación Compliance',
+                        value: `${metrics.compliance_score || 85}/100`,
+                        trend: metrics.compliance_trend || 2.8,
+                        icon: '📊',
+                        class: this.getComplianceClass(metrics.compliance_score || 85)
+                    }
+                ];
+                
+                metricsConfig.forEach(metric => {
+                    const card = document.createElement('div');
+                    card.className = `metric-card ${metric.class}`;
+                    card.innerHTML = `
+                        <div class="metric-header">
+                            <div class="metric-icon">${metric.icon}</div>
+                        </div>
+                        <div class="metric-value">${metric.value}</div>
+                        <div class="metric-label">${metric.title}</div>
+                        <div class="metric-trend ${this.getTrendClass(metric.trend)}">
+                            ${this.getTrendIcon(metric.trend)} ${Math.abs(metric.trend)}%
+                        </div>
+                    `;
+                    metricsGrid.appendChild(card);
+                });
+            }
+            
+            async loadDepartments() {
+                try {
+                    const response = await fetch(`${this.apiEndpoint}/dashboard/department-overview`);
+                    const departments = await response.json();
+                    this.renderDepartments(departments);
+                } catch (error) {
+                    console.error('Error loading departments:', error);
+                    this.renderDepartments(this.getMockDepartments());
+                }
+            }
+            
+            renderDepartments(departments) {
+                const departmentsGrid = document.getElementById('departmentsGrid');
+                departmentsGrid.innerHTML = '';
+                
+                departments.forEach(dept => {
+                    const card = document.createElement('div');
+                    card.className = 'department-card';
+                    card.innerHTML = `
+                        <div class="department-header">
+                            <div class="department-name">${dept.department_name}</div>
+                            <div class="department-status ${this.getStatusClass(dept.compliance_status)}">
+                                <span class="status-indicator ${this.getStatusIndicatorClass(dept.compliance_status)}"></span>
+                                ${dept.compliance_status}
+                            </div>
+                        </div>
+                        <div class="compliance-bar">
+                            <div class="compliance-fill" 
+                                 style="width: ${dept.avg_immunity}%; background: ${this.getComplianceColor(dept.avg_immunity)}">
+                            </div>
+                        </div>
+                        <div class="department-stats">
+                            <div>👥 ${dept.total_employees} empleados</div>
+                            <div>🛡️ ${dept.avg_immunity}% inmunidad</div>
+                            <div>⚠️ ${dept.high_risk_count} alto riesgo</div>
+                            <div>💉 ${dept.needs_revaccination} revacunación</div>
+                        </div>
+                    `;
+                    departmentsGrid.appendChild(card);
+                });
+            }
+            
+            async loadAlerts() {
+                try {
+                    const response = await fetch(`${this.apiEndpoint}/dashboard/critical-alerts`);
+                    const alerts = await response.json();
+                    this.renderAlerts(alerts);
+                } catch (error) {
+                    console.error('Error loading alerts:', error);
+                    this.renderAlerts(this.getMockAlerts());
+                }
+            }
+            
+            renderAlerts(alerts) {
+                const alertsContainer = document.getElementById('criticalAlerts');
+                const alertsCount = document.getElementById('alertsCount');
+                
+                alertsCount.textContent = `${alerts.length} alertas activas`;
+                alertsContainer.innerHTML = '';
+                
+                if (alerts.length === 0) {
+                    alertsContainer.innerHTML = `
+                        <div class="alert-item alert-info">
+                            <div class="alert-icon">✅</div>
+                            <div class="alert-content">
+                                <div class="alert-title">Sistema en Óptimas Condiciones</div>
+                                <div class="alert-description">No hay alertas críticas en este momento</div>
+                                <div class="alert-timestamp">${new Date().toLocaleString('es-AR')}</div>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                alerts.forEach(alert => {
+                    const alertItem = document.createElement('div');
+                    alertItem.className = `alert-item ${this.getAlertClass(alert.severity)}`;
+                    alertItem.innerHTML = `
+                        <div class="alert-icon">${this.getAlertIcon(alert.severity)}</div>
+                        <div class="alert-content">
+                            <div class="alert-title">${alert.title}</div>
+                            <div class="alert-description">${alert.description}</div>
+                            <div class="alert-timestamp">📅 ${new Date(alert.timestamp).toLocaleString('es-AR')}</div>
+                        </div>
+                    `;
+                    alertsContainer.appendChild(alertItem);
+                });
+            }
+            
+            // Utility methods
+            getComplianceClass(score) {
+                if (score >= 90) return 'excellent';
+                if (score >= 75) return 'good';
+                if (score >= 60) return 'warning';
+                return 'critical';
+            }
+            
+            getComplianceColor(score) {
+                if (score >= 90) return 'linear-gradient(135deg, #10b981, #059669)';
+                if (score >= 75) return 'linear-gradient(135deg, #f59e0b, #d97706)';
+                if (score >= 60) return 'linear-gradient(135deg, #ef4444, #dc2626)';
+                return 'linear-gradient(135deg, #dc2626, #b91c1c)';
+            }
+            
+            getTrendClass(trend) {
+                if (trend > 0) return 'trend-up';
+                if (trend < 0) return 'trend-down';
+                return 'trend-stable';
+            }
+            
+            getTrendIcon(trend) {
+                if (trend > 0) return '↗️';
+                if (trend < 0) return '↘️';
+                return '→';
+            }
+            
+            getStatusClass(status) {
+                if (status.includes('EXCELLENT')) return 'status-excellent';
+                if (status.includes('GOOD')) return 'status-good';
+                if (status.includes('WARNING')) return 'status-warning';
+                return 'status-critical';
+            }
+            
+            getStatusIndicatorClass(status) {
+                if (status.includes('EXCELLENT')) return 'status-excellent';
+                if (status.includes('GOOD')) return 'status-good';
+                if (status.includes('WARNING')) return 'status-warning';
+                return 'status-critical';
+            }
+            
+            getAlertClass(severity) {
+                switch (severity) {
+                    case 'critical': return 'alert-critical';
+                    case 'warning': return 'alert-warning';
+                    default: return 'alert-info';
+                }
+            }
+            
+            getAlertIcon(severity) {
+                switch (severity) {
+                    case 'critical': return '🚨';
+                    case 'warning': return '⚠️';
+                    default: return 'ℹ️';
+                }
+            }
+            
+            setLoading(loading) {
+                this.isLoading = loading;
+                const container = document.querySelector('.dashboard-container');
+                const refreshIcon = document.getElementById('refreshIcon');
+                const refreshText = document.getElementById('refreshText');
+                
+                if (loading) {
+                    container.classList.add('loading');
+                    refreshIcon.textContent = '⏳';
+                    refreshText.textContent = 'Actualizando...';
+                } else {
+                    container.classList.remove('loading');
+                    refreshIcon.textContent = '🔄';
+                    refreshText.textContent = 'Actualizar Datos';
+                }
+            }
+            
+            updateLastUpdated() {
+                const lastUpdated = document.getElementById('lastUpdated');
+                lastUpdated.textContent = `Última actualización: ${new Date().toLocaleString('es-AR')}`;
+            }
+            
+            showError(message) {
+                const alertsContainer = document.getElementById('criticalAlerts');
+                alertsContainer.innerHTML = `
+                    <div class="alert-item alert-critical">
+                        <div class="alert-icon">❌</div>
+                        <div class="alert-content">
+                            <div class="alert-title">Error de Conexión</div>
+                            <div class="alert-description">${message}</div>
+                            <div class="alert-timestamp">${new Date().toLocaleString('es-AR')}</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            startAutoRefresh() {
+                setInterval(() => {
+                    if (!this.isLoading) {
+                        this.loadAllData();
+                    }
+                }, this.refreshInterval);
+            }
+            
+            // Mock data for demo purposes
+            getMockMetrics() {
+                return {
+                    avg_immunity: 78,
+                    high_risk_employees: 12,
+                    vaccinations_due: 25,
+                    compliance_score: 85,
+                    immunity_trend: 2.5,
+                    risk_trend: -1.2,
+                    vaccination_trend: 3.1,
+                    compliance_trend: 2.8
+                };
+            }
+            
+            getMockDepartments() {
+                return [
+                    {
+                        department_name: 'Finanzas',
+                        total_employees: 45,
+                        avg_immunity: 92,
+                        high_risk_count: 2,
+                        needs_revaccination: 3,
+                        compliance_status: '🟢 EXCELLENT'
+                    },
+                    {
+                        department_name: 'Recursos Humanos',
+                        total_employees: 28,
+                        avg_immunity: 85,
+                        high_risk_count: 1,
+                        needs_revaccination: 4,
+                        compliance_status: '🟡 GOOD'
+                    },
+                    {
+                        department_name: 'Compras',
+                        total_employees: 32,
+                        avg_immunity: 68,
+                        high_risk_count: 6,
+                        needs_revaccination: 8,
+                        compliance_status: '🟠 WARNING'
+                    },
+                    {
+                        department_name: 'Ventas',
+                        total_employees: 55,
+                        avg_immunity: 75,
+                        high_risk_count: 3,
+                        needs_revaccination: 7,
+                        compliance_status: '🟡 GOOD'
+                    }
+                ];
+            }
+            
+            getMockAlerts() {
+                return [
+                    {
+                        alert_id: 'alert_001',
+                        title: 'Empleado Alto Riesgo - Atención Inmediata',
+                        description: 'Juan Pérez (Compras) tiene puntuación de riesgo 95 y nivel de inmunidad 45%',
+                        severity: 'critical',
+                        timestamp: new Date().toISOString()
+                    },
+                    {
+                        alert_id: 'alert_002',
+                        title: 'Vacunaciones Vencidas - Departamento Ventas',
+                        description: '7 empleados en Ventas tienen vacunaciones vencidas hace más de 30 días',
+                        severity: 'warning',
+                        timestamp: new Date(Date.now() - 3600000).toISOString()
+                    }
+                ];
+            }
+        }
+        
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.dashboard = new ComplianceDashboard();
+        });
+        
+        // Refresh function for manual refresh button
+        function refreshDashboard() {
+            if (window.dashboard) {
+                window.dashboard.loadAllData();
+            }
+        }
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (event) => {
+            if (event.ctrlKey && event.key === 'r') {
+                event.preventDefault();
+                refreshDashboard();
+            }
+        });
+    </script>
+</body>
+</html>

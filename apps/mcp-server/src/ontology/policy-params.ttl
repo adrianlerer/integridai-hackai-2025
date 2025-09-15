@@ -1,0 +1,7 @@
+@prefix ia: <https://integridai.example/schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ia:PolicyParams a ia:PolicyParameters ;
+  ia:PolicyThresholdMinorGift "30000"^^xsd:decimal ;        # ARS
+  ia:PolicyMaxFrequency12m "2"^^xsd:integer ;
+  ia:PolicyBanCashEquivalents "true"^^xsd:boolean .

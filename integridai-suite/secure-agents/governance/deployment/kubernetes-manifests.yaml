@@ -1,0 +1,1213 @@
+# IntegridAI Suite - Secure Agents Kubernetes Deployment Manifests
+# ===================================================================
+# 
+# Complete Kubernetes orchestration for secure AI agents with:
+# - Container isolation and security controls
+# - Resource limits and quotas
+# - Service mesh and networking
+# - Monitoring and observability
+# - Secrets management and encryption
+# - Kill-switch implementation
+# - Auto-scaling and load balancing
+#
+# Compliance: Ley 27.401, EU AI Act, NIST AI RMF
+# Version: 2.1.3
+# Author: IntegridAI Suite
+#
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: integridai-secure-agents
+  labels:
+    name: integridai-secure-agents
+    compliance: "ley-27401"
+    security-level: "high"
+    audit-required: "true"
+  annotations:
+    purpose: "Secure AI agents for compliance and governance"
+    compliance-frameworks: "ley-27401,eu-ai-act,nist-ai-rmf"
+
+---
+# ConfigMap for shared agent configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: agent-config
+  namespace: integridai-secure-agents
+  labels:
+    component: configuration
+data:
+  agent-registry-endpoint: "http://agent-registry-service:8080"
+  kill-switch-endpoint: "http://kill-switch-service:9090"
+  audit-endpoint: "http://audit-service:8081"
+  monitoring-endpoint: "http://monitoring-service:3000"
+  log-level: "INFO"
+  compliance-mode: "STRICT"
+  max-processing-time: "120"
+  resource-monitoring: "enabled"
+  
+---
+# Secret for agent credentials and API keys
+apiVersion: v1
+kind: Secret
+metadata:
+  name: agent-credentials
+  namespace: integridai-secure-agents
+  labels:
+    component: security
+type: Opaque
+data:
+  # Base64 encoded credentials (in production, use proper secret management)
+  ofac-api-key: ZGVtby1vZmFjLWFwaS1rZXk=  # demo-ofac-api-key
+  eu-sanctions-key: ZGVtby1ldS1zYW5jdGlvbnMta2V5  # demo-eu-sanctions-key
+  bcra-api-key: ZGVtby1iY3JhLWFwaS1rZXk=  # demo-bcra-api-key
+  sharepoint-key: ZGVtby1zaGFyZXBvaW50LWtleQ==  # demo-sharepoint-key
+  database-password: ZGVtby1kYXRhYmFzZS1wYXNzd29yZA==  # demo-database-password
+  jwt-secret: ZGVtby1qd3Qtc2VjcmV0LWtleS1mb3ItcHJvZHVjdGlvbg==  # demo-jwt-secret-key-for-production
+
+---
+# ServiceAccount for agents with RBAC
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: secure-agent-service-account
+  namespace: integridai-secure-agents
+  labels:
+    component: security
+automountServiceAccountToken: true
+
+---
+# RBAC ClusterRole for agent operations
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: secure-agent-role
+  labels:
+    component: security
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "endpoints"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps"]
+  resources: ["deployments", "replicasets"]
+  verbs: ["get", "list", "watch", "update", "patch"]
+- apiGroups: [""]
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["create"]
+
+---
+# RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: secure-agent-role-binding
+  labels:
+    component: security
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: secure-agent-role
+subjects:
+- kind: ServiceAccount
+  name: secure-agent-service-account
+  namespace: integridai-secure-agents
+
+---
+# NetworkPolicy for agent isolation
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: secure-agents-network-policy
+  namespace: integridai-secure-agents
+  labels:
+    component: security
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: integridai-secure-agents
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 8081
+    - protocol: TCP
+      port: 9090
+  egress:
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: integridai-secure-agents
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 8081
+    - protocol: TCP
+      port: 9090
+
+---
+# Due Diligence Analyzer (DDA) Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: due-diligence-analyzer
+  namespace: integridai-secure-agents
+  labels:
+    app: due-diligence-analyzer
+    agent-type: compliance
+    risk-level: high
+    compliance: ley-27401
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: due-diligence-analyzer
+  template:
+    metadata:
+      labels:
+        app: due-diligence-analyzer
+        agent-type: compliance
+        risk-level: high
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: secure-agent-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: dda-agent
+        image: integridai/due-diligence-analyzer:v2.1.3
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        - name: health
+          containerPort: 8081
+          protocol: TCP
+        env:
+        - name: AGENT_ID
+          value: "DDA-001"
+        - name: AGENT_NAME
+          value: "Due Diligence Analyzer"
+        - name: COMPLIANCE_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: agent-config
+              key: compliance-mode
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: agent-config
+              key: log-level
+        - name: OFAC_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: agent-credentials
+              key: ofac-api-key
+        - name: EU_SANCTIONS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: agent-credentials
+              key: eu-sanctions-key
+        - name: BCRA_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: agent-credentials
+              key: bcra-api-key
+        - name: KILL_SWITCH_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: agent-config
+              key: kill-switch-endpoint
+        - name: AUDIT_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: agent-config
+              key: audit-endpoint
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: health
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: health
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
+        volumeMounts:
+        - name: temp-storage
+          mountPath: /tmp
+        - name: audit-logs
+          mountPath: /var/log/audit
+        - name: agent-config-volume
+          mountPath: /etc/agent-config
+          readOnly: true
+      volumes:
+      - name: temp-storage
+        emptyDir: {}
+      - name: audit-logs
+        persistentVolumeClaim:
+          claimName: audit-logs-pvc
+      - name: agent-config-volume
+        configMap:
+          name: agent-config
+      nodeSelector:
+        workload-type: "compliance"
+      tolerations:
+      - key: "compliance-workload"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+
+---
+# Policy Compliance Checker (PCC) Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: policy-compliance-checker
+  namespace: integridai-secure-agents
+  labels:
+    app: policy-compliance-checker
+    agent-type: compliance
+    risk-level: high
+    compliance: ley-27401
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: policy-compliance-checker
+  template:
+    metadata:
+      labels:
+        app: policy-compliance-checker
+        agent-type: compliance
+        risk-level: high
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+    spec:
+      serviceAccountName: secure-agent-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+      containers:
+      - name: pcc-agent
+        image: integridai/policy-compliance-checker:v2.1.3
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: health
+          containerPort: 8081
+        env:
+        - name: AGENT_ID
+          value: "PCC-001"
+        - name: AGENT_NAME
+          value: "Policy Compliance Checker"
+        - name: COMPLIANCE_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: agent-config
+              key: compliance-mode
+        - name: SHAREPOINT_KEY
+          valueFrom:
+            secretKeyRef:
+              name: agent-credentials
+              key: sharepoint-key
+        - name: MONITORING_INTERVAL
+          value: "900"  # 15 minutes
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: health
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: health
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: temp-storage
+          mountPath: /tmp
+        - name: audit-logs
+          mountPath: /var/log/audit
+        - name: policy-cache
+          mountPath: /var/cache/policies
+      volumes:
+      - name: temp-storage
+        emptyDir: {}
+      - name: audit-logs
+        persistentVolumeClaim:
+          claimName: audit-logs-pvc
+      - name: policy-cache
+        emptyDir:
+          sizeLimit: 1Gi
+
+---
+# Compliance Score Calculator (CSC) Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compliance-score-calculator
+  namespace: integridai-secure-agents
+  labels:
+    app: compliance-score-calculator
+    agent-type: compliance
+    risk-level: medium
+    compliance: ley-27401
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: compliance-score-calculator
+  template:
+    metadata:
+      labels:
+        app: compliance-score-calculator
+        agent-type: compliance
+        risk-level: medium
+    spec:
+      serviceAccountName: secure-agent-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+      containers:
+      - name: csc-agent
+        image: integridai/compliance-score-calculator:v2.1.3
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: health
+          containerPort: 8081
+        env:
+        - name: AGENT_ID
+          value: "CSC-001"
+        - name: AGENT_NAME
+          value: "Compliance Score Calculator"
+        - name: CALCULATION_INTERVAL
+          value: "3600"  # 1 hour
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "3Gi"
+            cpu: "1500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: health
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: health
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: temp-storage
+          mountPath: /tmp
+        - name: audit-logs
+          mountPath: /var/log/audit
+        - name: metrics-cache
+          mountPath: /var/cache/metrics
+      volumes:
+      - name: temp-storage
+        emptyDir: {}
+      - name: audit-logs
+        persistentVolumeClaim:
+          claimName: audit-logs-pvc
+      - name: metrics-cache
+        emptyDir:
+          sizeLimit: 2Gi
+
+---
+# Legal Document Generator (LDG) Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: legal-document-generator
+  namespace: integridai-secure-agents
+  labels:
+    app: legal-document-generator
+    agent-type: compliance
+    risk-level: medium
+    compliance: ley-27401
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: legal-document-generator
+  template:
+    metadata:
+      labels:
+        app: legal-document-generator
+        agent-type: compliance
+        risk-level: medium
+    spec:
+      serviceAccountName: secure-agent-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+      containers:
+      - name: ldg-agent
+        image: integridai/legal-document-generator:v2.1.3
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: health
+          containerPort: 8081
+        env:
+        - name: AGENT_ID
+          value: "LDG-001"
+        - name: AGENT_NAME
+          value: "Legal Document Generator"
+        - name: TEMPLATE_CACHE_SIZE
+          value: "100"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: health
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: health
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: temp-storage
+          mountPath: /tmp
+        - name: audit-logs
+          mountPath: /var/log/audit
+        - name: template-cache
+          mountPath: /var/cache/templates
+        - name: document-storage
+          mountPath: /var/documents
+      volumes:
+      - name: temp-storage
+        emptyDir: {}
+      - name: audit-logs
+        persistentVolumeClaim:
+          claimName: audit-logs-pvc
+      - name: template-cache
+        emptyDir:
+          sizeLimit: 1Gi
+      - name: document-storage
+        persistentVolumeClaim:
+          claimName: document-storage-pvc
+
+---
+# Services for Agent Communication
+
+# DDA Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: due-diligence-analyzer-service
+  namespace: integridai-secure-agents
+  labels:
+    app: due-diligence-analyzer
+    service-type: agent
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 8080
+    targetPort: http
+    protocol: TCP
+  - name: health
+    port: 8081
+    targetPort: health
+    protocol: TCP
+  selector:
+    app: due-diligence-analyzer
+
+---
+# PCC Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: policy-compliance-checker-service
+  namespace: integridai-secure-agents
+  labels:
+    app: policy-compliance-checker
+    service-type: agent
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 8080
+    targetPort: http
+    protocol: TCP
+  - name: health
+    port: 8081
+    targetPort: health
+    protocol: TCP
+  selector:
+    app: policy-compliance-checker
+
+---
+# CSC Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: compliance-score-calculator-service
+  namespace: integridai-secure-agents
+  labels:
+    app: compliance-score-calculator
+    service-type: agent
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 8080
+    targetPort: http
+    protocol: TCP
+  - name: health
+    port: 8081
+    targetPort: health
+    protocol: TCP
+  selector:
+    app: compliance-score-calculator
+
+---
+# LDG Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: legal-document-generator-service
+  namespace: integridai-secure-agents
+  labels:
+    app: legal-document-generator
+    service-type: agent
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 8080
+    targetPort: http
+    protocol: TCP
+  - name: health
+    port: 8081
+    targetPort: health
+    protocol: TCP
+  selector:
+    app: legal-document-generator
+
+---
+# Persistent Volume Claims
+
+# Audit Logs Storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: audit-logs-pvc
+  namespace: integridai-secure-agents
+  labels:
+    component: storage
+    data-type: audit
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: fast-ssd
+
+---
+# Document Storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: document-storage-pvc
+  namespace: integridai-secure-agents
+  labels:
+    component: storage
+    data-type: documents
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: fast-ssd
+
+---
+# Agent Registry Deployment (Central Governance)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent-registry
+  namespace: integridai-secure-agents
+  labels:
+    app: agent-registry
+    component: governance
+    critical: "true"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: agent-registry
+  template:
+    metadata:
+      labels:
+        app: agent-registry
+        component: governance
+        critical: "true"
+    spec:
+      serviceAccountName: secure-agent-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: agent-registry
+        image: integridai/agent-registry:v2.1.3
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: grpc
+          containerPort: 9090
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: agent-credentials
+              key: database-password
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: agent-credentials
+              key: jwt-secret
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: temp-storage
+          mountPath: /tmp
+        - name: registry-data
+          mountPath: /var/data
+      volumes:
+      - name: temp-storage
+        emptyDir: {}
+      - name: registry-data
+        persistentVolumeClaim:
+          claimName: registry-data-pvc
+
+---
+# Kill Switch Controller Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kill-switch-controller
+  namespace: integridai-secure-agents
+  labels:
+    app: kill-switch-controller
+    component: security
+    critical: "true"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: kill-switch-controller
+  template:
+    metadata:
+      labels:
+        app: kill-switch-controller
+        component: security
+        critical: "true"
+    spec:
+      serviceAccountName: secure-agent-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: kill-switch-controller
+        image: integridai/kill-switch-controller:v2.1.3
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        ports:
+        - name: http
+          containerPort: 9090
+        env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: EMERGENCY_CONTACTS
+          value: "cco@company.com,cto@company.com"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+# Additional PVCs
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: registry-data-pvc
+  namespace: integridai-secure-agents
+  labels:
+    component: storage
+    data-type: registry
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: fast-ssd
+
+---
+# Agent Registry Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: agent-registry-service
+  namespace: integridai-secure-agents
+  labels:
+    app: agent-registry
+    component: governance
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 8080
+    targetPort: http
+    protocol: TCP
+  - name: grpc
+    port: 9090
+    targetPort: grpc
+    protocol: TCP
+  selector:
+    app: agent-registry
+
+---
+# Kill Switch Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: kill-switch-service
+  namespace: integridai-secure-agents
+  labels:
+    app: kill-switch-controller
+    component: security
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 9090
+    targetPort: http
+    protocol: TCP
+  selector:
+    app: kill-switch-controller
+
+---
+# Horizontal Pod Autoscaler for DDA
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: dda-hpa
+  namespace: integridai-secure-agents
+  labels:
+    app: due-diligence-analyzer
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: due-diligence-analyzer
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 25
+        periodSeconds: 60
+
+---
+# Horizontal Pod Autoscaler for PCC
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: pcc-hpa
+  namespace: integridai-secure-agents
+  labels:
+    app: policy-compliance-checker
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: policy-compliance-checker
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 75
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 85
+
+---
+# Pod Disruption Budget for high availability
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: critical-agents-pdb
+  namespace: integridai-secure-agents
+  labels:
+    component: availability
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      critical: "true"
+
+---
+# Resource Quota for namespace
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: agent-resource-quota
+  namespace: integridai-secure-agents
+  labels:
+    component: governance
+spec:
+  hard:
+    requests.cpu: "10"
+    requests.memory: 20Gi
+    limits.cpu: "20"
+    limits.memory: 40Gi
+    persistentvolumeclaims: "10"
+    pods: "50"
+    services: "20"
+    secrets: "20"
+    configmaps: "20"
+
+---
+# Monitoring ServiceMonitor for Prometheus
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: secure-agents-monitoring
+  namespace: integridai-secure-agents
+  labels:
+    component: monitoring
+    prometheus: kube-prometheus
+spec:
+  selector:
+    matchLabels:
+      service-type: agent
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 30s
+    scrapeTimeout: 10s
+  - port: health
+    path: /health-metrics
+    interval: 60s
+    scrapeTimeout: 5s
+
+---
+# Ingress for external access (if needed)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: secure-agents-ingress
+  namespace: integridai-secure-agents
+  labels:
+    component: networking
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+    - agents.integridai.com
+    secretName: agents-tls-secret
+  rules:
+  - host: agents.integridai.com
+    http:
+      paths:
+      - path: /registry
+        pathType: Prefix
+        backend:
+          service:
+            name: agent-registry-service
+            port:
+              number: 8080
+      - path: /kill-switch
+        pathType: Prefix
+        backend:
+          service:
+            name: kill-switch-service
+            port:
+              number: 9090
+
+---
+# CronJob for periodic compliance reporting
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: compliance-reporting-job
+  namespace: integridai-secure-agents
+  labels:
+    component: reporting
+    compliance: ley-27401
+spec:
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: secure-agent-service-account
+          restartPolicy: OnFailure
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            fsGroup: 2000
+          containers:
+          - name: compliance-reporter
+            image: integridai/compliance-reporter:v2.1.3
+            imagePullPolicy: Always
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                - ALL
+            env:
+            - name: REPORT_TYPE
+              value: "daily_compliance"
+            - name: OUTPUT_FORMAT
+              value: "pdf,json"
+            - name: RECIPIENTS
+              value: "compliance@company.com,cco@company.com"
+            resources:
+              requests:
+                memory: "256Mi"
+                cpu: "100m"
+              limits:
+                memory: "512Mi"
+                cpu: "250m"
+            volumeMounts:
+            - name: temp-storage
+              mountPath: /tmp
+            - name: report-output
+              mountPath: /var/reports
+          volumes:
+          - name: temp-storage
+            emptyDir: {}
+          - name: report-output
+            persistentVolumeClaim:
+              claimName: report-storage-pvc
+
+---
+# Report Storage PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: report-storage-pvc
+  namespace: integridai-secure-agents
+  labels:
+    component: storage
+    data-type: reports
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+  storageClassName: standard
